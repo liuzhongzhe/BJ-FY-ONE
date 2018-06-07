@@ -103,8 +103,8 @@
 				})
 			},
 			changeModelPla(item, index) {
-				this.$set(this.modelPlatform.engine, 'value', item.value);
-				console.log(item)
+//				this.$set(this.modelPlatform.engine, 'value', item.value);
+//				console.log(item)
 			},
 			addPla() {
 				let nobj = {
@@ -140,6 +140,7 @@
 				}).then((res) => {
 					if(res.status === 200) {
 						this._getData()
+						this.addModelNameShow=false
 					}
 				})
 			},
@@ -210,6 +211,7 @@
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					}
+					
 				}).then((res) => {
 					if(res.status === 200) {
 						this.dialogFormVisible = false

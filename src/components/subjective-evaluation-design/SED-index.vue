@@ -6,11 +6,11 @@
 				<p></p>Please Choose The Identity</p>
 			</div>
 			<div class="chooseButton">
-				<div class="button" @click="toTable">
+				<div class="button" @click="toTable('pgz')">
 					<p>评估者</p>
 					<p>evalutor</p>
 				</div>
-				<div class="button" @click="toTable">
+				<div class="button" @click="toTable('zzz')">
 					<p>组织者</p>
 					<p>Organizer</p>
 				</div>
@@ -32,7 +32,8 @@
 			}
 		},
 		methods: {
-			toTable() {
+			toTable(item) {
+				localStorage.userIdentity = item
 				this.$router.push('/SED_table')
 				}
 			}

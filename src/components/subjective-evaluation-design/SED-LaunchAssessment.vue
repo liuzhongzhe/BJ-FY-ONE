@@ -252,6 +252,7 @@
 			height: 40px;
 			line-height: 40px;
 			text-align: center;
+			border-bottom: 1px solid #ebeef5;
 			>.return {
 				position: absolute;
 				left: 0;
