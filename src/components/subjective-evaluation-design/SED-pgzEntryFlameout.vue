@@ -5,7 +5,7 @@
 			<span>测试评估</span>
 		</div>
 		<div class="chooseSite" >
-			<img src="../../../static/bgCar2.png" style="width: 320px;">
+			<img src="../../../static/bgcar2.jpg" style="width: 320px;">
 			<span v-for="(item,index) in xihuoAr" :class="{'active':nowCurrentIndex===index}"  style="position: absolute;" @click="chooseTemperature(item,index)">{{item.name}} 
 				<span style="border: none;" v-show="item.score!=0">{{item.score}}</span> 
 			</span>

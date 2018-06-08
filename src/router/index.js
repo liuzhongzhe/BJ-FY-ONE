@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
+import xxx from '@/components/xxx'
 import defaulted from '@/components/default'
 import mobile from '@/components/mobile'
 import mobileInfo from '@/components/mobileInfo'
@@ -18,13 +19,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'SED_index',
+      component: SED_index
     },
     {
       path: '/default',
       name: 'defaulted',
       component: defaulted
+    },
+    {
+      path: '/xxx',
+      name: 'xxx',
+      component: xxx
     },
     {
       path: '/mobile',
