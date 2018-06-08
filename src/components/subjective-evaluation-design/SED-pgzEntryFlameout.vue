@@ -4,38 +4,15 @@
 			<span class="return" @click="toReturn"><i class="el-icon-arrow-left"></i>返回	</span>
 			<span>测试评估</span>
 		</div>
-		<div class="chooseSite" v-show="chooseSiteShow">
+		<div class="chooseSite" >
 			<img src="../../../static/bgCar2.png" style="width: 320px;">
-			<span v-for="(item,index) in xihuoAr" style="position: absolute;" @click="chooseTemperature(item,index)">{{item.name}}</span>
-		</div>
-		<div class="temList">
-			<span v-for="item in xihuoAr" style="display: inline-block;width: 45%;">
-				<span style="display: inline-block;width: 90px;text-align: right;">{{item.name}}</span>：{{item.score}}
+			<span v-for="(item,index) in xihuoAr" :class="{'active':nowCurrentIndex===index}"  style="position: absolute;" @click="chooseTemperature(item,index)">{{item.name}} 
+				<span style="border: none;" v-show="item.score!=0">{{item.score}}</span> 
 			</span>
 		</div>
-		<div class="sliderWrapper" v-show="sliderShow">
-			<div class="chooseLevel">
-				<el-slider
-					:format-tooltip="formatTooltip"
-				  v-model.number="userLevel"
-				  vertical
-				  :step="0.1"
-				  :min="0"
-				  :max="10"
-				  height="300px">
-				</el-slider>
-			</div>
-			<div style="display: inline-block;height: 300px;width: 40px;font-size:14px;position: relative;top: -15px;">
-				<p style="display: block;height: 60px;border-top: 1px solid #409EFF;">烫伤</p>
-				<p style="display: block;height: 60px;border-top: 1px solid #409EFF;">烫</p>
-				<p style="display: block;height: 60px;border-top: 1px solid #409EFF;">温热</p>
-				<p style="display: block;height: 60px;border-top: 1px solid #409EFF;">温</p>
-				<p style="display: block;height: 60px;border-top: 1px solid #409EFF;">舒适</p>
-			</div>
-			<div class="button">
-				<el-button type="success" style="width: 120px;" @click="chooseTemperatureOK">确定</el-button>
-			</div>
-		</div>
+		<div class="block" style="margin-top: 30px;">
+		    <el-slider v-model="value2" :max=10 :min=0 :step=0.1 :format-tooltip="formatTooltip"></el-slider>
+		  </div>
 		<div class="button">
 			<el-button type="primary" style="width: 120px;" @click="submit">提交</el-button>
 		</div>
@@ -47,9 +24,8 @@
 		data() {
 			return {
 				siteAr: ['Driver', '1R', '2L', '2R', '3L', '3R'],
-				chooseSiteShow: true,
-				sliderShow: false,
-				nowCurrentIndex:-1,
+				nowCurrentIndex:0,
+				value2:0,
 				userLevel: 0,
 				xihuoAr: [
 					{
@@ -96,18 +72,13 @@
 			}
 		},
 		created() {
-			this.chooseSiteShow = true
 		},
 		methods: {
 			submit(){
 				this.$router.push('/SED_table')
 			},
-			chooseTemperatureOK(){
-				this.sliderShow=false
-				this.$set(this.xihuoAr[this.nowCurrentIndex],'score',this.userLevel)
-			},
 			chooseTemperature(item,index){
-				this.sliderShow=true
+				this.value2 = item.score
 				this.nowCurrentIndex = index
 			},
 			toReturn() {
@@ -117,6 +88,8 @@
 				this.$router.push('/SED_table')
 			},
 			formatTooltip(val) {
+				
+				this.$set(this.xihuoAr[this.nowCurrentIndex],'score',val)
 				if(val > 0 && val <= 2) {
 					$('.el-slider__bar').css("background", "#0C6FF9")
 				} else if(val > 2 && val <= 4) {
@@ -137,7 +110,10 @@
 .el-slider__bar {
 		background-color: red;
 	}
-	
+.el-slider__runway{
+	width: 90%;
+	margin: 15px 5%;
+}
 	.SED_pgzEntryFlameout {
 		>.title {
 			position: relative;
@@ -167,14 +143,20 @@
 			}
 		}
 		.chooseSite {
+			width: 320px;
+			height: 240px;
 			display: block;
 			margin-top: 40px;
 			position: relative;
-			span {
-				font-size: 14px;
+			margin: 0 auto;
+			>span {
+				font-size: 12px;
 				background: #ffffff;
 				padding: 2px 5px;
 				border: 1px solid #409EFF;
+				&.active{
+					background: lightgreen;
+				}
 				&:nth-child(2) {
 					top: 10px;
 					left: 0;

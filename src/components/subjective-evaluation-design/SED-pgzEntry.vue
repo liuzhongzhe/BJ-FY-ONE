@@ -1,5 +1,9 @@
 <template>
 	<div class="SED_UA">
+		<div class="title">
+			<span class="return" @click="toReturn"><i class="el-icon-arrow-left"></i>返回	</span>
+			<span>测试评估</span>
+		</div>
 		<div class="chooseSite" v-show="chooseSiteShow">
 			<img src="../../../static/bgCar.png"  style="width: 200px;">
 		</div>
@@ -42,6 +46,9 @@
 			this.siteIndex=-1
 		},
 		methods: {
+			toReturn() {
+				this.$router.go(-1)
+			},
 			chooseOk(){
 				this.$router.push('/SED_table')
 			},
@@ -70,6 +77,19 @@
 		background-color: red;
 	}
 	.SED_UA {
+		>.title {
+			position: relative;
+			height: 40px;
+			line-height: 40px;
+			text-align: center;
+			border-bottom: 1px solid #ebeef5;
+			>.return {
+				position: absolute;
+				left: 0;
+				top: 0;
+				padding: 0px 5px;
+			}
+		}
 		.chooseSite{
 			display: inline-block;
 			margin-top: 40px;

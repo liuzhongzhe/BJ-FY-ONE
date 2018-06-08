@@ -1,6 +1,9 @@
 <template>
 	<div class="SED_index">
 		<div>
+			<div class="title">
+				车辆热性能主观评价系统
+			</div>
 			<div class="content">
 				<p>请选择人员身份</p>
 				<p></p>Please Choose The Identity</p>
@@ -8,7 +11,7 @@
 			<div class="chooseButton">
 				<div class="button" @click="toTable('pgz')">
 					<p>评估者</p>
-					<p>evalutor</p>
+					<p>Evalutor</p>
 				</div>
 				<div class="button" @click="toTable('zzz')">
 					<p>组织者</p>
@@ -45,8 +48,13 @@
 		text-align: center;
 		font-size: 14px;
 		>div {
+			>.title{
+				font-size: 18px;
+				font-weight: 700;
+				margin-top: 40%;
+			}
 			>.content {
-				margin-top: 60%;
+				margin-top: 20%;
 				p {
 					line-height: 30px;
 				}
@@ -60,7 +68,7 @@
 				.button {
 					width: 180px;
 					border-radius: 20px;
-					border: 2px solid #409EFF;
+					border: 1px solid #409EFF;
 					margin-top: 20px;
 				}
 			}

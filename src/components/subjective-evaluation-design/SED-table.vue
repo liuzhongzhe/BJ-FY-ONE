@@ -2,7 +2,7 @@
 	<div class="SED_table">
 		<div class="title">
 			<span class="return" @click="toReturn"><i class="el-icon-arrow-left"></i>返回	</span>
-			<span>{{topTitle}}	<i class="el-icon-sort" @click="changeTitle"></i> </span>
+			<span>{{topTitle}}	<img src="../../../static/changeState.svg" style="height: 20px;position: relative;top: 5px;" @click="changeTitle"/></span>
 		</div>
 		<el-table ref="singleTable" :data="tableData" highlight-current-row @current-change="handleCurrentChange" style="width: 100%">
 			<el-table-column property="date" label="评估日期" width="100%">
@@ -13,10 +13,11 @@
 			</el-table-column>
 		</el-table>
 		<div class="btn">
-			<div @click="toUserAss"><img src="../../../static/one.png" />	测试录入</div>
 			<div @click="toLanchAss" v-show="zzzShow"><img src="../../../static/two.png" />	新建项目</div>
-			<div @click="viewListInfo"><img src="../../../static/four.png"/>	查看详情</div>
+			<div @click="toUserAss"  v-show="zzzShow"><img src="../../../static/one.png" />	实测录入</div>
+			<div @click="toUserAss" v-show="!zzzShow"><img src="../../../static/four.png" />	参与评价</div>
 			<div v-show="zzzShow"><img src="../../../static/three.png"/>	关闭项目</div>
+			<div @click="viewListInfo"><img src="../../../static/five.png"/>	项目信息</div>
 		</div>
 		<div class="listInfo" v-show="listInfoShow">
 			<div class="title">
@@ -226,7 +227,7 @@
 			padding-top: 4px;
 			display: flex;
 			z-index: 10;
-			background: #ffffff;
+			background: #F8F8F8;
 			>div {
 				flex: 1;
 				font-size: 12px;
