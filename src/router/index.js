@@ -5,6 +5,7 @@ import xxx from '@/components/xxx'
 import defaulted from '@/components/default'
 import mobile from '@/components/mobile'
 import mobileInfo from '@/components/mobileInfo'
+import personal_work from '@/components/personal_work.vue'
 import SED_index from '@/components/subjective-evaluation-design/SED-index'
 import SED_table from '@/components/subjective-evaluation-design/SED-table'
 import SED_LaunchAssessment from '@/components/subjective-evaluation-design/SED-LaunchAssessment'
@@ -76,6 +77,11 @@ export default new Router({
 			path: '/SED_zzzEntryFlameout',
 			name: 'SED_zzzEntryFlameout',
 			component: SED_zzzEntryFlameout
+		},
+		{
+			path: '/personal_work',
+			name: 'personal_work',
+			component: personal_work
 		}
   ]
 })
