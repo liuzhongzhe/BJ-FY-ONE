@@ -4,18 +4,20 @@
 			<span class="return" @click="toReturn"><i class="el-icon-arrow-left"></i>返回	</span>
 			<span>测试评估</span>
 		</div>
-		<div class="chooseSite" >
-			<img src="../../../static/bgcar2.jpg" style="width: 320px;">
-			<span v-for="(item,index) in xihuoAr" :class="{'active':nowCurrentIndex===index}"  style="position: absolute;" @click="chooseTemperature(item,index)">{{item.name}} 
-				<span style="border: none;" v-show="item.score!=0">{{item.score}}</span> 
+		<div class="chooseSite">
+			<img style="width: 320px;height: 240px; background-image: url(../../../static/bgcar2.jpg);">
+			<span v-for="(item,index) in xihuoAr" :class="{'active':nowCurrentIndex===index||item.score>0}" style="position: absolute;transition: .2s;" @click="chooseTemperature(item,index)">{{item.name}} 
+				<span style="border: none;" v-show="item.score!=0">{{item.score}}</span>
 			</span>
 		</div>
-		<div class="block" style="margin-top: 30px;">
-		    <el-slider v-model="value2" :max=10 :min=0 :step=0.1 :format-tooltip="formatTooltip"></el-slider>
-		  </div>
+		<div class="block" style="width: 300px;margin: 10px auto; position: relative;">
+			<img src="../../../static/15e.png" style="position: absolute;left:0px; width: 300px;" />
+			<el-slider v-model="value2" :max=10 :min=0 :step=0.1 :format-tooltip="formatTooltip"></el-slider>
+		</div>
 		<div class="button">
 			<el-button type="primary" style="width: 120px;" @click="submit">提交</el-button>
 		</div>
+
 	</div>
 </template>
 
@@ -24,60 +26,58 @@
 		data() {
 			return {
 				siteAr: ['Driver', '1R', '2L', '2R', '3L', '3R'],
-				nowCurrentIndex:0,
-				value2:0,
-				userLevel: 0,
-				xihuoAr: [
-					{
-						name:'支撑杆护套',
-						score:0
+				nowCurrentIndex: 0,
+				dialogVisible: false,
+				value2: 0,
+				xihuoAr: [{
+						name: '支撑杆护套',
+						score: 0
 					},
 					{
-						name:'翼子板',
-						score:0
+						name: '翼子板',
+						score: 0
 					},
 					{
-						name:'后备箱地毯',
-						score:0
+						name: '后备箱地毯',
+						score: 0
 					},
 					{
-						name:'制动液壶盖',
-						score:0
+						name: '制动液壶盖',
+						score: 0
 					},
 					{
-						name:'冷却液壶盖',
-						score:0
+						name: '冷却液壶盖',
+						score: 0
 					},
 					{
-						name:'机油标尺',
-						score:0
+						name: '机油标尺',
+						score: 0
 					},
 					{
-						name:'保险丝盒',
-						score:0
+						name: '保险丝盒',
+						score: 0
 					},
 					{
-						name:'机油加注口',
-						score:0
+						name: '机油加注口',
+						score: 0
 					},
 					{
-						name:'前舱盖锁头',
-						score:0
+						name: '前舱盖锁头',
+						score: 0
 					},
 					{
-						name:'引擎盖',
-						score:0
+						name: '引擎盖',
+						score: 0
 					}
 				]
 			}
 		},
-		created() {
-		},
+		created() {},
 		methods: {
-			submit(){
+			submit() {
 				this.$router.push('/SED_table')
 			},
-			chooseTemperature(item,index){
+			chooseTemperature(item, index) {
 				this.value2 = item.score
 				this.nowCurrentIndex = index
 			},
@@ -88,17 +88,16 @@
 				this.$router.push('/SED_table')
 			},
 			formatTooltip(val) {
-				
-				this.$set(this.xihuoAr[this.nowCurrentIndex],'score',val)
-				if(val > 0 && val <= 2) {
+				this.$set(this.xihuoAr[this.nowCurrentIndex], 'score', val)
+				if (val > 0 && val <= 2) {
 					$('.el-slider__bar').css("background", "#0C6FF9")
-				} else if(val > 2 && val <= 4) {
+				} else if (val > 2 && val <= 4) {
 					$('.el-slider__bar').css("background", "#02BC05")
-				} else if(val > 4 && val <= 6) {
+				} else if (val > 4 && val <= 6) {
 					$('.el-slider__bar').css("background", "#F9B60C")
-				} else if(val > 6 && val <= 7) {
+				} else if (val > 6 && val <= 8) {
 					$('.el-slider__bar').css("background", "#F99E0C")
-				} else if(val > 8) {
+				} else if (val > 8) {
 					$('.el-slider__bar').css("background", "#F90C0C")
 				}
 			},
@@ -106,21 +105,25 @@
 	}
 </script>
 
-<style lang="scss">
-.el-slider__bar {
-		background-color: red;
+<style lang="scss" scoped="scoped">
+	
+	/deep/ .el-slider__button-wrapper,{
+		width: 12px;
+		height: 12px;
 	}
-.el-slider__runway{
-	width: 90%;
-	margin: 15px 5%;
-}
+	/deep/ .el-slider__button{
+		width: 12px;
+		height: 12px;
+		position: relative;
+		top: 8px;
+	}
 	.SED_pgzEntryFlameout {
 		>.title {
 			position: relative;
 			height: 40px;
 			line-height: 40px;
 			text-align: center;
-			border-bottom: 1px solid rgb(231,231,231);
+			border-bottom: 1px solid rgb(231, 231, 231);
 			>.return {
 				position: absolute;
 				left: 0;
@@ -128,7 +131,7 @@
 				padding: 0px 5px;
 			}
 		}
-		.sliderWrapper{
+		.sliderWrapper {
 			position: fixed;
 			top: 0;
 			left: 0;
@@ -153,8 +156,8 @@
 				font-size: 12px;
 				background: #ffffff;
 				padding: 2px 5px;
-				border: 1px solid #409EFF;
-				&.active{
+				/*border: 1px solid #409EFF;*/
+				&.active {
 					background: lightgreen;
 				}
 				&:nth-child(2) {
@@ -199,16 +202,12 @@
 				}
 			}
 		}
-	
-	
-	
-	
-	.button {
-		position: fixed;
-		bottom: 30px;
-		left: 0;
-		right: 0;
-		text-align: center;
+		.button {
+			position: fixed;
+			bottom: 30px;
+			left: 0;
+			right: 0;
+			text-align: center;
+		}
 	}
-}
 </style>

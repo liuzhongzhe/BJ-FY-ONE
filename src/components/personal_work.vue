@@ -71,8 +71,20 @@
 		},
 		mounted() {
 			this.drawLine();
+			this.getMock()
 		},
 		methods: {
+			getMock(){
+				this.axios({
+					method: 'get',
+					url: '/api/porous',
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+				}).then((res) => {
+					console.log(res)
+				})
+			},
 			drawLine() {
 				// 基于准备好的dom，初始化echarts实例
 				let myChart = this.$echarts.init(document.getElementById('myChart'))
@@ -113,7 +125,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped="scoped">
 	.text {
 		font-size: 14px;
 	}
@@ -127,7 +139,8 @@
 		display: table;
 		content: "";
 	}
-	.el-card__header{
+	/deep/ .el-card__header{
+		background: #eff0dc;
 		padding: 14px 20px !important;
 	}
 	.clearfix:after {

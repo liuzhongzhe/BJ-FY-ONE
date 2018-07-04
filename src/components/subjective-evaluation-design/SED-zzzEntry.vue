@@ -28,7 +28,7 @@
 			<span>中通道第三排右侧地毯</span>
 			<el-input></el-input>
 		</div>
-		<div class="sec">
+		<div class="sec" style="text-align: center;">
 			<el-button type="primary" style="width: 100px;" @click="inputOK">提交</el-button>
 		</div>
 

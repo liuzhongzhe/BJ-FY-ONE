@@ -247,6 +247,7 @@
 	display: block;
 }
 	.SED_LA {
+		text-align: center;
 		>.title {
 			position: relative;
 			height: 40px;

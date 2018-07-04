@@ -2,10 +2,16 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import xxx from '@/components/xxx'
+import index from '@/components/index'
 import defaulted from '@/components/default'
 import mobile from '@/components/mobile'
 import mobileInfo from '@/components/mobileInfo'
 import personal_work from '@/components/personal_work.vue'
+import natural_risk from '@/components/natural_risk/natural_risk.vue'
+import new_task from '@/components/natural_risk/new_task.vue'
+import natural_index from '@/components/natural_risk/natural_index.vue'
+import natural_result from '@/components/natural_risk/natural_result.vue'
+import partin_task from '@/components/natural_risk/partin_task.vue'
 import SED_index from '@/components/subjective-evaluation-design/SED-index'
 import SED_table from '@/components/subjective-evaluation-design/SED-table'
 import SED_LaunchAssessment from '@/components/subjective-evaluation-design/SED-LaunchAssessment'
@@ -13,6 +19,7 @@ import SED_pgzEntry from '@/components/subjective-evaluation-design/SED-pgzEntry
 import SED_pgzEntryFlameout from '@/components/subjective-evaluation-design/SED-pgzEntryFlameout.vue'
 import SED_zzzEntry from '@/components/subjective-evaluation-design/SED-zzzEntry.vue'
 import SED_zzzEntryFlameout from '@/components/subjective-evaluation-design/SED-zzzEntryFlameout.vue'
+import SED_ViewResult from '@/components/subjective-evaluation-design/SED-ViewResult.vue'
 
 Vue.use(Router)
 
@@ -20,8 +27,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'SED_index',
-      component: SED_index
+      name: 'index',
+      component: index
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: index
+    },
+     {
+      path: '/plat',
+      name: 'HelloWorld',
+      component: HelloWorld
     },
     {
       path: '/default',
@@ -54,6 +71,11 @@ export default new Router({
       component: SED_table
     },
     {
+      path: '/SED_result',
+      name: 'SED_ViewResult',
+      component: SED_ViewResult
+    },
+    {
       path: '/SED_LaunchAssessment',
       name: 'SED_LaunchAssessment',
       component: SED_LaunchAssessment
@@ -82,6 +104,32 @@ export default new Router({
 			path: '/personal_work',
 			name: 'personal_work',
 			component: personal_work
+		},
+		{
+			path: '/natural_risk',
+			name: 'natural_risk',
+			component: natural_risk
+		},
+		{
+			path: '/new_task',
+			name: 'new_task',
+			component: new_task
+		},
+		{
+			path: '/partin_task',
+			name: 'partin_task',
+			component: partin_task
+		},
+		{
+			path: '/natural_result',
+			name: 'natural_result',
+			component: natural_result
+		},
+		{
+			path: '/natural_index',
+			name: 'natural_index',
+			component: natural_index
 		}
+		
   ]
 })

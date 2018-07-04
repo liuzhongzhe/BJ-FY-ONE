@@ -113,7 +113,7 @@
 				}
 				this.axios({
 					method: 'post',
-					url: '/api/platform',
+					url: '/FYSystem-1.0-SNAPSHOT/api/platform',
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					},
