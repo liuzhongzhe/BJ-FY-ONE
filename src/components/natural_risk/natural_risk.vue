@@ -12,15 +12,19 @@
 				<span>日期</span>
 				<span>车辆编号</span>
 				<span>
-					<el-select v-model="value" placeholder="状态">
-	    				<el-option label="全部" value="全部"></el-option>
+					<el-select v-model="value" placeholder="状态" style="color: #000000;">
+	    				<el-option label="已完成" value="已完成"></el-option>
+	    				<el-option label="未完成" value="未完成"></el-option>
 	  				</el-select>
 				</span>
 			</div>
 			<div class="list" v-for="(item,index) in tableData" @click="handleCurrentChange(item,index)" :class="{'active':index==currentIndex}">
 				<span>{{item.date}}</span>
 				<span>{{item.name}}</span>
-				<span> <i class="el-icon-success" style="color: green;"></i>  </span>
+				<span>
+					<i v-show="item.state == 'OK'" class="el-icon-success" style="color: green;"></i>  
+					<i v-show="item.state !== 'OK'" class="el-icon-edit" style="color: black;"></i>  
+				</span>
 			</div>
 		</div>
 		<div class="btn">
@@ -36,32 +40,36 @@
 			</div>
 			<div class="content">
 				<div class="sec">
-					<span>评估日期：</span>
-					<span>2018/5/2</span>
-				</div>
-				<div class="sec">
 					<span>车辆编号：</span>
 					<span>ju19iv02</span>
 				</div>
 				<div class="sec">
-					<span>评估工况：</span>
-					<span>城市</span>
+					<span>评估日期：</span>
+					<span>2018/5/2</span>
 				</div>
 				<div class="sec">
-					<span>空调模式：</span>
-					<span>AC Off</span>
+					<span>车型名称：</span>
+					<span>D2UB</span>
 				</div>
 				<div class="sec">
-					<span>环境温度：</span>
-					<span>35℃</span>
+					<span>车型年份：</span>
+					<span>MY16</span>
 				</div>
 				<div class="sec">
-					<span>日照强度：</span>
-					<span>一般</span>
+					<span>发动机：</span>
+					<span>L2B</span>
 				</div>
 				<div class="sec">
-					<span>车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重：</span>
-					<span>1t</span>
+					<span>变速箱：</span>
+					<span>CVT</span>
+				</div>
+				<div class="sec">
+					<span>驱动形式：</span>
+					<span>AWD</span>
+				</div>
+				<div class="sec">
+					<span>左/右驾：</span>
+					<span>LHD</span>
 				</div>
 			</div>
 		</div>
@@ -77,160 +85,82 @@
 				value: '',
 				topTitle: '未关闭评估项目',
 				currentRow: {},
-				tabelDatas: [{
-					date: '2016-05-03',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-02',
-					name: 'juka123',
-					personNum: 2,
-				}, {
-					date: '2016-05-04',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-01',
-					name: 'juka123',
-					personNum: 3,
-				}],
-				tabelDatak: [{
-					date: '2016-05-03',
-					name: 'juka123',
-					personNum: 0,
-				}, {
-					date: '2016-05-02',
-					name: 'juka123',
-					personNum: 1,
-				}, {
-					date: '2016-05-04',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-01',
-					name: 'juka123',
-					personNum: 3,
-				}, {
-					date: '2016-05-08',
-					name: 'juka123',
-					personNum: 2,
-				}, {
-					date: '2016-05-06',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-07',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-06',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-07',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-06',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-07',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-06',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-07',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-06',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-07',
-					name: 'juka123',
-					personNum: 4,
-				}],
 				tableData: [{
 					date: '2016-05-03',
-					name: 'juka123',
-					personNum: 0,
+					name: 'kasd23',
+					state:'OK'
 				}, {
 					date: '2016-05-02',
-					name: 'juka123',
-					personNum: 2,
+					name: 'lzza3',
+					state:'NA'
 				}, {
 					date: '2016-05-04',
-					name: 'juka123',
-					personNum: 3,
+					name: 'melo',
+					state:'NoK'
 				}, {
 					date: '2016-05-01',
-					name: 'juka123',
-					personNum: 4,
+					name: 'anthony',
+					state:'OK'
 				}, {
 					date: '2016-05-08',
-					name: 'juka123',
-					personNum: 4,
+					name: 'james',
+					state:'NoK'
+				}, {
+					date: '2016-05-06',
+					name: 'wade',
+					state:'OK'
+				}, {
+					date: '2016-05-07',
+					name: 'paul',
+					state:'NoK'
+				}, {
+					date: '2016-05-06',
+					name: 'bosh',
+					state:'OK'
+				}, {
+					date: '2016-05-07',
+					name: 'kobe',
+					state:'NA'
+				}, {
+					date: '2016-05-06',
+					name: 'tmac',
+					state:'OK'
+				}, {
+					date: '2016-05-07',
+					name: 'harden',
+					state:'NA'
 				}, {
 					date: '2016-05-06',
 					name: 'juka123',
-					personNum: 4,
+					state:'NoK'
 				}, {
 					date: '2016-05-07',
-					name: 'juka123',
-					personNum: 4,
+					name: 'kobe',
+					state:'OK'
+				}, {
+					date: '2016-05-06',
+					name: 'james',
+					state:'NoK'
+				}, {
+					date: '2016-05-07',
+					name: 'melo',
+					state:'OK'
 				}, {
 					date: '2016-05-06',
 					name: 'juka123',
-					personNum: 4,
+					state:'NoK'
 				}, {
 					date: '2016-05-07',
 					name: 'juka123',
-					personNum: 4,
+					state:'NA'
 				}, {
 					date: '2016-05-06',
-					name: 'juka123',
-					personNum: 4,
+					name: 'james',
+					state:'NoK'
 				}, {
 					date: '2016-05-07',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-06',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-07',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-06',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-07',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-06',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-07',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-06',
-					name: 'juka123',
-					personNum: 4,
-				}, {
-					date: '2016-05-07',
-					name: 'juka123',
-					personNum: 4,
+					name: 'melo',
+					state:'OK'
 				}],
 			}
 		},
@@ -294,6 +224,18 @@
 
 <style lang="scss">
 	.natural_risk {
+		input::-webkit-input-placeholder{
+            color:#000000;
+        }
+        input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:#000000;
+        }
+        input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:#000000;
+        }
+        input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+            color:#000000;
+        }
 		/deep/ .el-input__inner {
 			border: none;
 		}

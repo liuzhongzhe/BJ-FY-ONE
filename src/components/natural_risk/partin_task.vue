@@ -14,9 +14,10 @@
 				<div>
 					<span>排气附近可燃物</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="qq">
+							<el-option label="OK" value="shanghai"></el-option>
+							<el-option label="NoK" value="beijing"></el-option>
+							<el-option label="NA" value="beijing"></el-option>
 						</el-select>
 					</span>
 						<span>
@@ -26,9 +27,10 @@
 				<div>
 					<span>发动机油</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="ww">
+							<el-option label="OK" value="shanghai"></el-option>
+							<el-option label="NoK" value="beijing"></el-option>
+							<el-option label="NA" value="beijing"></el-option>
 						</el-select>
 					</span>
 						<span>
@@ -38,9 +40,10 @@
 				<div>
 					<span>变速箱油</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="ee">
+							<el-option label="OK" value="shanghai"></el-option>
+							<el-option label="NoK" value="beijing"></el-option>
+							<el-option label="NA" value="beijing"></el-option>
 						</el-select>
 					</span>
 						<span>
@@ -50,9 +53,10 @@
 				<div>
 					<span>冷却液</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="rr">
+							<el-option label="OK" value="shanghai"></el-option>
+							<el-option label="NoK" value="beijing"></el-option>
+							<el-option label="NA" value="beijing"></el-option>
 						</el-select>
 					</span>
 						<span>
@@ -62,9 +66,10 @@
 				<div>
 					<span>动力转向液</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="tt">
+							<el-option label="OK" value="shanghai"></el-option>
+							<el-option label="NoK" value="beijing"></el-option>
+							<el-option label="NA" value="beijing"></el-option>
 						</el-select>
 					</span>
 						<span>
@@ -74,9 +79,10 @@
 				<div>
 					<span>洗窗液</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="yy">
+							<el-option label="OK" value="shanghai"></el-option>
+							<el-option label="NoK" value="beijing"></el-option>
+							<el-option label="NA" value="beijing"></el-option>
 						</el-select>
 					</span>
 						<span>
@@ -86,9 +92,10 @@
 				<div>
 					<span>制动液</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="uu">
+							<el-option label="OK" value="shanghai"></el-option>
+							<el-option label="NoK" value="beijing"></el-option>
+							<el-option label="NA" value="beijing"></el-option>
 						</el-select>
 					</span>
 						<span>
@@ -98,9 +105,10 @@
 				<div>
 					<span>燃油</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="ii">
+							<el-option label="OK" value="shanghai"></el-option>
+							<el-option label="NoK" value="beijing"></el-option>
+							<el-option label="NA" value="beijing"></el-option>
 						</el-select>
 					</span>
 						<span>
@@ -110,9 +118,10 @@
 				<div>
 					<span>冷冻机油</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="oo">
+							<el-option label="OK" value="shanghai"></el-option>
+							<el-option label="NoK" value="beijing"></el-option>
+							<el-option label="NA" value="beijing"></el-option>
 						</el-select>
 					</span>
 						<span>
@@ -122,9 +131,10 @@
 				<div>
 					<span>变速箱/差速器油</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="pp">
+							<el-option label="OK" value="shanghai"></el-option>
+							<el-option label="NoK" value="beijing"></el-option>
+							<el-option label="NA" value="beijing"></el-option>
 						</el-select>
 					</span>
 						<span>
@@ -134,9 +144,10 @@
 				<div>
 					<span>杂项</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="aa">
+							<el-option label="OK" value="shanghai"></el-option>
+							<el-option label="NoK" value="beijing"></el-option>
+							<el-option label="NA" value="beijing"></el-option>
 						</el-select>
 					</span>
 						<span>
@@ -153,6 +164,21 @@
 
 <script>
 	export default {
+		data(){
+			return{
+				qq:'',
+				ww:'',
+				ee:'',
+				rr:'',
+				tt:'',
+				yy:'',
+				uu:'',
+				ii:'',
+				oo:'',
+				pp:'',
+				aa:'',
+			}
+		},
 		methods: {
 			submit(){
 				this.$router.push('/natural_risk')
@@ -166,6 +192,9 @@
 
 <style lang="scss" scoped="scoped">
 	.partin_task {
+		/deep/ .el-button {
+			padding: 8px 18px;
+		}
 		>.title {
 			position: relative;
 			height: 40px;
@@ -182,6 +211,7 @@
 		>.form {
 			>.list_title {
 				display: flex;
+				border-bottom: 1px solid #e4e4e4;
 				>span {
 					flex: 1;
 					height: 40px;
@@ -204,6 +234,7 @@
 						text-align: center;
 						text-align: left;
 						text-indent: 10px;
+						font-size: 12px;
 					}
 				}
 			}

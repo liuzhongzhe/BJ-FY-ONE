@@ -14,133 +14,100 @@
 				<div>
 					<span>排气附近可燃物</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
+						OK
 					</span>
-						<span>
-						<el-input></el-input>
+					<span>
+						333SD
 					</span>
 				</div>
 				<div>
 					<span>发动机油</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
+						NoK
 					</span>
-						<span>
-						<el-input></el-input>
+					<span>
+						333SD
 					</span>
 				</div>
 				<div>
 					<span>变速箱油</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
+						OK
 					</span>
-						<span>
-						<el-input></el-input>
+					<span>
+						333SD
 					</span>
 				</div>
 				<div>
 					<span>冷却液</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
+						NA
 					</span>
-						<span>
-						<el-input></el-input>
+					<span>
+						333SD
 					</span>
 				</div>
 				<div>
 					<span>动力转向液</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
+						OK
 					</span>
-						<span>
-						<el-input></el-input>
+					<span>
+						333SD
 					</span>
 				</div>
 				<div>
 					<span>洗窗液</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
+						NA
 					</span>
-						<span>
-						<el-input></el-input>
+					<span>
+						333SD
 					</span>
 				</div>
 				<div>
 					<span>制动液</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
+						OK
 					</span>
-						<span>
-						<el-input></el-input>
+					<span>
+						333SD
 					</span>
 				</div>
 				<div>
 					<span>燃油</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
+						NoK
 					</span>
-						<span>
-						<el-input></el-input>
+					<span>
+						333SD
 					</span>
 				</div>
 				<div>
 					<span>冷冻机油</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
+						OK
 					</span>
-						<span>
-						<el-input></el-input>
+					<span>
+						333SD
 					</span>
 				</div>
 				<div>
 					<span>变速箱/差速器油</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
+						NoK
 					</span>
-						<span>
-						<el-input></el-input>
+					<span>
+						333SD
 					</span>
 				</div>
 				<div>
 					<span>杂项</span>
 					<span>
-						<el-select>
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
+						NA
 					</span>
-						<span>
-						<el-input></el-input>
+					<span>
+						333SD
 					</span>
 				</div>
 			</div>
@@ -154,7 +121,7 @@
 <script>
 	export default {
 		methods: {
-			submit(){
+			submit() {
 				this.$router.push('/natural_risk')
 			},
 			toReturn() {
@@ -166,6 +133,9 @@
 
 <style lang="scss" scoped="scoped">
 	.partin_task {
+		/deep/ .el-button{
+			padding: 8px 18px;
+		}
 		>.title {
 			position: relative;
 			height: 40px;
@@ -198,12 +168,17 @@
 						border-bottom: none;
 					}
 					>span {
+						font-size: 12px;
 						flex: 1;
 						height: 40px;
 						line-height: 40px;
 						text-align: center;
 						text-align: left;
 						text-indent: 10px;
+						&:nth-child(2){
+							text-align: center;
+							text-indent: 0;
+						}
 					}
 				}
 			}

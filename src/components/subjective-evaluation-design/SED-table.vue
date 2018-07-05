@@ -72,7 +72,7 @@
 				listInfoShow: false,
 				closedShow: false,
 				zzzShow: false,
-				currentIndex:-1,
+				currentIndex: -1,
 				topTitle: '未关闭评估项目',
 				currentRow: {},
 				tabelDatas: [{
@@ -335,7 +335,7 @@
 			setCurrent(row) {
 				this.$refs.singleTable.setCurrentRow(row);
 			},
-			handleCurrentChange(val,index) {
+			handleCurrentChange(val, index) {
 				this.currentIndex = index
 				this.currentRow = val
 				return 'warning-row';
@@ -359,53 +359,47 @@
 	}
 </script>
 
-<style lang="scss">
-	.el-table .warning-row {
-		background: oldlace;
-	}
-	
-	.el-table .success-row {
-		background: #f0f9eb;
-	}
-	
-	.el-button {
-		padding: 10px 4px;
-	}
-	
-	.el-table th {
-		text-align: center !important;
-	}
-	
-	.el-table .cell {
-		text-align: center;
-	}
-	
+<style lang="scss" scoped="scoped">
 	table {
 		width: 100% !important;
 	}
 	
 	.SED_table {
-		>.table{
+		/deep/ .el-table .warning-row {
+			background: oldlace;
+		}
+		/deep/ .el-table .success-row {
+			background: #f0f9eb;
+		}
+		/deep/ .el-button {
+			padding: 10px 4px;
+		}
+		/deep/ .el-table th {
+			text-align: center !important;
+		}
+		/deep/ .el-table .cell {
+			text-align: center;
+		}
+		>.table {
 			padding-bottom: 20px;
-			>.title{
+			>.title {
 				display: flex;
 				line-height: 40px;
-				span{
+				span {
 					flex: 1;
 					text-align: center;
-					
 				}
 			}
-			>.list{
+			>.list {
 				display: flex;
 				transition: .3s;
-				span{
+				span {
 					flex: 1;
 					text-align: center;
 					line-height: 42px;
 					border-top: 1px solid #E4E4E4;
 				}
-				&.active{
+				&.active {
 					background: #BDDBF9;
 				}
 			}

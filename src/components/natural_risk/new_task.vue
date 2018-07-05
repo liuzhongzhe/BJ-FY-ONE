@@ -9,51 +9,55 @@
 				<el-input v-model="form.name"></el-input>
 			</el-form-item>
 			<el-form-item label="平台名称">
-				<el-select v-model="form.region" placeholder="请选择活动区域">
-					<el-option label="区域一" value="shanghai"></el-option>
-					<el-option label="区域二" value="beijing"></el-option>
+				<el-select v-model="form.ptmc" placeholder="请选择活动区域">
+					<el-option label="E2-2" value="shanghai"></el-option>
+					<el-option label="D2XX" value="beijing"></el-option>
+					<el-option label="GEM" value="beijing"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="车型名称">
-				<el-select v-model="form.region" placeholder="请选择活动区域">
-					<el-option label="区域一" value="shanghai"></el-option>
-					<el-option label="区域二" value="beijing"></el-option>
+				<el-select v-model="form.cxmc" placeholder="请选择活动区域">
+					<el-option label="D2UB" value="shanghai"></el-option>
+					<el-option label="D2SB" value="beijing"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="车型年份">
-				<el-select v-model="form.region" placeholder="请选择活动区域">
-					<el-option label="区域一" value="shanghai"></el-option>
-					<el-option label="区域二" value="beijing"></el-option>
+				<el-select v-model="form.cxnf" placeholder="请选择活动区域">
+					<el-option label="MY16" value="shanghai"></el-option>
+					<el-option label="MY16" value="shanghai"></el-option>
+					<el-option label="MY17" value="shanghai"></el-option>
+					<el-option label="MY18" value="shanghai"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="发动机">
-				<el-select v-model="form.region" placeholder="请选择活动区域">
-					<el-option label="区域一" value="shanghai"></el-option>
-					<el-option label="区域二" value="beijing"></el-option>
+				<el-select v-model="form.fdj" placeholder="请选择活动区域">
+					<el-option label="L2B" value="shanghai"></el-option>
+					<el-option label="L3T" value="beijing"></el-option>
+					<el-option label="L4K" value="beijing"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="变速箱">
-				<el-select v-model="form.region" placeholder="请选择活动区域">
-					<el-option label="区域一" value="shanghai"></el-option>
-					<el-option label="区域二" value="beijing"></el-option>
+				<el-select v-model="form.bsx" placeholder="请选择活动区域">
+					<el-option label="CVT" value="shanghai"></el-option>
+					<el-option label="DCT" value="beijing"></el-option>
+					<el-option label="M01" value="beijing"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="驱动形式">
-				<el-select v-model="form.region" placeholder="请选择活动区域">
-					<el-option label="区域一" value="shanghai"></el-option>
-					<el-option label="区域二" value="beijing"></el-option>
+				<el-select v-model="form.qdxs" placeholder="请选择活动区域">
+					<el-option label="AWD" value="shanghai"></el-option>
+					<el-option label="FWD" value="beijing"></el-option>
+					<el-option label="RWD" value="beijing"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="左右驾">
-				<el-select v-model="form.region" placeholder="请选择活动区域">
-					<el-option label="区域一" value="shanghai"></el-option>
-					<el-option label="区域二" value="beijing"></el-option>
+				<el-select v-model="form.zyj" placeholder="请选择活动区域">
+					<el-option label="LHD" value="shanghai"></el-option>
+					<el-option label="RHD" value="beijing"></el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item>
-				<el-button type="primary" @click="onSubmit">立即创建</el-button>
-				<el-button @click="onSubmit">取消</el-button>
-			</el-form-item>
+			<el-button type="primary" @click="onSubmit">立即创建</el-button>
+			<el-button @click="onSubmit">取消</el-button>
 		</el-form>
 
 	</div>
@@ -66,13 +70,15 @@
 				defaultShow: false,
 				form: {
 					name: '',
-					region: '',
-					date1: '',
-					date2: '',
+					ptmc: '',
+					cxmc: '',
+					cxnf: '',
 					delivery: false,
 					type: [],
-					resource: '',
-					desc: ''
+					fdj: '',
+					bsx: '',
+					qdxs: '',
+					zyj: ''
 				},
 			}
 		},
@@ -89,11 +95,20 @@
 </script>
 
 <style lang="scss" scoped="scoped">
-	.el-select-dropdown__item {
-		display: block;
-	}
 	.new_task {
 		text-align: center;
+		/deep/ .el-form-item{
+			margin-bottom: 15px;
+		}
+		/deep/ .el-input__inner {
+			height: 34px;
+		}
+		/deep/ .el-select-dropdown__item {
+			display: block;
+		}
+		/deep/ .el-button {
+			padding: 8px 18px;
+		}
 		.el-select {
 			width: 200px;
 		}
@@ -111,14 +126,6 @@
 				left: 0;
 				top: 0;
 				padding: 0px 5px;
-			}
-		}
-		.sec {
-			width: 100%;
-			margin-top: 12px;
-			span {
-				font-size: 14px;
-				margin-right: 5px;
 			}
 		}
 	}

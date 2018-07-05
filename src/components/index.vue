@@ -3,6 +3,7 @@
 		<div style="text-align: center;">
 				<el-button @click="toOne" type="primary" style="display: block;margin: 20px auto;">车辆热性能主观评价系统</el-button>
 				<el-button @click="toTwo" type="primary" style="display: block;margin: 20px auto;">自然风险评估系统</el-button>
+				<div style="background: url(static/bgcar2.jpg);"></div>
 		</div>
 	</div>
 </template>
