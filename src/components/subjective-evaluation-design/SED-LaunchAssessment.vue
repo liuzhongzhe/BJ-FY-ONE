@@ -1,273 +1,320 @@
 <template>
-	<div class="SED_LA">
-		<div class="title">
-			<span class="return" @click="toReturn"><i class="el-icon-arrow-left"></i>返回	</span>
-			<span>发起评估</span>
-		</div>
-		<div class="sec">
-			<span>评估日期</span>
-			<div class="block" style="display: inline-block; width: 60%;">
-				<el-date-picker style="width: 100%"  v-model="valueTime" type="date" placeholder="选择日期">
-				</el-date-picker>
-			</div>
-		</div>
-		<div class="sec">
-			<span>车辆编号</span>
-			<el-input style="display: inline-block; width: 60%;"></el-input>
-		</div>
-		<div class="sec">
-			<span>评估工况</span>
-			<el-select v-model="valueOne" placeholder="请选择" style="display: inline-block;  width: 60%;">
-				<el-option v-for="item in optionsOne" :key="item.value" :label="item.label" :value="item.value">
-				</el-option>
-			</el-select>
-		</div>
-		<div class="sec">
-			<span>空调模式</span>
-			<el-select v-model="valueTwo" placeholder="请选择" style="display: inline-block; width: 60%;" @change="ktModelChange(valueTwo)">
-				<el-option v-for="item in optionsTwo" :key="item.value" :label="item.label" :value="item.value">
-				</el-option>
-			</el-select>
-		</div>
-		<!--default状态-->
-		<el-collapse-transition>
-			<div v-show="defaultShow">
-				<div class="sec">
-					<span>出风温度</span>
-					<el-select v-model="valueThree" placeholder="请选择" style="display: inline-block; width: 60%;">
-						<el-option v-for="item in optionsThree" :key="item.value" :label="item.label" :value="item.value">
-						</el-option>
-					</el-select>
-				</div>
-				<div class="sec">
-					<span>风量等级</span>
-					<el-select v-model="valueFour" placeholder="请选择" style="display: inline-block; width: 60%;">
-						<el-option v-for="item in optionsFour" :key="item.value" :label="item.label" :value="item.value">
-						</el-option>
-					</el-select>
-				</div>
-				<div class="sec">
-					<span>循环模式</span>
-					<el-select v-model="valueFive" placeholder="请选择" style="display: inline-block; width: 60%;">
-						<el-option v-for="item in optionsFive" :key="item.value" :label="item.label" :value="item.value">
-						</el-option>
-					</el-select>
-				</div>
-				<div class="sec">
-					<span>出风方向</span>
-					<el-select v-model="valueSix" placeholder="请选择" style="display: inline-block; width: 60%;">
-						<el-option v-for="item in optionsSix" :key="item.value" :label="item.label" :value="item.value">
-						</el-option>
-					</el-select>
-				</div>
-			</div>
-		</el-collapse-transition>
-		<!--结束-->
-
-		<div class="sec">
-			<span>温度环境</span>
-			<el-input style="display: inline-block; width: 60%;"></el-input>
-		</div>
-		<div class="sec">
-			<span>日照强度</span>
-			<el-input style="display: inline-block; width: 60%;"></el-input>
-		</div>
-		<div class="sec">
-			<span>车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重</span>
-			<el-input style="display: inline-block; width: 60%;"></el-input>
-		</div>
-		<div class="sec" style="">
-			<el-button type="primary">发起评估</el-button>
-		</div>
-
-	</div>
+    <div class="SED_LA">
+        <div class="title">
+            <span class="return" @click="toReturn">
+                <i class="el-icon-arrow-left"></i>返回 </span>
+            <span>发起评估</span>
+        </div>
+        <Form ref="pro" :model="pro" :rules="ruleValidate" :label-width="70">
+			<FormItem label="评估日期" class="lzz">
+				<FormItem prop="date">
+					<DatePicker type="date" v-model="pro.date" @on-change="chooseTime"></DatePicker>
+				</FormItem>
+			</FormItem>
+            <FormItem label="车辆编号" prop="modelNum">
+                <Input v-model="pro.modelNum"></Input>
+            </FormItem>
+			<FormItem label="评估工况" prop="evaluationCon">
+				<Select v-model="pro.evaluationCon">
+					<Option value="城郊">城郊</Option>
+					<Option value="城市">城市</Option>
+					<Option value="高速">高速</Option>
+					<Option value="爬坡">爬坡</Option>
+					<Option value="怠速">怠速</Option>
+					<Option value="熄火">熄火</Option>
+				</Select>
+			</FormItem>
+			<FormItem label="空调模式" prop="airCconditioning">
+				<Select v-model="pro.airCconditioning" @on-change="ktModelChange">
+					<Option value="AC Off">AC Off</Option>
+					<Option value="AC Auto 22C">AC Auto 22C</Option>
+					<Option value="Full Cold OSA">Full Cold OSA</Option>
+					<Option value="Full Cold Recir">Full Cold Recir</Option>
+					<Option value="User-Defined">User-Defined</Option>
+				</Select>
+			</FormItem>
+            <el-collapse-transition>
+            	<div v-if="defaultShow">
+					<FormItem label="出风温度" prop="temperature">
+						<Select v-model="pro.temperature" >
+							<Option value="16">16℃</Option>
+							<Option value="17">17℃</Option>
+							<Option value="18">18℃</Option>
+							<Option value="19">19℃</Option>
+							<Option value="20">20℃</Option>
+							<Option value="21">21℃</Option>
+							<Option value="22">22℃</Option>
+							<Option value="23">23℃</Option>
+							<Option value="24">24℃</Option>
+							<Option value="25">25℃</Option>
+							<Option value="26">26℃</Option>
+							<Option value="27">27℃</Option>
+							<Option value="28">28℃</Option>
+							<Option value="29">29℃</Option>
+							<Option value="30">30℃</Option>
+							<span slot="append">℃</span>
+						</Select>
+					</FormItem>
+					<FormItem label="风量等级" prop="grade">
+						<Select v-model="pro.grade" >
+							<Option value="1">1</Option>
+							<Option value="2">2</Option>
+							<Option value="3">3</Option>
+							<Option value="4">4</Option>
+							<Option value="5">5</Option>
+							<Option value="6">6</Option>
+							<Option value="7">7</Option>
+							<Option value="8">8</Option>
+							<Option value="9">9</Option>
+							<Option value="10">10</Option>
+						</Select>
+					</FormItem>
+					<FormItem label="循环模式" prop="cycle">
+						<Select v-model="pro.cycle" >
+							<Option value="OSA">OSA</Option>
+							<Option value="Recir">Recir</Option>
+							<Option value="Auto">Auto</Option>
+						</Select>
+					</FormItem>
+					<FormItem label="出风方向" prop="direction">
+						<Select v-model="pro.direction" >
+							<Option value="吹面">吹面</Option>
+							<Option value="吹脚">吹脚</Option>
+							<Option value="吹面+吹脚">吹面+吹脚</Option>
+						</Select>
+					</FormItem>
+            	</div>
+            </el-collapse-transition>
+			<FormItem label="温度环境" prop="temperatureEnv">
+				<Input v-model="pro.temperatureEnv">
+					<span slot="append">℃</span>
+				</Input>
+			</FormItem>
+			<FormItem label="日照强度" prop="irradiance">
+				<Input v-model="pro.irradiance">
+					<span slot="append">&nbsp;w </span>
+				</Input>
+			</FormItem>
+			<FormItem label="车重" prop="weight">
+				<Input v-model="pro.weight">
+					<span slot="append">kg</span>
+				</Input>
+			</FormItem>
+        </Form>
+        
+        <div class="sec" style="margin-top: 40px;">
+            <el-button type="primary" @click="handleSubmit('pro')">发起评估</el-button>
+            <el-button type="info" @click="handleReset('pro')">重置</el-button>
+        </div>
+    </div>
 </template>
-
 <script>
-	export default {
-		data() {
-			return {
-				defaultShow: false,
-				optionsOne: [{
-					value: '城郊',
-					label: '城郊'
-				}, {
-					value: '城市',
-					label: '城市'
-				}, {
-					value: '高速',
-					label: '高速'
-				}, {
-					value: '爬坡',
-					label: '爬坡'
-				}, {
-					value: '怠速',
-					label: '怠速'
-				}, {
-					value: '熄火',
-					label: '熄火'
-				}],
-				valueOne: '',
-				optionsTwo: [{
-					value: 'AC Off',
-					label: 'AC Off'
-				}, {
-					value: 'AC Auto 22C',
-					label: 'AC Auto 22C'
-				}, {
-					value: 'Full Cold OSA',
-					label: 'Full Cold OSA'
-				}, {
-					value: 'Full Cold Recir',
-					label: 'Full Cold Recir'
-				}, {
-					value: 'User-Defined',
-					label: 'User-Defined'
-				}],
-				valueTwo: '',
-				optionsThree: [{
-					value: '16',
-					label: '16'
-				},{
-					value: '17',
-					label: '17'
-				},{
-					value: '18',
-					label: '18'
-				},{
-					value: '19',
-					label: '16'
-				},{
-					value: '20',
-					label: '20'
-				},{
-					value: '21',
-					label: '21'
-				}, {
-					value: '22',
-					label: '22'
-				}, {
-					value: '23',
-					label: '23'
-				}, {
-					value: '24',
-					label: '24'
-				}, {
-					value: '25',
-					label: '25'
-				}, {
-					value: '26',
-					label: '26'
-				}, {
-					value: '27',
-					label: '27'
-				}, {
-					value: '28',
-					label: '28'
-				}, {
-					value: '29',
-					label: '29'
-				}, {
-					value: '30',
-					label: '30'
-				}, ],
-				valueThree: '',
-				optionsFour: [{
-					value: '1',
-					label: '1'
-				}, {
-					value: '2',
-					label: '2'
-				}, {
-					value: '3',
-					label: '3'
-				}, {
-					value: '4',
-					label: '4'
-				}, {
-					value: '5',
-					label: '5'
-				},{
-					value: '6',
-					label: '6'
-				}, {
-					value: '7',
-					label: '7'
-				}, {
-					value: '8',
-					label: '8'
-				}, {
-					value: '9',
-					label: '0'
-				}, {
-					value: '10',
-					label: '10'
-				}],
-				valueFour: '',
-				optionsFive: [{
-					value: 'OSA',
-					label: 'OSA'
-				}, {
-					value: 'Recir',
-					label: 'Recir'
-				}, {
-					value: 'Auto',
-					label: 'Auto'
-				}],
-				valueFive: '',
-				optionsSix: [{
-					value: '吹面',
-					label: '吹面'
-				}, {
-					value: '吹脚',
-					label: '吹脚'
-				}, {
-					value: '吹面+吹脚',
-					label: '吹面+吹脚'
-				}],
-				valueSix: '',
-				valueTime: ''
-			}
-		},
+    export default {
+        data() {
+            return {
+                defaultShow: false,
+                ruleValidate: {
+                    modelNum: [{
+                        required: true,
+                        message: '',
+                        trigger: 'blur'
+                    }],
+					temperatureEnv: [{
+                        required: true,
+                        message: '',
+                        trigger: 'blur'
+                    }],
+					temperature: [{
+                        required: true,
+                        message: '',
+                        trigger: 'blur'
+                    }],
+					evaluationCon: [{
+                        required: true,
+                        message: '',
+                        trigger: 'blur'
+                    }],
+					irradiance: [{
+						required: true,
+						message: '',
+						trigger: 'blur'
+					}],
+					airCconditioning: [{
+						required: true,
+						message: '',
+						trigger: 'blur'
+					}],
+                    weight: [{
+                        required: true,
+                        message: '',
+                        trigger: 'change'
+                    }],
+					grade:[{
+                        required: true,
+                        message: '',
+                        trigger: 'change'
+                    }],
+					cycle:[{
+                        required: true,
+                        message: '',
+                        trigger: 'change'
+                    }],
+					direction:[{
+                        required: true,
+                        message: '',
+                        trigger: 'change'
+                    }],
+                    date: [{
+                        required: true,
+                        type: 'string',
+                        message: '',
+                        trigger: 'change'
+                    }],
+                },
+                pro: {
+                    date: '',
+                    modelNum: '',
+                    evaluationCon: '',
+                    airCconditioning: '',
+                    temperature: '',
+                    grade: '',
+                    cycle: '',
+                    direction: '',
+                    temperatureEnv: '',
+                    irradiance: '',
+                    weight: ''
+                },
+                valueOne: '',
+                valueTwo: '',
+                valueThree: '',
+                valueFour: '',
+                valueFive: '',
+                valueSix: '',
+                valueTime: ''
+            }
+        },
 
-		methods: {
-			ktModelChange(item) {
-				if(item === 'User-Defined') this.defaultShow = true
-				else this.defaultShow = false
+        methods: {
+			chooseTime(e){
+				this.pro.date = e
 			},
-			toReturn() {
-				this.$router.go(-1)
-			}
-		}
-	}
+            handleSubmit(name) {
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+						this.axios({
+							method: 'post',
+							url: `/api/createThermalProperty`,
+							headers: {
+								'Content-type': 'application/json;charset=UTF-8'
+							},
+							data: this.pro
+						}).then((res) => {
+							if (res.status === 200) {
+								this.$Message.success('添加成功');
+								this.$router.push('/SED_table')
+							}
+						})
+                    } else {
+                        this.$Message.error('请将表单填写完整');
+                    }
+                })
+            },
+            handleReset(name) {
+                this.$refs[name].resetFields();
+            },
+            createPro() {
+                this.axios({
+                    method: 'post',
+                    url: `/api/createThermalProperty`,
+                    headers: {
+                        'Content-type': 'application/json;charset=UTF-8'
+                    },
+                    data: this.pro
+                }).then((res) => {
+                    if (res.status === 200) {
+                        this.$Message.success('添加成功');
+                        this.$router.push('/SED_table')
+                    }
+                })
+            },
+            ktModelChange() {
+                if (this.pro.airCconditioning === 'User-Defined') {
+                    this.defaultShow = true
+                } else {
+                    this.defaultShow = false
+                }
+            },
+
+            toReturn() {
+                this.$router.go(-1)
+            }
+        }
+    }
 </script>
 
 <style lang="scss" scoped="scoped">
-.el-select-dropdown__item{
-	display: block;
-}
-	.SED_LA {
-		text-align: center;
-		>.title {
+    .SED_LA {
+        text-align: center;
+		.lzz {
 			position: relative;
-			height: 40px;
-			line-height: 40px;
-			text-align: center;
-			border-bottom: 1px solid #ebeef5;
-			>.return {
-				position: absolute;
-				left: 0;
-				top: 0;
-				padding: 0px 5px;
+			top: 10px !important;
+			/deep/ label{
+				position: relative;
+				top: 10px !important;
 			}
 		}
-		.sec {
-			width: 100%;
-			margin-top: 12px;
-			span {
-				font-size: 14px;
-				margin-right: 5px;
-			}
+		/deep/ .ivu-input-group-append{
+			position: relative;
+			right: 27px;
+			z-index: 10;
+			border-radius: 0;
 		}
-	}
+		/deep/ .ivu-form-item-required .ivu-form-item-label:before{
+			content: '';
+		}
+		/deep/ .ivu-form-item{
+			width: 270px;
+			margin: 10px auto;
+		}
+		/deep/ .ivu-form-item-content{
+			width: 200px;
+		}
+		/deep/ .ivu-input,.ivu-select{
+			width: 200px;
+		}
+        /deep/ .ivu-form-item-error-tip {
+            color: transparent;
+        }
+        /deep/ .el-select-dropdown__item {
+            display: block;
+        }
+        /deep/ .el-button {
+            padding: 10px 30px;
+        }
+        /deep/ .el-input__inner {
+            height: 34px;
+            line-height: 34px;
+        }
+        >.title {
+            position: relative;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-bottom: 1px solid #ebeef5;
+            >.return {
+                position: absolute;
+                left: 0;
+                top: 0;
+                padding: 0px 5px;
+            }
+        }
+        .sec {
+            width: 100%;
+            margin-top: 10px;
+            span {
+                font-size: 14px;
+                margin-right: 5px;
+            }
+        }
+    }
 </style>

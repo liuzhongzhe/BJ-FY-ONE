@@ -111,9 +111,9 @@
 					</span>
 				</div>
 			</div>
-			<div style="text-align: center;margin: 10px;">
+			<!--<div style="text-align: center;margin: 10px;">
 				<el-button type="primary" style="" @click="toReturn">返回</el-button>
-			</div>
+			</div>-->
 		</div>
 	</div>
 </template>
@@ -152,6 +152,7 @@
 		>.form {
 			>.list_title {
 				display: flex;
+				border-bottom: 1px solid #ebeef5;
 				>span {
 					flex: 1;
 					height: 40px;

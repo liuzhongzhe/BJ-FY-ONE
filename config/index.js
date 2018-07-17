@@ -11,17 +11,17 @@ module.exports = {
 		assetsSubDirectory: 'static',
 		assetsPublicPath: '/',
 		proxyTable: {
-			'/FYSystem-1.0-SNAPSHOT': {
-				target: 'http://192.168.60.203:8080/FYSystem-1.0-SNAPSHOT',
+			'/api': {
+				target: 'http://192.168.60.203/patac_tse',
 				changeOrigin: true,
 				pathRewrite: {
-					'^/FYSystem-1.0-SNAPSHOT': ''
+					'^/api': ''
 				}
 			}
 		},
 
 		// Various Dev Server settings
-		host: 'localhost', // can be overwritten by process.env.HOST
+		host: '0.0.0.0'||'localhost',
 		port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
 		autoOpenBrowser: false,
 		errorOverlay: true,

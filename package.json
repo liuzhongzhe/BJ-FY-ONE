@@ -13,10 +13,11 @@
     "axios": "^0.18.0",
     "echarts": "^4.1.0",
     "element-ui": "^2.4.0",
+    "iview": "^2.14.3",
+    "jquery": "^2.2.3",
     "vue": "^2.5.2",
     "vue-axios": "^2.1.1",
-    "vue-router": "^3.0.1",
-		"jquery":"^2.2.3"
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

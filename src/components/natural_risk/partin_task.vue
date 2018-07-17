@@ -193,7 +193,7 @@
 <style lang="scss" scoped="scoped">
 	.partin_task {
 		/deep/ .el-button {
-			padding: 8px 18px;
+			padding: 10px 30px;
 		}
 		>.title {
 			position: relative;

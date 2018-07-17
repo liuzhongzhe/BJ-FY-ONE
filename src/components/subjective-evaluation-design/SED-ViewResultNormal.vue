@@ -25,22 +25,18 @@
             _getData() {
                 this.axios({
                     method: 'get',
-                    url: `/api/thermalPropertyDetailsFlameout/${this.$route.params.id}`,
+                    url: `/api/thermalPropertyDetails/${this.$route.params.id}`,
                     headers: {
                         'Content-type': 'application/json;charset=UTF-8'
                     }
                 }).then((res) => {
-                    let _data = res.data.thermalPropertyDetailsFlameoutById
-                    this.pgzResult[0] = _data.hood
-                    this.pgzResult[1] = _data.fender
-                    this.pgzResult[2] = _data.dipstick
-                    this.pgzResult[3] = _data.fuseBox
-                    this.pgzResult[4] = _data.frontLockLock
-                    this.pgzResult[5] = _data.fillingPort
-                    this.pgzResult[6] = _data.supportRodSheath
-                    this.pgzResult[7] = _data.brakeFluidPpotCover
-                    this.pgzResult[8] = _data.coolantPotCover
-                    this.pgzResult[9] = _data.carpets
+                    let _data = res.data.thermalPropertyDetailsById
+                    this.pgzResult[0] = _data.temDriver
+                    this.pgzResult[1] = _data.tem1R
+                    this.pgzResult[2] = _data.tem2L
+                    this.pgzResult[3] = _data.tem2R
+                    this.pgzResult[4] = _data.tem3L
+                    this.pgzResult[5] = _data.tem3R
                     this.pgzResult.forEach((item, index) => {
                         if (item === -0.5) {
                             this.$set(this.pgzResult, index, '')
@@ -50,22 +46,18 @@
                 })
                 this.axios({
                     method: 'get',
-                    url: `/api/thermalPropertyDetailsMeasureFlameout/${this.$route.params.id}`,
+                    url: `/api/thermalPropertyDetailsMeasure/${this.$route.params.id}`,
                     headers: {
                         'Content-type': 'application/json;charset=UTF-8'
                     }
                 }).then((res) => {
-                    let _data = res.data.thermalPropertyDetailsMeasureFlameoutByByAssessId[0]
-                    this.zzzResult[0] = _data.hood
-                    this.zzzResult[1] = _data.fender
-                    this.zzzResult[2] = _data.dipstick
-                    this.zzzResult[3] = _data.fuseBox
-                    this.zzzResult[4] = _data.frontLockLock
-                    this.zzzResult[5] = _data.fillingPort
-                    this.zzzResult[6] = _data.supportRodSheath
-                    this.zzzResult[7] = _data.brakeFluidPpotCover
-                    this.zzzResult[8] = _data.coolantPotCover
-                    this.zzzResult[9] = _data.carpets
+                    let _data = res.data.thermalPropertyDetailsMeasureByByAssessId[0]
+                    this.zzzResult[0] = _data.temDriver
+                    this.zzzResult[1] = _data.tem1R
+                    this.zzzResult[2] = _data.tem2L
+                    this.zzzResult[3] = _data.tem2R
+                    this.zzzResult[4] = _data.tem3L
+                    this.zzzResult[5] = _data.tem3R
                     this.zzzResult.forEach((item, index) => {
                         if (item === -0.5) {
                             this.$set(this.zzzResult, index, '')
@@ -129,23 +121,23 @@
                             },
                         }
                     },
-                    grid: {
-                        y2: 140
-                    },
                     legend: {
                         data: ['实测温度', '主观评估']
                     },
+                    grid: {
+                        y2: 140
+                    },
                     xAxis: [{
                         type: 'category',
-                        data: ['翼子板', '引擎盖', '机油标尺', '保险丝盒', '前舱盖锁头', '机油加注口', '支撑杆护套', '制动液壶盖',
-                            '冷却液壶盖', '后备箱地毯'
+                        data: ['油门附近地毯        ', '中通道第一排右侧地毯', '中通道第二排左侧地毯', '中通道第二排右侧地毯', '中通道第三排左侧地毯',
+                            '中通道第三排右侧地毯'
                         ],
                         axisPointer: {
                             type: 'shadow'
                         },
                         "axisLabel": {
                             interval: 0,
-                            rotate: -50,
+                            rotate: -70,
                         }
                     }],
                     yAxis: [{

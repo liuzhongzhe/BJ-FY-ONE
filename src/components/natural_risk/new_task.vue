@@ -57,7 +57,6 @@
 				</el-select>
 			</el-form-item>
 			<el-button type="primary" @click="onSubmit">立即创建</el-button>
-			<el-button @click="onSubmit">取消</el-button>
 		</el-form>
 
 	</div>
@@ -98,7 +97,7 @@
 	.new_task {
 		text-align: center;
 		/deep/ .el-form-item{
-			margin-bottom: 15px;
+			margin-bottom: 10px;
 		}
 		/deep/ .el-input__inner {
 			height: 34px;
@@ -107,7 +106,7 @@
 			display: block;
 		}
 		/deep/ .el-button {
-			padding: 8px 18px;
+			padding: 10px 30px;
 		}
 		.el-select {
 			width: 200px;

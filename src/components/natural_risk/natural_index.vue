@@ -3,7 +3,9 @@
 		<div>
 			<div class="top">
 				<span class="return" @click="toReturn"><i class="el-icon-arrow-left"></i>返回	</span>
-				<span><img src="../../../static/logo.png" width="120px" style="position: fixed;right: 10px;top: 10px;"/></span>
+			</div>
+			<div>
+				<img src="../../../static/logo.png" width="120px" style="position: fixed;right: 10px;top: 50px;"/>
 			</div>
 			<div class="title">
 				车辆自燃风险评估系统

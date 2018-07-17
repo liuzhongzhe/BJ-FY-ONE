@@ -10,7 +10,7 @@
                 <span v-for="(item,index) in scoreAr">
                     <i ref="point" v-show="index==pointIndex"></i>
                     <img :src="item.img" @click="chooseSite(item,index)" />
-                    <span v-show="item.score!==0" style="position: absolute;right:15px;top: 43px;font-size: 12px;">{{item.score}}</span>
+                    <span v-show="item.score>=0" style="position: absolute;right:15px;top: 43px;font-size: 12px;">{{item.score}}</span>
                 </span>
                 <div>
                     <img src="../../../static/bgCar.png" style="width: 200px;margin: 0 auto;">
@@ -19,20 +19,13 @@
             <div style="flex: 1; text-align: center;margin-top: 20px;">
                 <div class="chooseLevel">
                     <img src="../../../static/15d.png" style="position: absolute;left:-17px;;height: 300px;" />
-                    <el-slider v-model="value2" :max=10 :min=0 :step=0.1 vertical :format-tooltip="formatTooltip" height="300px"></el-slider>
+                    <el-slider v-model="value2" :max=10 :min=-0.5 :step=0.1 vertical :format-tooltip="formatTooltip" height="300px"></el-slider>
                 </div>
-                <!--<div style="display: inline-block;height: 330px;width: 35px;font-size:14px;position: relative;bottom: 48px;">
-					<p style="display: block;height: 65px;border-top: 1px solid #000000;">烫伤</p>
-					<p style="display: block;height: 65px;border-top: 1px solid #000000;">烫</p>
-					<p style="display: block;height: 65px;border-top: 1px solid #000000;">温热</p>
-					<p style="display: block;height: 65px;border-top: 1px solid #000000;">温</p>
-					<p style="display: block;height: 65px;border-top: 1px solid #000000;">舒适</p>
-				</div>-->
             </div>
         </div>
 
         <div class="button">
-            <el-button type="primary" style="width: 120px;" @click="chooseOk">提交</el-button>
+            <el-button type="primary" @click="chooseOk">提交</el-button>
         </div>
     </div>
 </template>
@@ -49,46 +42,63 @@
                 pointIndex: 0,
                 userLevel: 0,
                 value2: 0,
+				resultObj:{},
                 scoreAr: [{
                         img: 'static/1z.png',
-                        name: 'one',
                         score: 0.0
                     },
                     {
                         img: 'static/2b.png',
-                        name: 'two',
                         score: 0.0
                     },
                     {
                         img: 'static/3b.png',
-                        name: 'three',
                         score: 0.0
                     },
                     {
                         img: 'static/4b.png',
-                        name: 'four',
                         score: 0.0
                     },
                     {
                         img: 'static/5b.png',
-                        name: 'five',
                         score: 0.0
                     },
                     {
                         img: 'static/6b.png',
-                        name: 'six',
                         score: 0.0
                     }
                 ]
             }
         },
         mounted() {
+            this._getData()
             this.xxx()
+            $('.el-slider__bar').css("background", "#0C6FF9")
         },
         created() {
             this.chooseSiteShow = true
         },
         methods: {
+            _getData() {
+                this.axios({
+                    method: 'get',
+                    url: `/api/thermalPropertyDetails/${this.$route.params.id}`,
+                    headers: {
+                        'Content-type': 'application/json;charset=UTF-8'
+                    }
+                }).then((res) => {
+                    if(res.status===200){
+						this.resultObj = res.data.thermalPropertyDetailsById
+						this.value2 = this.resultObj.temDriver
+						this.scoreAr[0].score = this.resultObj.temDriver
+						this.scoreAr[1].score = this.resultObj.tem1R
+						this.scoreAr[2].score = this.resultObj.tem2L
+						this.scoreAr[3].score = this.resultObj.tem2R
+						this.scoreAr[4].score = this.resultObj.tem3L
+						this.scoreAr[5].score = this.resultObj.tem3R
+					}
+                })
+            },
             xxx() {
                 this.$refs.point[this.pointIndex].style.background = 'red'
                 setTimeout(() => {
@@ -107,7 +117,26 @@
                 this.$router.go(-1)
             },
             chooseOk() {
-                this.$router.push('/SED_table')
+				this.resultObj.id = 6
+				this.resultObj.temDriver = this.scoreAr[0].score
+				this.resultObj.tem1R = this.scoreAr[1].score
+				this.resultObj.tem2L = this.scoreAr[2].score
+				this.resultObj.tem2R = this.scoreAr[3].score
+				this.resultObj.tem3L = this.scoreAr[4].score
+				this.resultObj.tem3R = this.scoreAr[5].score
+				this.axios({
+					method: 'put',
+					url: `/api/updateThermalPropertyDetails`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					data:this.resultObj
+				}).then((res)=>{
+					if(res.status===200){
+						this.$Message.success('操作成功');
+						this.$router.push('/SED_table')
+					}
+				})
             },
             formatTooltip(val) {
                 this.$set(this.scoreAr[this.nowCurrentIndex], 'score', val)
@@ -118,7 +147,7 @@
                 } else if (val > 4 && val <= 6) {
                     $('.el-slider__bar').css("background", "#F9B60C")
                 } else if (val > 6 && val <= 8) {
-                    $('.el-slider__bar').css("background", "#F99E0C")
+                    $('.el-slider__bar').css("background", "rgb(243, 92, 20)")
                 } else if (val > 8) {
                     $('.el-slider__bar').css("background", "#F90C0C")
                 }
@@ -145,20 +174,20 @@
 </script>
 
 <style lang="scss" scoped="scoped">
-    /deep/ .el-slider__button {
-        width: 12px;
-        height: 12px;
-    }
-
-    .el-slider__bar {
-        background-color: red;
-    }
-
-	.el-slider.is-vertical{
-		right: 5px;
-	}
-
     .SED_UA {
+        /deep/ .el-button {
+            padding: 10px 30px;
+        }
+        /deep/ .el-slider__button {
+            width: 12px;
+            height: 12px;
+        }
+        /deep/ .el-slider__bar {
+            background-color: red;
+        }
+        /deep/ .el-slider.is-vertical {
+            right: 5px;
+        }
         >.title {
             position: relative;
             height: 40px;

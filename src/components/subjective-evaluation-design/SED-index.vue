@@ -3,7 +3,7 @@
 		<div>
 			<div class="top">
 				<span class="return" @click="toReturn"><i class="el-icon-arrow-left"></i>返回	</span>
-				<span><img src="../../../static/logo.png" width="120px" style="position: fixed;right: 10px;top: 10px;"/></span>
+				<span><img src="../../../static/logo.png" width="120px" style="position: fixed;right: 10px;top: 50px;"/></span>
 			</div>
 			<div class="title">
 				车辆热性能主观评价系统
@@ -71,10 +71,10 @@
 			>.title {
 				font-size: 18px;
 				font-weight: 700;
-				margin-top: 40%;
+				margin-top: 30%;
 			}
 			>.content {
-				margin-top: 20%;
+				margin-top: 10%;
 				p {
 					line-height: 30px;
 				}

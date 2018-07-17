@@ -14,12 +14,14 @@ import natural_result from '@/components/natural_risk/natural_result.vue'
 import partin_task from '@/components/natural_risk/partin_task.vue'
 import SED_index from '@/components/subjective-evaluation-design/SED-index'
 import SED_table from '@/components/subjective-evaluation-design/SED-table'
+import SED_tableOver from '@/components/subjective-evaluation-design/SED-tableOver'
 import SED_LaunchAssessment from '@/components/subjective-evaluation-design/SED-LaunchAssessment'
 import SED_pgzEntry from '@/components/subjective-evaluation-design/SED-pgzEntry.vue'
 import SED_pgzEntryFlameout from '@/components/subjective-evaluation-design/SED-pgzEntryFlameout.vue'
 import SED_zzzEntry from '@/components/subjective-evaluation-design/SED-zzzEntry.vue'
 import SED_zzzEntryFlameout from '@/components/subjective-evaluation-design/SED-zzzEntryFlameout.vue'
 import SED_ViewResult from '@/components/subjective-evaluation-design/SED-ViewResult.vue'
+import SED_ViewResultNormal from '@/components/subjective-evaluation-design/SED-ViewResultNormal.vue'
 
 Vue.use(Router)
 
@@ -69,34 +71,43 @@ export default new Router({
       path: '/SED_table',
       name: 'SED_table',
       component: SED_table
+    },{
+      path: '/SED_tableOver',
+      name: 'SED_tableOver',
+      component: SED_tableOver
     },
     {
-      path: '/SED_result',
+      path: '/SED_result/:id',
       name: 'SED_ViewResult',
       component: SED_ViewResult
     },
+		{
+			path: '/SED_resultNormal/:id',
+			name: 'SED_ViewResultNormal',
+			component: SED_ViewResultNormal
+		},
     {
       path: '/SED_LaunchAssessment',
       name: 'SED_LaunchAssessment',
       component: SED_LaunchAssessment
     },
 		{
-			path: '/SED_pgzEntry',
+			path: '/SED_pgzEntry/:id',
 			name: 'SED_pgzEntry',
 			component: SED_pgzEntry
 		},
 		{
-			path: '/SED_pgzEntryFlameout',
+			path: '/SED_pgzEntryFlameout/:id',
 			name: 'SED_pgzEntryFlameout',
 			component: SED_pgzEntryFlameout
 		},
 		{
-			path: '/SED_zzzEntry',
+			path: '/SED_zzzEntry/:id',
 			name: 'SED_zzzEntry',
 			component: SED_zzzEntry
 		},
 		{
-			path: '/SED_zzzEntryFlameout',
+			path: '/SED_zzzEntryFlameout/:id',
 			name: 'SED_zzzEntryFlameout',
 			component: SED_zzzEntryFlameout
 		},

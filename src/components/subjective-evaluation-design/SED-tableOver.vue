@@ -3,8 +3,9 @@
         <div class="title">
             <span class="return" @click="toReturn">
                 <i class="el-icon-arrow-left"></i>返回</span>
-            <span>未关闭评估项目
-                <img src="../../../static/ten.png" style="height: 18px;position: relative;top: 4px;left: 5px;" @click="changeTitle" />
+            <span>已关闭评估项目
+                <img src="../../../static/ten.png" style="height: 18px;position: relative;top: 4px;left: 5px;" @click="changeTitle"
+                />
             </span>
         </div>
         <div class="table">
@@ -22,16 +23,10 @@
             </div>
         </div>
         <div class="btn">
-            <div @click="toLanchAss" v-show="zzzShow">
-                <img src="../../../static/seven.png" /> 新建项目</div>
-            <div @click="toUserAss" v-show="zzzShow">
-                <img src="../../../static/one.png" /> 实测录入</div>
-            <div @click="toUserAss" v-show="!zzzShow">
-                <img src="../../../static/four.png" />参与评估</div>
-            <div @click="toClosePro" v-show="zzzShow">
-                <img src="../../../static/eight.png" />关闭项目</div>
+			<div @click="toResult">
+					<img src="../../../static/six.png" />评估结果</div>
             <div @click="viewListInfo">
-                <img src="../../../static/tenq.png" />项目信息</div>
+                <img src="../../../static/nine.png" />项目信息</div>
         </div>
         <div class="listInfo" v-if="listInfoShow">
             <div class="title">
@@ -98,9 +93,11 @@
         data() {
             return {
                 listInfoShow: false,
+                closedShow: false,
                 zzzShow: false,
                 currentIndex: -1,
                 proInfo: {},
+                topTitle: '未关闭评估项目',
                 currentRow: {},
                 tabelDatas: [],
                 tabelDatak: [],
@@ -121,13 +118,14 @@
             _getData() {
                 this.axios({
                     method: 'get',
-                    url: `/api/thermalPropertyNoClose`,
+                    url: `/api/thermalPropertyClose`,
                     headers: {
                         'Content-type': 'application/json;charset=UTF-8'
                     }
                 }).then((res) => {
+					console.log(res)
                     if (res.status === 200) {
-                        this.tableData = res.data.thermalPropertysNoClose
+                        this.tableData = res.data.thermalPropertysClose
                     }
                 })
             },
@@ -139,11 +137,7 @@
             toLanchAss() {
                 this.$router.push('/SED_LaunchAssessment')
             },
-            toClosePro() {
-                if (this.currentRow.personNum === 0) {
-                    this.$Message.warning('无录入数据,不可关闭');
-                    return
-                }
+            toDeletePro() {
                 if (JSON.stringify(this.currentRow) == "{}") {
                     this.$Message.warning('请选择一条测试');
                     return
@@ -157,7 +151,7 @@
                     }).then((res) => {
                         if (res.status === 200) {
                             this.$Message.success('关闭成功');
-                            this._getData()
+							this._getData()
                         }
                     })
                 }
@@ -183,15 +177,15 @@
             },
             toResult() {
                 if (JSON.stringify(this.currentRow) == "{}") {
-                    this.$Message.warning('请选择一条测试');
+                   this.$Message.warning('请选择一条测试');
                     return
                 }
-                if (this.currentRow.evaluationCon === '熄火') {
-                    this.$router.push(`/SED_result/${this.currentRow.id}`)
-                } else {
-                    this.$router.push(`/SED_resultNormal/${this.currentRow.id}`)
-                }
-
+				if(this.currentRow.evaluationCon === '熄火'){
+					this.$router.push(`/SED_result/${this.currentRow.id}`)
+				}else{
+					this.$router.push(`/SED_resultNormal/${this.currentRow.id}`) 
+				}
+                
             },
             toUserAss() {
                 if (JSON.stringify(this.currentRow) == "{}") {
@@ -225,7 +219,7 @@
                 this.$router.push('/SED_index')
             },
             changeTitle() {
-                this.$router.push('/SED_tableOver')
+				this.$router.push('/SED_table')
             }
         }
     }
