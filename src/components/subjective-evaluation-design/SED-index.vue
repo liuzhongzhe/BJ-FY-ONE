@@ -6,10 +6,10 @@
 				<span><img src="../../../static/logo.png" width="120px" style="position: fixed;right: 10px;top: 50px;"/></span>
 			</div>
 			<div class="title">
-				车辆热性能主观评价系统
+				整车热性能主观评估系统
 			</div>
 			<div class="content">
-				<p>请选择人员身份</p>
+				<p>请选择人员角色</p>
 				<p></p>Please Choose The Identity</p>
 			</div>
 			<div class="chooseButton">
@@ -23,8 +23,8 @@
 				</div>
 			</div>
 			<div class="error">
-				<p>如对评估模式有疑惑，请确认后再进行选择</p>
-				<p>if there is any objection to the mode,please confirm it!</p>
+				<p>如对角色有疑惑，请确认后再进行选择</p>
+				<p>if there is any objection to the role,please confirm it!</p>
 			</div>
 		</div>
 

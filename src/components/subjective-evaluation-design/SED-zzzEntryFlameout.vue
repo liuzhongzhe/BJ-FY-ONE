@@ -3,7 +3,7 @@
         <div class="title">
             <span class="return" @click="toReturn">
                 <i class="el-icon-arrow-left"></i>返回 </span>
-            <span>测试录入</span>
+            <span>实测录入</span>
         </div>
         <div class="sec">
             <span>翼子板</span>
@@ -66,7 +66,7 @@
 			</el-input>
         </div>
         <div class="sec" style="text-align: center;">
-            <el-button type="primary" style="width: 100px;" @click="inputOK">提交</el-button>
+            <el-button type="primary" style="width: 120px;padding: 10px 16px;" @click="inputOK">提交</el-button>
         </div>
     </div>
 </template>
@@ -97,7 +97,7 @@
             _getData() {
                 this.axios({
                     method: 'get',
-                    url: `/api/thermalPropertyDetailsMeasureFlameout/${this.$route.params.id}`,
+                    url: `/patac_tse/thermalPropertyDetailsMeasureFlameout/${this.$route.params.id}`,
                     headers: {
                         'Content-type': 'application/json;charset=UTF-8'
                     }
@@ -119,17 +119,25 @@
             },
             inputOK() {
 				for(let i in this.pro){
-					if(typeof(this.pro[i]) !== 'number'){
-						this.$Message.error('请勿填写非数字数据');
-						return
-					}
-					if(Number(this.pro[i])>100){
-						this.$Message.error('请勿输入超过100的数值');
-						return
-					}
-					if(Number(this.pro[i])<0){
-						this.$Message.error('请勿输入小于0的数值');
-						return
+					for (let i in this.pro) {
+						if (this.pro[i]) {
+							let val = this.pro[i]
+							var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+							var regNeg =
+								/^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+							if (regPos.test(val) || regNeg.test(val)) {} else {
+								this.$Message.error('非数字');
+								return
+							}
+							if (Number(this.pro[i]) > 120) {
+								this.$Message.error('请勿输入超过120的数值');
+								return
+							}
+							if (Number(this.pro[i]) <20) {
+								this.$Message.error('请勿输入小于20的数值');
+								return
+							}
+						}
 					}
 				}
 				this.resultObj.hood = this.pro.valueOne
@@ -142,16 +150,19 @@
 				this.resultObj.brakeFluidPpotCover = this.pro.valueEight
 				this.resultObj.coolantPotCover = this.pro.valueNine
 				this.resultObj.carpets = this.pro.valueTen
-// 				this.axios({
-// 					method: 'post',
-// 					url: `/api/createThermalPropertyDetailsMeasureFlameout`,
-// 					headers: {
-// 						'Content-type': 'application/json;charset=UTF-8'
-// 					},
-// 					data:this.resultObj
-// 				}).then((res)=>{
-// 					this.$router.push('/SED_table')
-// 				})
+				this.axios({
+					method: 'post',
+					url: `/patac_tse/createThermalPropertyDetailsMeasureFlameout`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					data:this.resultObj
+				}).then((res)=>{
+					if (res.status === 200) {
+						this.$Message.success('添加成功');
+						this.$router.push('/SED_table')
+					}
+				})
             },
             toReturn() {
                 this.$router.go(-1)

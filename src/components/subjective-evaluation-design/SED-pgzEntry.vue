@@ -13,7 +13,7 @@
                     <span v-show="item.score>=0" style="position: absolute;right:15px;top: 43px;font-size: 12px;">{{item.score}}</span>
                 </span>
                 <div>
-                    <img src="../../../static/bgCar.png" style="width: 200px;margin: 0 auto;">
+                    <img @click="imgClick" src="../../../static/bgCar.png" style="width: 200px;margin: 0 auto;">
                 </div>
             </div>
             <div style="flex: 1; text-align: center;margin-top: 20px;">
@@ -25,8 +25,16 @@
         </div>
 
         <div class="button">
-            <el-button type="primary" @click="chooseOk">提交</el-button>
+            <el-button type="primary" @click="modalShow = true" style="width: 120px;">提交</el-button>
         </div>
+			<Modal
+			style="z-index: 10000;"
+			v-model="modalShow"
+			title="提示"
+			@on-ok="submit"
+			@on-cancel="modalShow = false">
+			<p>确定提交信息？</p>
+		</Modal>
     </div>
 </template>
 
@@ -38,6 +46,7 @@
                     'static/6b.png'
                 ],
                 chooseSiteShow: true,
+				modalShow:false,
                 nowCurrentIndex: 0,
                 pointIndex: 0,
                 userLevel: 0,
@@ -79,10 +88,13 @@
             this.chooseSiteShow = true
         },
         methods: {
+        	imgClick(){
+				return
+			},
             _getData() {
                 this.axios({
                     method: 'get',
-                    url: `/api/thermalPropertyDetails/${this.$route.params.id}`,
+                    url: `/patac_tse/thermalPropertyDetails/${this.$route.params.id}`,
                     headers: {
                         'Content-type': 'application/json;charset=UTF-8'
                     }
@@ -116,7 +128,7 @@
             toReturn() {
                 this.$router.go(-1)
             },
-            chooseOk() {
+            submit() {
 				this.resultObj.id = 6
 				this.resultObj.temDriver = this.scoreAr[0].score
 				this.resultObj.tem1R = this.scoreAr[1].score
@@ -126,7 +138,7 @@
 				this.resultObj.tem3R = this.scoreAr[5].score
 				this.axios({
 					method: 'put',
-					url: `/api/updateThermalPropertyDetails`,
+					url: `/patac_tse/updateThermalPropertyDetails`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					},
@@ -151,6 +163,17 @@
                 } else if (val > 8) {
                     $('.el-slider__bar').css("background", "#F90C0C")
                 }
+				if(val<2&&val>0){
+					return val +' 舒适';
+				}else if(val<4&&val>2){
+					return val +' 温';
+				}else if(val<6&&val>4){
+					return val +' 温热';
+				}else if(val<8&&val>6){
+					return val +' 烫';
+				}else if(val<=10&&val>8){
+					return val +' 烫伤';
+				}
             },
             chooseSite(item, index) {
                 this.pointIndex = index
@@ -175,12 +198,15 @@
 
 <style lang="scss" scoped="scoped">
     .SED_UA {
+		/deep/ .el-slider__button-wrapper{
+			z-index: 999;
+		}
         /deep/ .el-button {
             padding: 10px 30px;
         }
         /deep/ .el-slider__button {
-            width: 12px;
-            height: 12px;
+            width: 20px;
+            height: 20px;
         }
         /deep/ .el-slider__bar {
             background-color: red;

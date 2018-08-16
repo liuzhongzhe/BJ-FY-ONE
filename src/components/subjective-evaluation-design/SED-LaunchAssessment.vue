@@ -7,7 +7,7 @@
         </div>
         <Form ref="pro" :model="pro" :rules="ruleValidate" :label-width="70">
 			<FormItem label="评估日期" class="lzz">
-				<FormItem prop="date">
+				<FormItem >
 					<DatePicker type="date" v-model="pro.date" @on-change="chooseTime"></DatePicker>
 				</FormItem>
 			</FormItem>
@@ -92,7 +92,7 @@
 			</FormItem>
 			<FormItem label="日照强度" prop="irradiance">
 				<Input v-model="pro.irradiance">
-					<span slot="append">&nbsp;w </span>
+					<span slot="append">W</span>
 				</Input>
 			</FormItem>
 			<FormItem label="车重" prop="weight">
@@ -103,8 +103,8 @@
         </Form>
         
         <div class="sec" style="margin-top: 40px;">
-            <el-button type="primary" @click="handleSubmit('pro')">发起评估</el-button>
-            <el-button type="info" @click="handleReset('pro')">重置</el-button>
+            <el-button type="primary" style="width: 120px;" @click="handleSubmit('pro')">发起评估</el-button>
+            <el-button type="info"style="width: 120px;" @click="handleReset('pro')">重置</el-button>
         </div>
     </div>
 </template>
@@ -193,7 +193,22 @@
                 valueTime: ''
             }
         },
-
+		created(){
+			let _date = new Date()
+			let _dateMonth=_date.getMonth()+1
+			if(_dateMonth<10){
+				_dateMonth = '0'+_dateMonth
+			}
+			this.pro.date = `${_date.getFullYear()}-${_dateMonth}-${_date.getDate()}`
+		},
+		mounted(){
+			let _date = new Date()
+			let _dateMonth=_date.getMonth()+1
+			if(_dateMonth<10){
+				_dateMonth = '0'+_dateMonth
+			}
+			this.pro.date = `${_date.getFullYear()}-${_dateMonth}-${_date.getDate()}`
+		},
         methods: {
 			chooseTime(e){
 				this.pro.date = e
@@ -203,7 +218,7 @@
                     if (valid) {
 						this.axios({
 							method: 'post',
-							url: `/api/createThermalProperty`,
+							url: `/patac_tse/createThermalProperty`,
 							headers: {
 								'Content-type': 'application/json;charset=UTF-8'
 							},
@@ -215,27 +230,12 @@
 							}
 						})
                     } else {
-                        this.$Message.error('请将表单填写完整');
+                        this.$Message.error('请将项目信息填写完整');
                     }
                 })
             },
             handleReset(name) {
                 this.$refs[name].resetFields();
-            },
-            createPro() {
-                this.axios({
-                    method: 'post',
-                    url: `/api/createThermalProperty`,
-                    headers: {
-                        'Content-type': 'application/json;charset=UTF-8'
-                    },
-                    data: this.pro
-                }).then((res) => {
-                    if (res.status === 200) {
-                        this.$Message.success('添加成功');
-                        this.$router.push('/SED_table')
-                    }
-                })
             },
             ktModelChange() {
                 if (this.pro.airCconditioning === 'User-Defined') {
@@ -253,8 +253,12 @@
 </script>
 
 <style lang="scss" scoped="scoped">
+	
     .SED_LA {
         text-align: center;
+		span{
+			text-align: left !important;
+		}
 		.lzz {
 			position: relative;
 			top: 10px !important;
@@ -263,11 +267,21 @@
 				top: 10px !important;
 			}
 		}
+		/deep/ .ivu-select-item{
+			text-align: left;
+			padding: 7px 9px;
+		}
 		/deep/ .ivu-input-group-append{
 			position: relative;
 			right: 27px;
 			z-index: 10;
 			border-radius: 0;
+		}
+		/deep/ .ivu-select-selected-value{
+			text-align: left !important;
+		}
+		/deep/ .ivu-select-single .ivu-select-selection .ivu-select-placeholder, .ivu-select-single .ivu-select-selection .ivu-select-selected-value{
+			text-align: left !important;
 		}
 		/deep/ .ivu-form-item-required .ivu-form-item-label:before{
 			content: '';
@@ -280,7 +294,7 @@
 			width: 200px;
 		}
 		/deep/ .ivu-input,.ivu-select{
-			width: 200px;
+			width: 198px !important;
 		}
         /deep/ .ivu-form-item-error-tip {
             color: transparent;

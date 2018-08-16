@@ -5,7 +5,7 @@
                 <i class="el-icon-arrow-left"></i>返回 </span>
             <span>评估结果</span>
         </div>
-        <div id="myChart" style="width: 98%;margin: 0 auto; height:450px;"></div>
+        <div id="myChart" style="width: 99%;margin: 0 auto; height:450px;"></div>
     </div>
 </template>
 
@@ -25,7 +25,7 @@
             _getData() {
                 this.axios({
                     method: 'get',
-                    url: `/api/thermalPropertyDetails/${this.$route.params.id}`,
+                    url: `/patac_tse/thermalPropertyDetails/${this.$route.params.id}`,
                     headers: {
                         'Content-type': 'application/json;charset=UTF-8'
                     }
@@ -39,14 +39,14 @@
                     this.pgzResult[5] = _data.tem3R
                     this.pgzResult.forEach((item, index) => {
                         if (item === -0.5) {
-                            this.$set(this.pgzResult, index, '')
+                            this.$set(this.pgzResult, index, null)
                         }
                     })
                     this.drawLine()
                 })
                 this.axios({
                     method: 'get',
-                    url: `/api/thermalPropertyDetailsMeasure/${this.$route.params.id}`,
+                    url: `/patac_tse/thermalPropertyDetailsMeasure/${this.$route.params.id}`,
                     headers: {
                         'Content-type': 'application/json;charset=UTF-8'
                     }
@@ -70,9 +70,7 @@
                 this.$router.go(-1)
             },
             drawLine() {
-                // 基于准备好的dom，初始化echarts实例
                 let myChart = this.$echarts.init(document.getElementById('myChart'))
-                // 绘制图表
                 myChart.setOption({
                     tooltip: {
                         trigger: 'axis',
@@ -84,6 +82,7 @@
                         }
                     },
                     toolbox: {
+                        x: '250',
                         feature: {
                             dataView: {
                                 show: true,
@@ -122,6 +121,8 @@
                         }
                     },
                     legend: {
+                        x: '40',
+                        y: '2',
                         data: ['实测温度', '主观评估']
                     },
                     grid: {
@@ -129,23 +130,33 @@
                     },
                     xAxis: [{
                         type: 'category',
-                        data: ['油门附近地毯        ', '中通道第一排右侧地毯', '中通道第二排左侧地毯', '中通道第二排右侧地毯', '中通道第三排左侧地毯',
-                            '中通道第三排右侧地毯'
-                        ],
+                        data: ['油门附近地毯', '一排右侧地毯', '二排左侧地毯', '二排右侧地毯', '三排左侧地毯', '三排右侧地毯'],
                         axisPointer: {
-                            type: 'shadow'
+                        	type: 'shadow'
                         },
                         "axisLabel": {
-                            interval: 0,
-                            rotate: -70,
+                        	interval: 0,
+                        	rotate: -50,
                         }
                     }],
                     yAxis: [{
                             type: 'value',
-                            name: '实测温度',
-                            min: 0,
-                            max: 100,
+                            name: '实测温度℃',
+                            min: 20,
+                            max: 120,
                             interval: 10,
+                            splitLine: {
+                                show: false
+                            },
+                            nameTextStyle: {
+                                color: ['rgb(194,5,49)']
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: 'rgb(194,5,49)',
+                                    width: 1,
+                                }
+                            },
                             axisLabel: {
                                 formatter: '{value} '
                             }
@@ -156,6 +167,21 @@
                             min: 0,
                             max: 10,
                             interval: 1,
+                            splitLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: ['rgba(0,0,0,0.02)']
+                                }
+                            },
+                            nameTextStyle: {
+                                color: ['rgb(51,152,219)']
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: 'rgb(51,152,219)',
+                                    width: 1,
+                                }
+                            },
                             axisLabel: {
                                 formatter: '{value}'
                             }
@@ -163,14 +189,19 @@
                     ],
                     series: [{
                             name: '实测温度',
-                            type: 'bar',
+                            type: 'line',
                             data: this.zzzResult
                         },
                         {
                             name: '主观评估',
-                            type: 'line',
+                            type: 'bar',
                             yAxisIndex: 1,
-                            data: this.pgzResult
+                            data: this.pgzResult,
+                            itemStyle: {
+                                normal: {
+                                    color: 'rgb(51,152,219)'
+                                }
+                            },
                         }
                     ]
                 })

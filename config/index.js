@@ -10,14 +10,45 @@ module.exports = {
 		// Paths
 		assetsSubDirectory: 'static',
 		assetsPublicPath: '/',
-		proxyTable: {
-			'/api': {
+		proxyTable: { 
+			'/patac_tse': {
 				target: 'http://192.168.60.203/patac_tse',
 				changeOrigin: true,
 				pathRewrite: {
-					'^/api': ''
+					'^/patac_tse': ''
 				}
-			}
+			},
+			'/proinfo': {
+				target: 'http://39.107.243.101:7070/proinfo',
+				changeOrigin: true,
+				pathRewrite: {
+					'^/proinfo': ''
+				}
+			},
+			'/bpData': {
+				target: 'http://39.107.243.101:7070/bpData',
+				changeOrigin: true,
+				pathRewrite: {
+					'^/bpData': ''
+				}
+			},
+			'/material': {
+				target: 'http://39.107.243.101:7070/material',
+				changeOrigin: true,
+				pathRewrite: {
+					'^/material': ''
+				}
+			},
+			'/tppData': {
+				target: 'http://39.107.243.101:7070/tppData',
+				changeOrigin: true,
+				pathRewrite: {
+					'^/tppData': ''
+				}
+			},
+			
+			
+			
 		},
 
 		// Various Dev Server settings
@@ -32,6 +63,7 @@ module.exports = {
 		 * Source Maps
 		 */
 
+		 
 		// https://webpack.js.org/configuration/devtool/#development
 		devtool: 'cheap-module-eval-source-map',
 

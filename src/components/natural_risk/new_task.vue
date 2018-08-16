@@ -6,54 +6,76 @@
 		</div>
 		<el-form ref="form" :model="form" label-width="80px" style="width: 300px; margin: 10px auto;">
 			<el-form-item label="车辆编号">
-				<el-input v-model="form.name"></el-input>
+				<el-input v-model="form.carcode"></el-input>
 			</el-form-item>
 			<el-form-item label="平台名称">
-				<el-select v-model="form.ptmc" placeholder="请选择活动区域">
-					<el-option label="E2-2" value="shanghai"></el-option>
-					<el-option label="D2XX" value="beijing"></el-option>
-					<el-option label="GEM" value="beijing"></el-option>
+				<el-select v-model="form.platform" placeholder="请选择活动区域">
+					<el-option label="E2-2" value="E2-2"></el-option>
+					<el-option label="D2XX" value="D2XX"></el-option>
+					<el-option label="GEM" value="GEM"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="车型名称">
-				<el-select v-model="form.cxmc" placeholder="请选择活动区域">
-					<el-option label="D2UB" value="shanghai"></el-option>
-					<el-option label="D2SB" value="beijing"></el-option>
+				<el-select v-model="form.carname" placeholder="请选择活动区域">
+					<el-option label="D2UB" value="D2UB"></el-option>
+					<el-option label="D2SB" value="D2SB"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="车型年份">
-				<el-select v-model="form.cxnf" placeholder="请选择活动区域">
-					<el-option label="MY16" value="shanghai"></el-option>
-					<el-option label="MY16" value="shanghai"></el-option>
-					<el-option label="MY17" value="shanghai"></el-option>
-					<el-option label="MY18" value="shanghai"></el-option>
+				<el-select v-model="form.modelYear" placeholder="请选择活动区域">
+					<el-option label="MY15" value="MY15"></el-option>
+					<el-option label="MY16" value="MY16"></el-option>
+					<el-option label="MY17" value="MY17"></el-option>
+					<el-option label="MY18" value="MY18"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="发动机">
-				<el-select v-model="form.fdj" placeholder="请选择活动区域">
-					<el-option label="L2B" value="shanghai"></el-option>
-					<el-option label="L3T" value="beijing"></el-option>
-					<el-option label="L4K" value="beijing"></el-option>
+				<el-select v-model="form.engine" placeholder="请选择活动区域">
+					<el-option label="L2B" value="L2B"></el-option>
+					<el-option label="L3T" value="L3T"></el-option>
+					<el-option label="L3Z" value="L3Z"></el-option>
+					<el-option label="L4F" value="L4F"></el-option>
+					<el-option label="L4H" value="L4H"></el-option>
+					<el-option label="L4G" value="L4G"></el-option>
+					<el-option label="L4K" value="L4K"></el-option>
+					<el-option label="LCV" value="LCV"></el-option>
+					<el-option label="LFF" value="LFF"></el-option>
+					<el-option label="LFO" value="LFO"></el-option>
+					<el-option label="LFS" value="LFS"></el-option>
+					<el-option label="LFV" value="LFV"></el-option>
+					<el-option label="LGB" value="LGB"></el-option>
+					<el-option label="LGX" value="LGX"></el-option>
+					<el-option label="LHN" value="LHN"></el-option>
+					<el-option label="LI5" value="LI5"></el-option>
+					<el-option label="LI6" value="LI6"></el-option>
+					<el-option label="LIF" value="LIF"></el-option>
+					<el-option label="LIJ" value="LIJ"></el-option>
+					<el-option label="LIV" value="LIV"></el-option>
+					<el-option label="LIW" value="LIW"></el-option>
+					<el-option label="LIY" value="LIY"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="变速箱">
-				<el-select v-model="form.bsx" placeholder="请选择活动区域">
-					<el-option label="CVT" value="shanghai"></el-option>
-					<el-option label="DCT" value="beijing"></el-option>
-					<el-option label="M01" value="beijing"></el-option>
+				<el-select v-model="form.gearbox" placeholder="请选择活动区域">
+					<el-option label="CVT" value="CVT"></el-option>
+					<el-option label="DCT" value="DCT"></el-option>
+					<el-option label="M01" value="M01"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="驱动形式">
-				<el-select v-model="form.qdxs" placeholder="请选择活动区域">
-					<el-option label="AWD" value="shanghai"></el-option>
-					<el-option label="FWD" value="beijing"></el-option>
-					<el-option label="RWD" value="beijing"></el-option>
+				<el-select v-model="form.drivenMode" placeholder="请选择活动区域">
+					<el-option label="FF" value="FF"></el-option>
+					<el-option label="FR" value="FR"></el-option>
+					<el-option label="FWD" value="FWD"></el-option>
+					<el-option label="MR" value="MR"></el-option>
+					<el-option label="RR" value="RR"></el-option>
+					<el-option label="RWD" value="RWD"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="左右驾">
-				<el-select v-model="form.zyj" placeholder="请选择活动区域">
-					<el-option label="LHD" value="shanghai"></el-option>
-					<el-option label="RHD" value="beijing"></el-option>
+				<el-select v-model="form.leftRight" placeholder="请选择活动区域">
+					<el-option label="LHD" value="LHD"></el-option>
+					<el-option label="RHD" value="RHD"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -68,23 +90,40 @@
 			return {
 				defaultShow: false,
 				form: {
-					name: '',
-					ptmc: '',
-					cxmc: '',
-					cxnf: '',
-					delivery: false,
+					carcode: '',
+					platform: '',
+					carname: '',
+					modelYear: '',
 					type: [],
-					fdj: '',
-					bsx: '',
-					qdxs: '',
-					zyj: ''
+					engine: '',
+					gearbox: '',
+					drivenMode: '',
+					leftRight: ''
 				},
 			}
 		},
 
 		methods: {
 			onSubmit() {
-				this.$router.push('/natural_risk')
+				for(let i in this.form){
+					if(! this.form[i]){
+						this.$Message.error('请将表单填写完整');
+						return;
+					}
+				}
+				this.axios({
+					method: 'post',
+					url: `/proinfo/save`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					data:this.form
+				}).then((res)=>{
+					if(res.data.code ===0){
+						this.$Message.success('创建项目成功');
+						this.$router.push('/natural_risk')
+					}
+				})
 			},
 			toReturn() {
 				this.$router.go(-1)

@@ -4,16 +4,23 @@
             <span class="return" @click="toReturn">
                 <i class="el-icon-arrow-left"></i>返回</span>
             <span>已关闭评估项目
-                <img src="../../../static/ten.png" style="height: 18px;position: relative;top: 4px;left: 5px;" @click="changeTitle"
-                />
+                <img src="../../../static/ten.png" style="height: 18px;position: relative;top: 4px;left: 5px;" @click="changeTitle" />
             </span>
         </div>
         <div class="table">
             <div class="title">
-                <span>评估日期</span>
-                <span>车辆编号</span>
-                <span>评估工况</span>
-                <span>参与人数</span>
+                <span>评估日期
+                    <img @click="sortList('date')" src="../../../static/sort.png" style="height: 16px;vertical-align:middle;position: relative;bottom: 1px;right: 3px;">
+                </span>
+                <span>车辆编号
+                    <img @click="sortList('modelNum')" src="../../../static/sort.png" style="height: 16px;vertical-align:middle;position: relative;bottom: 1px;right: 3px;">
+                </span>
+                <span>评估工况
+                    <img @click="sortList('evaluationCon')" src="../../../static/sort.png" style="height: 16px;vertical-align:middle;position: relative;bottom: 1px;right: 3px;">
+                </span>
+                <span>参与人数
+                    <img @click="sortList('personNum')" src="../../../static/sort.png" style="height: 16px;vertical-align:middle;position: relative;bottom: 1px;right: 3px;">
+                </span>
             </div>
             <div class="list" v-for="(item,index) in tableData" @click="handleCurrentChange(item,index)" :class="{'active':index==currentIndex}">
                 <span>{{item.date}}</span>
@@ -23,10 +30,10 @@
             </div>
         </div>
         <div class="btn">
-			<div @click="toResult">
-					<img src="../../../static/six.png" />评估结果</div>
+            <div @click="toResult">
+                <img src="../../../static/six.png" />评估结果</div>
             <div @click="viewListInfo">
-                <img src="../../../static/nine.png" />项目信息</div>
+                <img src="../../../static/tenq.png" />项目信息</div>
         </div>
         <div class="listInfo" v-if="listInfoShow">
             <div class="title">
@@ -56,7 +63,7 @@
                 <div v-if="proInfo.airCconditioning==='User-Defined'">
                     <div class="sec">
                         <span>出风温度：</span>
-                        <span>{{proInfo.temperature}}</span>
+                        <span>{{proInfo.temperature}}℃</span>
                     </div>
                     <div class="sec">
                         <span>风量等级：</span>
@@ -73,21 +80,20 @@
                 </div>
                 <div class="sec">
                     <span>环境温度：</span>
-                    <span>{{proInfo.temperatureEnv}}</span>
+                    <span>{{proInfo.temperatureEnv}}℃</span>
                 </div>
                 <div class="sec">
                     <span>日照强度：</span>
-                    <span>{{proInfo.irradiance}}</span>
+                    <span>{{proInfo.irradiance}}W</span>
                 </div>
                 <div class="sec">
                     <span>车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重：</span>
-                    <span>{{proInfo.weight}}</span>
+                    <span>{{proInfo.weight}}kg</span>
                 </div>
             </div>
         </div>
     </div>
 </template>
-
 <script>
     export default {
         data() {
@@ -102,6 +108,7 @@
                 tabelDatas: [],
                 tabelDatak: [],
                 tableData: [],
+				sortState:0
             }
         },
         created() {
@@ -112,23 +119,57 @@
             }
         },
         mounted() {
+			this.$Loading.start();
             this._getData()
         },
         methods: {
             _getData() {
                 this.axios({
                     method: 'get',
-                    url: `/api/thermalPropertyClose`,
+                    url: `/patac_tse/thermalPropertyClose/date/0`,
                     headers: {
                         'Content-type': 'application/json;charset=UTF-8'
                     }
                 }).then((res) => {
-					console.log(res)
+                    console.log(res)
                     if (res.status === 200) {
                         this.tableData = res.data.thermalPropertysClose
+						this.$Loading.finish();
                     }
                 })
             },
+			sortList(item){
+				this.$Loading.start();
+				if(this.sortState ===0){
+					this.axios({
+						method: 'get',
+						url: `/patac_tse/thermalPropertyClose/${item}/0`,
+						headers: {
+							'Content-type': 'application/json;charset=UTF-8'
+						}
+					}).then((res) => {
+						if (res.status === 200) {
+							this.tableData = res.data.thermalPropertysClose
+							this.$Loading.finish();
+							this.sortState = 1
+						}
+					})
+				}else if(this.sortState ===1){
+					this.axios({
+						method: 'get',
+						url: `/patac_tse/thermalPropertyClose/${item}/1`,
+						headers: {
+							'Content-type': 'application/json;charset=UTF-8'
+						}
+					}).then((res) => {
+						if (res.status === 200) {
+							this.tableData = res.data.thermalPropertysClose
+							this.$Loading.finish();
+							this.sortState = 0
+						}
+					})
+				}
+			},
             chooseListState() {
                 if (!this.currentRow) {
                     alert()
@@ -144,14 +185,14 @@
                 } else {
                     this.axios({
                         method: 'delete',
-                        url: `/api/deleteThermalProperty/${this.currentRow.id}`,
+                        url: `/patac_tse/deleteThermalProperty/${this.currentRow.id}`,
                         headers: {
                             'Content-type': 'application/json;charset=UTF-8'
                         }
                     }).then((res) => {
                         if (res.status === 200) {
                             this.$Message.success('关闭成功');
-							this._getData()
+                            this._getData()
                         }
                     })
                 }
@@ -164,7 +205,7 @@
                     this.listInfoShow = true
                     this.axios({
                         method: 'get',
-                        url: `/api/thermalProperty/${this.currentRow.id}`,
+                        url: `/patac_tse/thermalProperty/${this.currentRow.id}`,
                         headers: {
                             'Content-type': 'application/json;charset=UTF-8'
                         }
@@ -177,15 +218,15 @@
             },
             toResult() {
                 if (JSON.stringify(this.currentRow) == "{}") {
-                   this.$Message.warning('请选择一条测试');
+                    this.$Message.warning('请选择一条测试');
                     return
                 }
-				if(this.currentRow.evaluationCon === '熄火'){
-					this.$router.push(`/SED_result/${this.currentRow.id}`)
-				}else{
-					this.$router.push(`/SED_resultNormal/${this.currentRow.id}`) 
-				}
-                
+                if (this.currentRow.evaluationCon === '熄火') {
+                    this.$router.push(`/SED_result/${this.currentRow.id}`)
+                } else {
+                    this.$router.push(`/SED_resultNormal/${this.currentRow.id}`)
+                }
+
             },
             toUserAss() {
                 if (JSON.stringify(this.currentRow) == "{}") {
@@ -219,7 +260,7 @@
                 this.$router.push('/SED_index')
             },
             changeTitle() {
-				this.$router.push('/SED_table')
+                this.$router.push('/SED_table')
             }
         }
     }

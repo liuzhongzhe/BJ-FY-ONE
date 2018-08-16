@@ -1,76 +1,53 @@
 <template>
 	<div class="natural_risk">
-		<div class="title">
-			<span class="return" @click="toReturn"><i class="el-icon-arrow-left"></i>返回</span>
+		<div class="title" style="position: fixed;top: 0;left: 0; right: 0;">
+			<span class="return" @click="toReturn">
+				<i class="el-icon-arrow-left"></i>返回</span>
 			<span>自燃风险评估系统
-				<!--{{topTitle}}-->	
-				<!--<img src="../../../static/changeState.svg" style="height: 20px;position: relative;top: 5px;" @click="changeTitle"/>-->
 			</span>
 		</div>
 		<div class="table">
-			<div class="title">
-				<span>日期</span>
-				<span>车辆编号</span>
+			<div class="title" style="position: fixed;top: 40px;left: 0; right: 0;">
+				<span>日期
+					<img @click="_sortList('createTime')" src="../../../static/sort.png" style="height: 16px;vertical-align:middle;position: relative;bottom: 1px;right: 3px;">
+				</span>
+				<span>车辆编号
+					<img @click="_sortList('carcode')" src="../../../static/sort.png" style="height: 16px;vertical-align:middle;position: relative;bottom: 1px;right: 3px;">
+				</span>
 				<span>
-					<el-select v-model="value" placeholder="状态" style="color: #000000;">
-	    				<el-option label="已完成" value="已完成"></el-option>
-	    				<el-option label="未完成" value="未完成"></el-option>
-	  				</el-select>
+					<el-select v-model="stateValue" placeholder="状态" style="color: #000000;" @change="stateChange">
+						<el-option label="全部" value="全部"></el-option>
+						<el-option label="已完成" value="已完成"></el-option>
+						<el-option label="未完成" value="未完成"></el-option>
+					</el-select>
 				</span>
 			</div>
-			<div class="list" v-for="(item,index) in tableData" @click="handleCurrentChange(item,index)" :class="{'active':index==currentIndex}">
-				<span>{{item.date}}</span>
-				<span>{{item.name}}</span>
+			<div class="list" v-for="(item,index) in proList" :key="index" @click="handleCurrentChange(item,index)" :class="{'active':index==currentIndex}">
+				<span>{{item.createTime | filterDate}}</span>
+				<span>{{item.carcode}}</span>
 				<span>
-					<i v-show="item.state == 'OK'" class="el-icon-success" style="color: green;"></i>  
-					<i v-show="item.state !== 'OK'" class="el-icon-edit" style="color: black;"></i>  
+					<i v-show="item.valuationstatus" class="el-icon-success" style="color: green;"></i>
+					<i v-show="!item.valuationstatus" class="el-icon-edit" style="color: black;"></i>
 				</span>
 			</div>
+
 		</div>
 		<div class="btn">
-			<div @click="toLanchAss"><img src="../../../static/two.png" /> 新建项目</div>
-			<div @click="toUserAss"><img src="../../../static/four.png" />参与评估</div>
-			<div @click="toResult"><img src="../../../static/six.png" />查看结果</div>
-			<div @click="viewListInfo"><img src="../../../static/five.png" />项目信息</div>
-		</div>
-		<div class="listInfo" v-show="listInfoShow">
-			<div class="title">
-				<span class="return" @click="listInfoShow=false"> 	<i class="el-icon-arrow-left"></i>返回 </span>
-				<span>详细信息</span>
+			<div @click="toLanchAss">
+				<img src="../../../static/two.png" />
+				<span>新建项目</span>
 			</div>
-			<div class="content">
-				<div class="sec">
-					<span>车辆编号：</span>
-					<span>ju19iv02</span>
-				</div>
-				<div class="sec">
-					<span>评估日期：</span>
-					<span>2018/5/2</span>
-				</div>
-				<div class="sec">
-					<span>车型名称：</span>
-					<span>D2UB</span>
-				</div>
-				<div class="sec">
-					<span>车型年份：</span>
-					<span>MY16</span>
-				</div>
-				<div class="sec">
-					<span>发动机：</span>
-					<span>L2B</span>
-				</div>
-				<div class="sec">
-					<span>变速箱：</span>
-					<span>CVT</span>
-				</div>
-				<div class="sec">
-					<span>驱动形式：</span>
-					<span>AWD</span>
-				</div>
-				<div class="sec">
-					<span>左/右驾：</span>
-					<span>LHD</span>
-				</div>
+			<div @click="toUserAss">
+				<img src="../../../static/four.png" />
+				<span>参与评估</span>
+			</div>
+			<div @click="toResult">
+				<img src="../../../static/six.png" />
+				<span>查看结果</span>
+			</div>
+			<div @click="viewListInfo">
+				<img src="../../../static/five.png" />
+				<span>项目信息</span>
 			</div>
 		</div>
 	</div>
@@ -80,132 +57,118 @@
 	export default {
 		data() {
 			return {
-				listInfoShow: false,
 				currentIndex: -1,
-				value: '',
+				stateValue: '全部',
 				topTitle: '未关闭评估项目',
 				currentRow: {},
-				tableData: [{
-					date: '2016-05-03',
-					name: 'kasd23',
-					state:'OK'
-				}, {
-					date: '2016-05-02',
-					name: 'lzza3',
-					state:'NA'
-				}, {
-					date: '2016-05-04',
-					name: 'melo',
-					state:'NoK'
-				}, {
-					date: '2016-05-01',
-					name: 'anthony',
-					state:'OK'
-				}, {
-					date: '2016-05-08',
-					name: 'james',
-					state:'NoK'
-				}, {
-					date: '2016-05-06',
-					name: 'wade',
-					state:'OK'
-				}, {
-					date: '2016-05-07',
-					name: 'paul',
-					state:'NoK'
-				}, {
-					date: '2016-05-06',
-					name: 'bosh',
-					state:'OK'
-				}, {
-					date: '2016-05-07',
-					name: 'kobe',
-					state:'NA'
-				}, {
-					date: '2016-05-06',
-					name: 'tmac',
-					state:'OK'
-				}, {
-					date: '2016-05-07',
-					name: 'harden',
-					state:'NA'
-				}, {
-					date: '2016-05-06',
-					name: 'juka123',
-					state:'NoK'
-				}, {
-					date: '2016-05-07',
-					name: 'kobe',
-					state:'OK'
-				}, {
-					date: '2016-05-06',
-					name: 'james',
-					state:'NoK'
-				}, {
-					date: '2016-05-07',
-					name: 'melo',
-					state:'OK'
-				}, {
-					date: '2016-05-06',
-					name: 'juka123',
-					state:'NoK'
-				}, {
-					date: '2016-05-07',
-					name: 'juka123',
-					state:'NA'
-				}, {
-					date: '2016-05-06',
-					name: 'james',
-					state:'NoK'
-				}, {
-					date: '2016-05-07',
-					name: 'melo',
-					state:'OK'
-				}],
+				proList: [],
+				sortState: 0,
+				paramsObj: {
+					"sort": "valuationdate,asc",
+				}
 			}
 		},
-		created() {},
+		mounted() {
+			this.$Loading.start();
+			this._getData()
+			if(!localStorage.typeState){
+				localStorage.typeState = '全部'
+			}
+			this.stateValue = localStorage.typeState
+		},
+		filters: {
+			filterDate(value) {
+				return value.slice(0, 10)
+			}
+		},
 		methods: {
-			chooseListState() {
-				if(!this.currentRow) {
-					alert()
+			_getData() {
+				
+				this.axios({
+					method: 'get',
+					url: `/proinfo/proqry`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					params: this.paramsObj
+				}).then((res) => {
+					this.proList=[]
+					let _data = res.data.data.content
+					if (res.data.code === 0) {
+						this.$Loading.finish();
+						if (localStorage.typeState === '全部') {
+							this.proList = _data
+						} else if (localStorage.typeState === '已完成') {
+							for (let item of _data) {
+								if (item.valuationstatus) {
+									this.proList.push(item)
+								}
+							}
+						} else if (localStorage.typeState === '未完成') {
+							for (let item of _data) {
+								if (!item.valuationstatus) {
+									this.proList.push(item)
+								}
+							}
+						}
+					} else {
+						this.$Message.error(res.data.msg);
+						this.$Loading.error();
+					}
+				})
+			},
+			_sortList(item) {
+				this.$Loading.start();
+				this.proList = []
+				if (this.sortState === 0) {
+					this.paramsObj = {
+						sort: `${item},desc`,
+					}
+					this._getData()
+					this.sortState = 1
+				} else if (this.sortState === 1) {
+					this.paramsObj = {
+						sort: `${item},asc`,
+					}
+					this._getData()
+					this.sortState = 0
 				}
+			},
+			stateChange(value) {
+				localStorage.typeState = value
+				this._getData()
 			},
 			toLanchAss() {
 				this.$router.push('/new_task')
 			},
 			viewListInfo() {
-				if(JSON.stringify(this.currentRow) == "{}") {
-					this.$message({
-						message: '请选择一条测试',
-						type: 'warning',
-						duration: 1500
-					});
+				if (JSON.stringify(this.currentRow) == "{}") {
+					this.$Message.warning('请选择一条测试');
 					return
 				}
-				this.listInfoShow = true
+				this.$router.push(`/pro_info/${this.currentRow.id}`)
 			},
 			toResult() {
-				if(JSON.stringify(this.currentRow) == "{}") {
-					this.$message({
-						message: '请选择一条测试',
-						type: 'warning',
-						duration: 1500
-					});
+				if(!this.currentRow.valuationstatus){
+					this.$Message.warning('此项目未评估');
 					return
 				}
-				this.$router.push('/natural_result')
+				if (JSON.stringify(this.currentRow) == "{}") {
+					this.$Message.warning('请选择一条测试');
+					return
+				}
+				this.$router.push(`/natural_result/${this.currentRow.id}`)
 			},
 			toUserAss() {
-				if(JSON.stringify(this.currentRow) == "{}") {
-					this.$message({
-						message: '请选择一条测试',
-						type: 'warning',
-						duration: 1500
-					});
+				if(this.currentRow.valuationstatus){
+					this.$Message.warning('已评估');
 					return
 				}
-				this.$router.push('/partin_task')
+				if (JSON.stringify(this.currentRow) == "{}") {
+					this.$Message.warning('请选择一条测试');
+					return
+				}
+				this.$router.push(`/partin_task/${this.currentRow.id}`)
 			},
 			setCurrent(row) {
 				this.$refs.singleTable.setCurrentRow(row);
@@ -222,22 +185,28 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped="scoped">
 	.natural_risk {
-		input::-webkit-input-placeholder{
-            color:#000000;
-        }
-        input::-moz-placeholder{   /* Mozilla Firefox 19+ */
-            color:#000000;
-        }
-        input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
-            color:#000000;
-        }
-        input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
-            color:#000000;
-        }
+		input::-webkit-input-placeholder {
+			color: #000000;
+		}
+		input::-moz-placeholder {
+			/* Mozilla Firefox 19+ */
+			color: #000000;
+		}
+		input:-moz-placeholder {
+			/* Mozilla Firefox 4 to 18 */
+			color: #000000;
+		}
+		input:-ms-input-placeholder {
+			/* Internet Explorer 10-11 */
+			color: #000000;
+		}
 		/deep/ .el-input__inner {
 			border: none;
+		}
+		/deep/ .ivu-scroll-content {
+			padding-bottom: 30px;
 		}
 		.el-table .warning-row {
 			background: oldlace;
@@ -258,16 +227,20 @@
 			width: 100% !important;
 		}
 		>.table {
-			padding-bottom: 20px;
+			margin: 80px 0 55px 0;
 			>.title {
 				display: flex;
 				line-height: 40px;
+				background: #FFFFFF;
 				span {
 					flex: 1;
 					text-align: center;
+					/deep/ .el-input__inner {
+						padding-left: 45px;
+					}
 				}
 			}
-			>.list {
+			.list {
 				display: flex;
 				transition: .3s;
 				span {
@@ -287,6 +260,7 @@
 			line-height: 40px;
 			text-align: center;
 			border-bottom: 1px solid rgb(231, 231, 231);
+			background: #FFFFFF;
 			>.return {
 				position: absolute;
 				left: 0;
@@ -310,9 +284,13 @@
 				flex: 1;
 				font-size: 12px;
 				img {
-					width: 38px;
+					width: 30px;
 					margin: 0 auto;
 					display: block;
+				}
+				span {
+					display: block;
+					margin-top: 3px;
 				}
 			}
 		}
@@ -329,6 +307,7 @@
 				line-height: 40px;
 				text-align: center;
 				border-bottom: 1px solid rgb(231, 231, 231);
+				background: #FFFFFF;
 				.return {
 					position: absolute;
 					top: 0px;
@@ -346,7 +325,7 @@
 						line-height: 30px;
 						&:first-child {
 							width: 80px;
-							float: left;
+							text-align: right;
 						}
 						&:last-child {
 							margin-left: 10px;

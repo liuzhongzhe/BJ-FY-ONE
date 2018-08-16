@@ -1,7 +1,8 @@
 <template>
 	<div class="partin_task">
 		<div class="title">
-			<span class="return" @click="toReturn"><i class="el-icon-arrow-left"></i>返回	</span>
+			<span class="return" @click="toReturn">
+				<i class="el-icon-arrow-left"></i>返回 </span>
 			<span>评估项目</span>
 		</div>
 		<div class="form">
@@ -11,147 +12,17 @@
 				<span>Comment</span>
 			</div>
 			<div class="list_item">
-				<div>
-					<span>排气附近可燃物</span>
+				<div v-for="item in form">
+					<span>{{item.evaarea}}</span>
 					<span>
-						<el-select v-model="qq">
-							<el-option label="OK" value="shanghai"></el-option>
-							<el-option label="NoK" value="beijing"></el-option>
-							<el-option label="NA" value="beijing"></el-option>
+						<el-select v-model="item.evaresult">
+							<el-option label="OK" value="EVA_RESILT_PASS"></el-option>
+							<el-option label="NoK" value="EVA_RESILT_UNPASS"></el-option>
+							<el-option label="NA" value="EVA_RESILT_NORMAL"></el-option>
 						</el-select>
 					</span>
-						<span>
-						<el-input></el-input>
-					</span>
-				</div>
-				<div>
-					<span>发动机油</span>
 					<span>
-						<el-select v-model="ww">
-							<el-option label="OK" value="shanghai"></el-option>
-							<el-option label="NoK" value="beijing"></el-option>
-							<el-option label="NA" value="beijing"></el-option>
-						</el-select>
-					</span>
-						<span>
-						<el-input></el-input>
-					</span>
-				</div>
-				<div>
-					<span>变速箱油</span>
-					<span>
-						<el-select v-model="ee">
-							<el-option label="OK" value="shanghai"></el-option>
-							<el-option label="NoK" value="beijing"></el-option>
-							<el-option label="NA" value="beijing"></el-option>
-						</el-select>
-					</span>
-						<span>
-						<el-input></el-input>
-					</span>
-				</div>
-				<div>
-					<span>冷却液</span>
-					<span>
-						<el-select v-model="rr">
-							<el-option label="OK" value="shanghai"></el-option>
-							<el-option label="NoK" value="beijing"></el-option>
-							<el-option label="NA" value="beijing"></el-option>
-						</el-select>
-					</span>
-						<span>
-						<el-input></el-input>
-					</span>
-				</div>
-				<div>
-					<span>动力转向液</span>
-					<span>
-						<el-select v-model="tt">
-							<el-option label="OK" value="shanghai"></el-option>
-							<el-option label="NoK" value="beijing"></el-option>
-							<el-option label="NA" value="beijing"></el-option>
-						</el-select>
-					</span>
-						<span>
-						<el-input></el-input>
-					</span>
-				</div>
-				<div>
-					<span>洗窗液</span>
-					<span>
-						<el-select v-model="yy">
-							<el-option label="OK" value="shanghai"></el-option>
-							<el-option label="NoK" value="beijing"></el-option>
-							<el-option label="NA" value="beijing"></el-option>
-						</el-select>
-					</span>
-						<span>
-						<el-input></el-input>
-					</span>
-				</div>
-				<div>
-					<span>制动液</span>
-					<span>
-						<el-select v-model="uu">
-							<el-option label="OK" value="shanghai"></el-option>
-							<el-option label="NoK" value="beijing"></el-option>
-							<el-option label="NA" value="beijing"></el-option>
-						</el-select>
-					</span>
-						<span>
-						<el-input></el-input>
-					</span>
-				</div>
-				<div>
-					<span>燃油</span>
-					<span>
-						<el-select v-model="ii">
-							<el-option label="OK" value="shanghai"></el-option>
-							<el-option label="NoK" value="beijing"></el-option>
-							<el-option label="NA" value="beijing"></el-option>
-						</el-select>
-					</span>
-						<span>
-						<el-input></el-input>
-					</span>
-				</div>
-				<div>
-					<span>冷冻机油</span>
-					<span>
-						<el-select v-model="oo">
-							<el-option label="OK" value="shanghai"></el-option>
-							<el-option label="NoK" value="beijing"></el-option>
-							<el-option label="NA" value="beijing"></el-option>
-						</el-select>
-					</span>
-						<span>
-						<el-input></el-input>
-					</span>
-				</div>
-				<div>
-					<span>变速箱/差速器油</span>
-					<span>
-						<el-select v-model="pp">
-							<el-option label="OK" value="shanghai"></el-option>
-							<el-option label="NoK" value="beijing"></el-option>
-							<el-option label="NA" value="beijing"></el-option>
-						</el-select>
-					</span>
-						<span>
-						<el-input></el-input>
-					</span>
-				</div>
-				<div>
-					<span>杂项</span>
-					<span>
-						<el-select v-model="aa">
-							<el-option label="OK" value="shanghai"></el-option>
-							<el-option label="NoK" value="beijing"></el-option>
-							<el-option label="NA" value="beijing"></el-option>
-						</el-select>
-					</span>
-						<span>
-						<el-input></el-input>
+						<el-input v-model="item.momo"></el-input>
 					</span>
 				</div>
 			</div>
@@ -164,24 +35,97 @@
 
 <script>
 	export default {
-		data(){
-			return{
-				qq:'',
-				ww:'',
-				ee:'',
-				rr:'',
-				tt:'',
-				yy:'',
-				uu:'',
-				ii:'',
-				oo:'',
-				pp:'',
-				aa:'',
+		data() {
+			return {
+				form: [
+					{
+						"evaarea": "排气附近可燃物",
+						"evaresult": "",
+						"momo": "",
+					},
+					{
+						"evaarea": "变速箱/差速器油",
+						"evaresult": "",
+						"momo": "",
+					},
+					{
+						"evaarea": "动力转向液",
+						"evaresult": "",
+						"momo": "",
+					},
+					{
+						"evaarea": "发动机油",
+						"evaresult": "",
+						"momo": "",
+					},
+					{
+						"evaarea": "变速箱油",
+						"evaresult": "",
+						"momo": "",
+					},
+					{
+						"evaarea": "冷冻机油",
+						"evaresult": "",
+						"momo": "",
+					},
+					{
+						"evaarea": "冷却液",
+						"evaresult": "",
+						"momo": "",
+					},
+					{
+						"evaarea": "洗窗液",
+						"evaresult": "",
+						"momo": "",
+					},
+					{
+						"evaarea": "制动液",
+						"evaresult": "",
+						"momo": "",
+					},
+					{
+						"evaarea": "燃油",
+						"evaresult": "",
+						"momo": "",
+					},
+					{
+						"evaarea": "杂项",
+						"evaresult": "",
+						"momo": "",
+					},
+				]
 			}
 		},
 		methods: {
-			submit(){
-				this.$router.push('/natural_risk')
+			submit() {
+				for(let i in this.form){
+					if(!this.form[i].evaresult){
+						this.$Message.error('请将表单填写完整');
+						return;
+					}
+				}
+				this.axios({
+					method: 'post',
+					url: `/proinfo/submit/`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					data: {
+						"evainfos":this.form,
+						"proinfo": {
+							"id": this.$route.params.id
+						}
+
+					}
+				}).then((res)=>{
+					if(res.data.code === 0){
+						this.$Message.success('提交成功');
+						this.$router.push('/natural_risk')
+					}else{
+						this.$Message.error(res.data.msg);
+						return
+					}
+				})
 			},
 			toReturn() {
 				this.$router.go(-1)
@@ -217,6 +161,7 @@
 					height: 40px;
 					line-height: 40px;
 					text-align: center;
+					
 				}
 			}
 			>.list_item {
@@ -232,7 +177,6 @@
 						height: 40px;
 						line-height: 40px;
 						text-align: center;
-						text-align: left;
 						text-indent: 10px;
 						font-size: 12px;
 					}

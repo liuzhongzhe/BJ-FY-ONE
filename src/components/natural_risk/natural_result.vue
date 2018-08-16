@@ -11,103 +11,13 @@
 				<span>Comment</span>
 			</div>
 			<div class="list_item">
-				<div>
-					<span>排气附近可燃物</span>
+				<div v-for="item in resultList">
+					<span>{{item.evaarea}}</span>
 					<span>
-						OK
+						{{item.evaresult | resultFilter}}
 					</span>
 					<span>
-						333SD
-					</span>
-				</div>
-				<div>
-					<span>发动机油</span>
-					<span>
-						NoK
-					</span>
-					<span>
-						333SD
-					</span>
-				</div>
-				<div>
-					<span>变速箱油</span>
-					<span>
-						OK
-					</span>
-					<span>
-						333SD
-					</span>
-				</div>
-				<div>
-					<span>冷却液</span>
-					<span>
-						NA
-					</span>
-					<span>
-						333SD
-					</span>
-				</div>
-				<div>
-					<span>动力转向液</span>
-					<span>
-						OK
-					</span>
-					<span>
-						333SD
-					</span>
-				</div>
-				<div>
-					<span>洗窗液</span>
-					<span>
-						NA
-					</span>
-					<span>
-						333SD
-					</span>
-				</div>
-				<div>
-					<span>制动液</span>
-					<span>
-						OK
-					</span>
-					<span>
-						333SD
-					</span>
-				</div>
-				<div>
-					<span>燃油</span>
-					<span>
-						NoK
-					</span>
-					<span>
-						333SD
-					</span>
-				</div>
-				<div>
-					<span>冷冻机油</span>
-					<span>
-						OK
-					</span>
-					<span>
-						333SD
-					</span>
-				</div>
-				<div>
-					<span>变速箱/差速器油</span>
-					<span>
-						NoK
-					</span>
-					<span>
-						333SD
-					</span>
-				</div>
-				<div>
-					<span>杂项</span>
-					<span>
-						NA
-					</span>
-					<span>
-						333SD
+						{{item.momo}}
 					</span>
 				</div>
 			</div>
@@ -120,7 +30,41 @@
 
 <script>
 	export default {
+		data(){
+			return{
+					resultList:[]
+			}
+		},
+		filters:{
+			resultFilter(value){
+				if(value ==='EVA_RESILT_UNPASS'){
+					return 'Nok'
+				}else if(value ==='EVA_RESILT_PASS'){
+					return 'OK'
+				}else{
+					return 'NA'
+				}
+			}
+		},
+		mounted(){
+			this.$Loading.start();
+			this._getData()
+		},
 		methods: {
+			_getData(){
+				this.axios({
+					method: 'get',
+					url: `/proinfo/evainfo/${this.$route.params.id}`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					}
+				}).then((res)=>{
+					if(res.data.code === 0){
+						this.resultList = res.data.data
+						this.$Loading.finish();
+					}
+				})
+			},
 			submit() {
 				this.$router.push('/natural_risk')
 			},
@@ -174,10 +118,8 @@
 						height: 40px;
 						line-height: 40px;
 						text-align: center;
-						text-align: left;
 						text-indent: 10px;
 						&:nth-child(2){
-							text-align: center;
 							text-indent: 0;
 						}
 					}
