@@ -220,6 +220,15 @@
 				this.drawLine();
 			},
 			_onSubmit() {
+				for (let i in this.form) {
+					if (!this.form[i]) {
+						this.$notify.error({
+							title: '错误',
+							message: '请将表单填写完整'
+						});
+						return;
+					}
+				}
 				let param = new FormData();
 				param.append('VPPSL1', this.form.VPPSL1);
 				param.append('VPPSL2', this.form.VPPSL2);
