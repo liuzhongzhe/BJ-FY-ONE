@@ -77,6 +77,7 @@
 							<span>{{item.density}}</span>
 							<span>
 								<el-button @click="modifyListItem(item)">编辑</el-button>
+								<el-button type="danger" @click="_deleteCarpettempListItem(item)">删除</el-button>
 							</span>
 						</div>
 					</div>
@@ -561,7 +562,7 @@
 				// this.dialogBpImportFile = false
 			},
 			importFile() {
-				this.fileList=[]
+				this.fileList = []
 				this.dialogMaterialImportFile = false
 				this.dialogBpImportFile = false
 				if (this.bpShow) {
@@ -583,6 +584,28 @@
 						window.location = "http://39.107.243.101:7070/material/excel?filename=plastic"
 					}
 				}).catch(() => {});
+			},
+			_deleteCarpettempListItem(item) {
+				this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.axios({
+						method: 'delete',
+						url: `/carpettemp/${item.id}`,
+						headers: {
+							'Content-type': 'application/json;charset=UTF-8'
+						}
+					}).then((res) => {
+						this._getCarpettempData()
+					})
+				}).catch(() => {
+					this.$message({
+						type: 'info',
+						message: '已取消删除'
+					});
+				});
 			},
 			_deleteBpListItem(item) {
 				this.$confirm('是否删除此信息?', '提示', {
