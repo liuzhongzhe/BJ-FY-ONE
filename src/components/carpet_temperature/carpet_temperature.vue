@@ -170,6 +170,15 @@
 			},
 			onSubmit() {
 				if (this.form.delivery) {
+					for(let i in this.pro){
+						if(!this.pro[i]){
+							this.$notify.error({
+								title: '错误',
+								message: '请将表单填写完整'
+							});
+							return;
+						}
+					}
 					this.axios({
 						method: 'get',
 						url: `/carpettemp/line`,
@@ -191,6 +200,13 @@
 						this.drawLine()
 					})
 				} else {
+					if(!this.pro.material ||!this.pro.continuous ||!this.pro.initialTemp||!this.pro.excursion||!this.pro.extreme){
+						this.$notify.error({
+							title: '错误',
+							message: '请将表单填写完整'
+						});
+						return;
+					}
 					this.axios({
 						method: 'get',
 						url: `/carpettemp/query`,
