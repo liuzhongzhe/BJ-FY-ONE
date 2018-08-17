@@ -11,62 +11,59 @@
 				<div style="display: flex;">
 					<el-form ref="form" :model="form" label-width="80px">
 						<el-form-item label="VPPS L1">
-							<el-select v-model="form.VPPSL1" style="margin-bottom: 5px;">
-								<el-option label="10" value="10"></el-option>
-								<el-option label="20" value="20"></el-option>
-								<el-option label="30" value="30"></el-option>
+							<el-select v-model="form.VPPSL1" style="margin-bottom: 5px;" @change="_vpps1Change">
+								<el-option v-for="(item,index) in vpp1Arr" :key="index" :label="item.vpps1" :value="item.vpps1"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="VPPS L2">
-							<el-select v-model="form.VPPSL2" style="margin-bottom: 5px;">
-								<el-option label="1" value="1"></el-option>
-								<el-option label="2" value="2"></el-option>
-								<el-option label="3" value="3"></el-option>
+							<el-select v-model="form.VPPSL2" style="margin-bottom: 5px;" @change="_vpps2Change">
+								<el-option v-for="(item,index) in vpp2Arr" :key="index" :label="item.vpps2" :value="item.vpps2"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="零件名称">
 							<el-select v-model="form.partname" style="margin-bottom: 5px;">
-								<el-option label="Engine Beauty Cover" value="Engine Beauty Cover"></el-option>
-								<el-option label="Engine Beauty Cover Foam" value="Engine Beauty Cover Foam"></el-option>
-								<el-option label="Secondary Air Injection Pump" value="Secondary Air Injection Pump"></el-option>
-								<el-option label="Secondary Air Injection Pump Filter" value="Secondary Air Injection Pump Filter"></el-option>
+								<el-option v-for="(item,index) in partnameArr" :key="index" :label="item.parts" :value="item.parts"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="零件材料">
-							<el-select v-model="form.material">
-								<el-option label="Plastic" value="Plastic"></el-option>
-								<el-option label="Rubber" value="Rubber"></el-option>
-								<el-option label="Hose with coolant" value="Hose with coolant"></el-option>
-								<el-option label="Hose with refrigerant" value="Hose with refrigerant"></el-option>
-								<el-option label="Floor pan" value="Floor pan"></el-option>
+							<el-select v-model="form.material" @change="_materialChange">
+								<el-option v-for="(item,index) in  materialArr" :key="index" :label="item.name" :value="item.name"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="对流系数">
-							<el-input v-model="form.hdata">
-								<span slot="append">w/m2*k</span>
-							</el-input>
+							<el-tooltip :disabled="!range.hdata" class="item" effect="dark" :content="range.hdata" placement="top">
+								<el-input v-model="form.hdata">
+									<span slot="append">w/m2*k</span>
+								</el-input>
+							</el-tooltip>
 						</el-form-item>
 						<el-form-item label="环境温度">
-							<el-input v-model="form.tair">
-								<span slot="append">℃</span>
-							</el-input>
+							<el-tooltip :disabled="!range.tair" class="item" effect="dark" :content="range.tair" placement="top">
+								<el-input v-model="form.tair">
+									<span slot="append">℃</span>
+								</el-input>
+							</el-tooltip>
 						</el-form-item>
 
 						<el-form-item label="热源温度">
-							<el-input v-model="form.thot">
-								<span slot="append">℃</span>
-							</el-input>
+							<el-tooltip :disabled="!range.thot" class="item" effect="dark" :content="range.thot" placement="top">
+								<el-input v-model="form.thot">
+									<span slot="append">℃</span>
+								</el-input>
+							</el-tooltip>
 						</el-form-item>
 						<el-form-item label="热源距离">
-							<el-input v-model="form.dhot">
-								<span slot="append">mm</span>
-							</el-input>
+							<el-tooltip :disabled="!range.dhot" class="item" effect="dark" :content="range.dhot" placement="top">
+								<el-input v-model="form.dhot">
+									<span slot="append">mm</span>
+								</el-input>
+							</el-tooltip>
 						</el-form-item>
 						<el-form-item label="温度限值">
 							<el-input v-model="form.tlimt" class="input-with-select">
 								<el-select v-model="secondListSelectType" slot="prepend" placeholder="请选择" style="width: 155px">
-									<el-option label="Continuous Limit" value="CONTINUOUS "></el-option>
-									<el-option label="Excursion Limit" value=" EXCURSION"></el-option>
+									<el-option label="CONTINUOUS" value="CONTINUOUS "></el-option>
+									<el-option label="EXCURSION" value=" EXCURSION"></el-option>
 								</el-select>
 								<span slot="append">℃</span>
 							</el-input>
@@ -104,10 +101,16 @@
 			return {
 				navInd: '2',
 				numOne: null,
-				secondListType: '',
 				secondListSelectType: 'CONTINUOUS',
 				xArr: [],
 				xArrValue: [],
+				vpp1Arr: [],
+				vpp2Arr: [],
+				partnameArr: [],
+				materialArr: [],
+				range: {
+					hdata: ''
+				},
 				form: {
 					"VPPSL2": "",
 					"VPPSL1": "",
@@ -129,44 +132,104 @@
 			_getData() {
 				this.axios({
 					method: 'get',
-					url: `/material/`,
+					url: `/bpData/all`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					}
 				}).then((res) => {
-					console.log(res)
+					if (res.data.code === 0) {
+						this.vpp1Arr = res.data.data
+					}
+				})
+				this.axios({
+					method: 'get',
+					url: `/material/all`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					}
+				}).then((res) => {
+					if (res.data.code === 0) {
+						this.materialArr = res.data.data
+					}
+				})
+			},
+			_materialChange(value) {
+				for (let i in this.materialArr) {
+					if (this.materialArr[i].name === value) {
+						this.range.hdata = '范围' + this.materialArr[i].h_min.toString() + '-' + this.materialArr[i].h_max.toString()
+						this.range.tair = '范围' + this.materialArr[i].t_min.toString() + '-' + this.materialArr[i].t_max.toString()
+						this.range.dhot = '范围' + this.materialArr[i].dh_min.toString() + '-' + this.materialArr[i].dh_max.toString()
+						this.range.thot = '范围' + this.materialArr[i].th_min.toString() + '-' + this.materialArr[i].th_max.toString()
+					}
+				}
+			},
+			_vpps1Change(value) {
+				this.partnameArr = []
+				this.vpp2Arr = []
+				this.axios({
+					method: 'get',
+					url: `/bpData/all`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					params: {
+						vpps1: value
+					}
+				}).then((res) => {
+					if (res.data.code === 0) {
+						this.vpp2Arr = res.data.data
+					}
+				})
+			},
+			_vpps2Change(value) {
+				this.axios({
+					method: 'get',
+					url: `/bpData/all`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					params: {
+						vpps1: this.form.VPPSL1,
+						vpps2: value
+					}
+				}).then((res) => {
+					if (res.data.code === 0) {
+						this.partnameArr = res.data.data
+					}
 				})
 			},
 			clearData() {
 				this.xArrValue = []
 				this.drawListTwo = []
 				this.firstListType = ''
-				this.secondListType = ''
+				this.secondListSelectType = 'CONTINUOUS'
 				this.$refs.colorOne.style.background = '#82848A'
 				this.$refs.colorTwo.style.background = '#82848A'
 				this.numOne = null
+				this.form = {
+					"VPPSL2": "",
+					"VPPSL1": "",
+					"partname": "",
+					"material": "",
+					"hdata": "",
+					"tair": "",
+					"thot": "",
+					"dhot": "",
+					"tlimt": ""
+				}
 				this.drawLine();
 			},
 			_onSubmit() {
 				let param = new FormData();
-				// 				param.append('VPPSL1', this.form.VPPSL1);
-				// 				param.append('VPPSL2', this.form.VPPSL2);
-				// 				param.append('partname', this.form.partname);
-				// 				param.append('material', this.form.material);
-				// 				param.append('hdata', this.form.hdata);
-				// 				param.append('tair', this.form.tair);
-				// 				param.append('thot', this.form.thot);
-				// 				param.append('dhot', this.form.dhot);
-				// 				param.append('tlimt', this.form.tlimt);
-				param.append('VPPSL1', "VPPS1_B");
-				param.append('VPPSL2', "VPPS2_B2");
-				param.append('partname', "Part5");
-				param.append('material', "plastic");
-				param.append('hdata', 10);
-				param.append('tair', 100);
-				param.append('thot', 300);
-				param.append('dhot', 110);
-				param.append('tlimt', 10);
+				param.append('VPPSL1', this.form.VPPSL1);
+				param.append('VPPSL2', this.form.VPPSL2);
+				param.append('partname', this.form.partname);
+				param.append('material', this.form.material);
+				param.append('hdata', this.form.hdata);
+				param.append('tair', this.form.tair);
+				param.append('thot', this.form.thot);
+				param.append('dhot', this.form.dhot);
+				param.append('tlimt', this.form.tlimt);
 				param.append('tlimtType', this.secondListSelectType);
 				this.axios.post(`/material/query`, param, {
 						headers: {
@@ -181,7 +244,7 @@
 							this.xArrValue.push(res.data.data.lins[i])
 						}
 						this.drawListTwo = new Array(this.xArr.length).fill(this.form.tlimt)
-						this.$refs.colorOne.style.background = res.data.status
+						this.$refs.colorOne.style.background = res.data.data.limtStatus
 						this.numOne = res.data.limtValue
 						this.firstListType = 'D-T曲线'
 						this.$refs.colorTwo.style.background = 'red'
@@ -197,7 +260,7 @@
 					legend: {
 						x: '580',
 						y: 'center',
-						data: [`${this.firstListType}`, `${this.secondListType}`]
+						data: [`${this.firstListType}`, `${this.secondListSelectType}`]
 					},
 					toolbox: {
 						show: false,
@@ -251,7 +314,7 @@
 						},
 						{
 							type: 'line',
-							name: this.secondListType,
+							name: this.secondListSelectType,
 							data: this.drawListTwo,
 							itemStyle: {
 								normal: {

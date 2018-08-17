@@ -12,37 +12,27 @@
 					<el-form ref="form" :model="form" label-width="150px">
 						<p style="color: #409EFF;font-weight: bold;font-size: 15px;">长时间接触输入参数</p>
 						<el-form-item label="地毯材料">
-							<el-select v-model="pro.valueOne">
-								<el-option label="ABS" value="ABS"></el-option>
-								<el-option label="AI" value="AI"></el-option>
-								<el-option label="Iron" value="Iron"></el-option>
-								<el-option label="Carpet" value="Carpet"></el-option>
-								<el-option label="160z" value="160z"></el-option>
-								<el-option label="Cotton" value="Cotton"></el-option>
-								<el-option label="Nylon" value="Nylon"></el-option>
+							<el-select v-model="pro.material">
+								<el-option v-for="(item,index) in materialArr" :key="index" :label="item.material" :value="item.material"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="地毯初始温度">
-							<el-input value="36">
+							<el-input value="36" v-model="pro.initialTemp">
 								<span slot="append">℃</span>
 							</el-input>
-							<!--<el-select>
-								<el-option label="区域一" value="shanghai"></el-option>
-								<el-option label="区域二" value="beijing"></el-option>
-							</el-select>-->
 						</el-form-item>
 						<el-form-item label="Continuous温度限值">
-							<el-input value="40">
+							<el-input value="40" v-model="pro.continuous">
 								<span slot="append">℃</span>
 							</el-input>
 						</el-form-item>
 						<el-form-item label="Excursion温度限值">
-							<el-input value="42.2">
+							<el-input value="42.2" v-model="pro.excursion">
 								<span slot="append">℃</span>
 							</el-input>
 						</el-form-item>
 						<el-form-item label="Extreme温度限值">
-							<el-input value="44.4">
+							<el-input value="44.4" v-model="pro.extreme">
 								<span slot="append">℃</span>
 							</el-input>
 						</el-form-item>
@@ -53,15 +43,15 @@
 						<transition name="el-fade-in-linear">
 							<div v-show="form.delivery">
 								<el-form-item label="热源温度">
-									<el-input value="100">
+									<el-input value="100" v-model="pro.surfaceTemp">
 										<span slot="append">℃</span>
 									</el-input>
 								</el-form-item>
 								<el-form-item label="接触系数">
-									<el-input value="0.8"></el-input>
+									<el-input value="0.8" v-model="pro.contactFactor"></el-input>
 								</el-form-item>
 								<el-form-item label="涂层系数">
-									<el-input value="0.6"></el-input>
+									<el-input value="0.6" v-model="pro.coatingFactor"></el-input>
 								</el-form-item>
 							</div>
 						</transition>
@@ -74,22 +64,16 @@
 						<div style="margin-left: 15px;" class="longTimeResult">
 							<p style="color: #409EFF;font-weight: bold;font-size: 15px;">长时间接触温度结果</p>
 							<div class="sec">
-								<span>Continuous温度结果</span>
-								<el-input disabled="false" v-model="textOne" style="vertical-align: middle;">
-									<span slot="append">℃</span>
-								</el-input>
+								<span style="line-height: 32px;vertical-align: top;">Continuous温度结果</span>
+								<el-tag style="text-align: left;">{{result.continuous}}</el-tag>
 							</div>
 							<div class="sec">
-								<span>Excursion温度结果</span>
-								<el-input disabled="false" v-model="textTwo"  style="vertical-align: middle;">
-									<span slot="append">℃</span>
-								</el-input>
+								<span style="line-height: 32px;vertical-align: top;">Excursion温度结果</span>
+								<el-tag style="text-align: left;">{{result.excursion}}</el-tag>
 							</div>
 							<div class="sec">
-								<span>Extreme温度结果</span>
-								<el-input disabled="false" v-model="textThree"  style="vertical-align: middle;">
-									<span slot="append">℃</span>
-								</el-input>
+								<span style="line-height: 32px;vertical-align: top;">Extreme温度结果</span>
+								<el-tag style="text-align: left;">{{result.extreme}}</el-tag>
 							</div>
 						</div>
 						<div id="myChart" style="margin-top: 30px;margin-left: 10px;"></div>
@@ -110,20 +94,24 @@
 			return {
 				navInd: '2',
 				drawList: [],
-				textOne: '',
-				textTwo: '',
-				textThree: '',
+				materialArr: [],
+				xArr: [],
+				xValuesArr: [],
+				result: {
+					continuous: '',
+					excursion: '',
+					extreme: '',
+					lins: {}
+				},
 				pro: {
-					valueOne: '',
-					valueTwo: '',
-					valueThree: '',
-					valueFour: '',
-					valueFive: '',
-					valueSix: '',
-					valueSeven: '',
-					valueEight: '',
-					valueNine: '1.0',
-					valueTen: '1.1',
+					material: '',
+					initialTemp: '',
+					continuous: '',
+					excursion: '',
+					extreme: '',
+					surfaceTemp: '',
+					contactFactor: '',
+					coatingFactor: '',
 				},
 				form: {
 					name: '',
@@ -135,30 +123,93 @@
 					resource: '',
 					desc: ''
 				},
-				firstListType:''
+				firstListType: ''
 			}
 		},
 		mounted() {
 			document.getElementById("tab").style.minHeight = window.innerHeight + 'px'
-			this.drawLine()
+			// this.drawLine()
+			this._getData()
 		},
 		methods: {
+			_getData() {
+				this.axios({
+					method: 'get',
+					url: `/carpettemp/all`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					}
+				}).then((res) => {
+					if (res.data.code === 0) {
+						this.materialArr = res.data.data
+					}
+				})
+			},
 			clearData() {
 				this.drawList = []
 				this.textOne = ''
 				this.textTwo = ''
 				this.textThree = ''
 				this.firstListType = ''
-				this.drawLine()
+				this.pro = {
+						material: '',
+						initialTemp: '',
+						continuous: '',
+						excursion: '',
+						extreme: '',
+						surfaceTemp: '',
+						contactFactor: '',
+						coatingFactor: '',
+					},
+					this.result = {
+						continuous: '',
+						excursion: '',
+						extreme: '',
+					},
+					this.drawLine()
 			},
 			onSubmit() {
-				this.drawList = [116, 98, 65, 53, 45, 40, 37, 30, 29, 28, 28]
-				this.textOne = '49'
-				this.textTwo = '57'
-				this.textThree = '364'
-				this.firstListType = 'TCEQ温度'
-				if(this.form.delivery) {
-					this.drawLine()
+				if (this.form.delivery) {
+					this.axios({
+						method: 'get',
+						url: `/carpettemp/line`,
+						headers: {
+							'Content-type': 'application/json;charset=UTF-8'
+						},
+						params: this.pro
+					}).then((res) => {
+						let _data = res.data.data
+						this.result.continuous = _data.continuous + "℃"
+						this.result.excursion = _data.excursion + "℃"
+						this.result.extreme = _data.extreme + "℃"
+						for (let i in _data.lins) {
+							this.xArr.push(i)
+							this.xValuesArr.push(_data.lins[i])
+						}
+						this.drawList = this.xValuesArr
+						this.firstListType = 'TCEQ温度'
+						this.drawLine()
+					})
+				} else {
+					this.axios({
+						method: 'get',
+						url: `/carpettemp/query`,
+						headers: {
+							'Content-type': 'application/json;charset=UTF-8'
+						},
+						params: {
+							material: this.pro.material,
+							initialTemp: this.pro.initialTemp,
+							continuous: this.pro.continuous,
+							excursion: this.pro.excursion,
+							extreme: this.pro.extreme
+						}
+					}).then((res) => {
+						this.result = res.data.data
+						this.result.continuous = res.data.data.continuous + "℃"
+						this.result.excursion = res.data.data.excursion + "℃"
+						this.result.extreme = res.data.data.extreme + "℃"
+					})
 				}
 			},
 			drawLine() {
@@ -186,7 +237,7 @@
 						containLabel: true
 					},
 					toolbox: {
-						x:'470px',
+						x: '470px',
 						feature: {
 							dataView: {
 								show: true,
@@ -208,7 +259,8 @@
 						type: 'category',
 						boundaryGap: false,
 						name: 'S',
-						data: ['0', '0.5', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5', '5']
+						data: this.xArr
+						// data: ['0', '0.5', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5', '5']
 					},
 					yAxis: {
 						type: 'value',
@@ -262,7 +314,8 @@
 		/deep/ .el-form-item {
 			margin-bottom: 10px;
 		}
-		/deep/ .el-input-group__append, .el-input-group__prepend{
+		/deep/ .el-input-group__append,
+		.el-input-group__prepend {
 			padding: 0 10px;
 		}
 		.right {

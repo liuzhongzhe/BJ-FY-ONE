@@ -18,6 +18,13 @@ module.exports = {
 					'^/patac_tse': ''
 				}
 			},
+			'/api': {
+				target: 'http://192.168.100.203:8080/portal/api',
+				changeOrigin: true,
+				pathRewrite: {
+					'^/api': ''
+				}
+			},
 			'/proinfo': {
 				target: 'http://39.107.243.101:7070/proinfo',
 				changeOrigin: true,
@@ -46,7 +53,13 @@ module.exports = {
 					'^/tppData': ''
 				}
 			},
-			
+			'/carpettemp': {
+				target: 'http://39.107.243.101:7070/carpettemp',
+				changeOrigin: true,
+				pathRewrite: {
+					'^/carpettemp': ''
+				}
+			},
 			
 			
 		},

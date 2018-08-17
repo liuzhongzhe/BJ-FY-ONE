@@ -9,9 +9,12 @@
 					<div slot="header" class="clearfix" style="text-align: left;">
 						<el-cascader :options="options" v-model="selectedOptions" @change="typeChange">
 						</el-cascader>
-						<el-button style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px;" v-show="!materialShow" type="primary" @click="dialogBpAdd =true">添加</el-button>
-						<el-button style="float: right;position: relative;top: 5px;right: 5px; height: 32px;line-height: 1px; " type="success" @click="importFile">导入</el-button>
-						<el-button style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px; " type="danger" @click="exportFile">导出</el-button>
+						<el-button style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px;" v-show="!materialShow" type="primary"
+						    @click="_addItem">添加</el-button>
+						<el-button v-show="bpShow ||materialShow" style="float: right;position: relative;top: 5px;right: 5px; height: 32px;line-height: 1px; "
+						    type="success" @click="importFile">导入</el-button>
+						<el-button v-show="bpShow ||materialShow" style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px; "
+						    type="danger" @click="exportFile">导出</el-button>
 					</div>
 					<div class="formList" v-if="qiShow">
 						<div class="listTitle">
@@ -19,7 +22,6 @@
 							<span>操作</span>
 						</div>
 						<div class="list" v-for="(item,ind) in formList">
-							<span>{{ind}}</span>
 							<span v-for="(list,index) in item">
 								{{list}}
 							</span>
@@ -44,7 +46,6 @@
 							</span>
 						</div>
 					</div>
-					
 					<div class="material_formList" v-if="materialShow">
 						<div class="listTitle">
 							<span> </span>
@@ -53,9 +54,9 @@
 						</div>
 						<div class="list" v-for="(item,ind) in formList">
 							<span v-if="ind<8">{{ind*10+10}}</span>
-							<span  v-if="ind===8">100</span>
-							<span  v-if="ind===9">120</span>
-							<span  v-if="ind===10">150</span>
+							<span v-if="ind===8">100</span>
+							<span v-if="ind===9">120</span>
+							<span v-if="ind===10">150</span>
 							<span v-for="(list,index) in item" v-if="index!= 'id'">
 								{{list}}
 							</span>
@@ -64,14 +65,41 @@
 							</span>
 						</div>
 					</div>
+					<div class="carpettemp_formList" v-if="carpettempShow">
+						<div class="listTitle">
+							<span v-for="(item,index) in formListTitle">{{index}}</span>
+							<span>操作</span>
+						</div>
+						<div class="list" v-for="(item,ind) in formList">
+							<span>{{item.material}}</span>
+							<span>{{item.conductivity}}</span>
+							<span>{{item.specificHeat}}</span>
+							<span>{{item.density}}</span>
+							<span>
+								<el-button @click="modifyListItem(item)">编辑</el-button>
+							</span>
+						</div>
+					</div>
 				</el-card>
 				<div class="block" style="margin-top: 20px;">
-					<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="pageSize"
-					    layout="prev, pager, next, jumper" :total="pageCount">
+					<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="pageSize" layout="prev, pager, next, jumper"
+					    :total="pageCount">
 					</el-pagination>
 				</div>
 			</div>
 		</div>
+		<el-dialog title="添加" :visible.sync="dialogCarpettempAdd" class="modifyDialog">
+			<div>
+				<div class="sec" v-for="(item,index) in addListItemSlot">
+					<span>{{index}}</span>
+					<el-input style="display: inline-block; width: 300px;" v-model="addListItemSlot[index]"></el-input>
+				</div>
+			</div>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="addListItemSlot = false">取 消</el-button>
+				<el-button type="success" @click="_addCarpettempListItemSubmit">确定</el-button>
+			</div>
+		</el-dialog>
 		<el-dialog title="添加" :visible.sync="dialogBpAdd" class="modifyDialog">
 			<div>
 				<div class="sec" v-for="(item,index) in addListItemSlot">
@@ -98,7 +126,7 @@
 		</el-dialog>
 		<el-dialog title="修改" :visible.sync="dialogModify" class="modifyDialog">
 			<div>
-				<div class="sec" v-for="(item,index) in currentModify" v-show="index !='id'">
+				<div class="sec" v-for="(item,index) in currentModify" v-show="index !='id'" v-if="index !='createTime' ">
 					<span>{{index}}</span>
 					<el-input style="display: inline-block; width: 300px;" :value="item" v-model="currentModify[index]"></el-input>
 				</div>
@@ -108,6 +136,7 @@
 				<el-button type="success" @click="_modifySubmit()" v-if="qiShow">确定</el-button>
 				<el-button type="success" @click="_modifyBpSubmit()" v-if="bpShow">确定</el-button>
 				<el-button type="success" @click="_modifyMaterialSubmit()" v-if="materialShow">确定</el-button>
+				<el-button type="success" @click="_modifyCarpettempSubmit()" v-if="carpettempShow">确定</el-button>
 			</div>
 		</el-dialog>
 		<el-dialog title="导入文件" :visible.sync="dialogBpImportFile" class="modifyDialog">
@@ -125,7 +154,7 @@
 		</el-dialog>
 		<el-dialog title="导入文件" :visible.sync="dialogMaterialImportFile" class="modifyDialog">
 			<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/material/upload" :on-success="handleFileSuccess"
-				:auto-upload="false" :file-list="fileList" :on-preview="handlePreview" :on-remove="handleRemove" multiple>
+			    :auto-upload="false" :file-list="fileList" :on-preview="handlePreview" :on-remove="handleRemove" multiple>
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">将文件拖到此处，或
 					<em>点击上传</em>
@@ -148,10 +177,16 @@
 		data() {
 			return {
 				navInd: '4-3',
-				qiShow: false,
+				qiShow: true,
+				bpShow: false,
+				materialShow: false,
+				carpettempShow: false,
 				dialogBpAdd: false,
 				dialogMaterialImportFile: false,
-				bpShow: false,
+				dialogFormVisible: false,
+				dialogModify: false,
+				dialogBpImportFile: false,
+				dialogCarpettempAdd: false,
 				fileList: [],
 				options: [{
 						value: '底盘排气系统',
@@ -258,19 +293,21 @@
 					children: 'children',
 					label: 'label'
 				},
-				paiqiType: '',
+				paiqiType: 'CellZone',
 				formList: [],
 				currentModify: [],
-				selectValues: [],
+				selectValues: [
+					"零件温度预测系统",
+					"材料温测数据",
+					"plastic",
+					"H5-T88"
+				],
 				formListTitle: {},
 				addListItemSlot: {},
 				currentPage: 1,
 				pageCount: 0,
 				pageSize: 8,
-				dialogFormVisible: false,
-				dialogModify: false,
-				dialogBpImportFile: false,
-				materialShow: false,
+
 			}
 		},
 		filters: {
@@ -338,50 +375,93 @@
 			}
 		},
 		mounted() {
-			this.paiqiType = 'CellZone'
-			// this.typeChange(this.paiqiType)
-			this._getMaterialData()
+			this.typeChange(this.paiqiType)
+			// this._getMaterialData()
+			// this._getCarpettempData()
 			document.getElementById("tab").style.minHeight = window.innerHeight + 'px'
 		},
 		methods: {
 			handleFileSuccess(response, file, fileList) {
-				console.log(response, file, fileList)
 				if (response.code === 0) {
-					this.$message({
-						message: '上传成功',
-						type: 'success'
+					this.$notify.success({
+						title: '成功',
+						message: '修改成功'
 					});
-					if(this.bpShow){
-						this.dialogBpImportFile=false
+					if (this.bpShow) {
+						this.dialogBpImportFile = false
 						this._getBpData()
-					}else if(this.materialShow){
-						this.dialogMaterialImportFile=false
+					} else if (this.materialShow) {
+						this.dialogMaterialImportFile = false
 						this._getMaterialData()
 					}
-					
 				} else {
-					this.$message.error('上传失败');
+					this.$notify.error({
+						title: '错误',
+						message: '上传失败'
+					});
 				}
 			},
+			_addItem() {
+				if (this.carpettempShow) {
+					this.dialogCarpettempAdd = true
+					this.addListItemSlot = {
+						material: '',
+						conductivity: '',
+						specificHeat: '',
+						density: ''
+					}
+				} else if (this.bpShow) {
+					this.dialogBpAdd = true
+				} else if (this.qiShow) {
+					this.dialogFormVisible = true
+				}
+			},
+			_getCarpettempData() {
+				this.axios({
+					method: 'get',
+					url: `/carpettemp`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					params: {
+						page: this.currentPage - 1,
+						size: this.pageSize
+					}
+				}).then((res) => {
+					let _data = res.data.data.content
+					this.formList = _data
+					this.formListTitle = {
+						material: '',
+						conductivity: '',
+						specificHeat: '',
+						density: ''
+					}
+					for (let i in _data[0]) {
+						if (i !== 'createTime') {
+							this.$set(this.addListItemSlot, i, null)
+						}
+					}
+				})
+			},
 			_getMaterialData() {
-				this.pageSize=11
+				this.pageSize = 11
 				this.materialShow = true
 				this.qiShow = false
 				this.bpShow = false
 				this.formList = []
-				this.formListTitle={
-					"200":null,
-					"250":null,
-					"300":null,
-					"350":null,
-					"400":null,
-					"450":null,
-					"500":null,
-					"550":null,
-					"600":null,
-					"650":null,
-					"700":null,
-					"750":null,
+				this.formListTitle = {
+					"200": null,
+					"250": null,
+					"300": null,
+					"350": null,
+					"400": null,
+					"450": null,
+					"500": null,
+					"550": null,
+					"600": null,
+					"650": null,
+					"700": null,
+					"750": null,
 				}
 				this.axios({
 					method: 'get',
@@ -389,12 +469,12 @@
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					},
-					params:{
+					params: {
 						page: this.currentPage - 1,
 						size: this.pageSize,
-						material:"plastic",
-						h:this.selectValues[2],
-						t:this.selectValues[3]
+						material: this.selectValues[2],
+						hData: this.selectValues[3].slice(1, 2),
+						tair: this.selectValues[3].slice(4)
 					},
 				}).then((res) => {
 					this.pageCount = res.data.data.totalElements
@@ -409,7 +489,6 @@
 						}
 					}
 				})
-
 			},
 			_getBpData() {
 				this.bpShow = true
@@ -482,14 +561,15 @@
 				// this.dialogBpImportFile = false
 			},
 			importFile() {
+				this.fileList=[]
 				this.dialogMaterialImportFile = false
 				this.dialogBpImportFile = false
-				if(this.bpShow){
+				if (this.bpShow) {
 					this.dialogBpImportFile = true
-				}else if(this.materialShow){
+				} else if (this.materialShow) {
 					this.dialogMaterialImportFile = true
 				}
-				
+
 			},
 			exportFile() {
 				this.$confirm('确定导出文件?', '提示', {
@@ -497,9 +577,9 @@
 					cancelButtonText: '取消',
 					type: 'info'
 				}).then(() => {
-					if(this.bpShow){
+					if (this.bpShow) {
 						window.location = "http://39.107.243.101:7070/bpData/excel?filename=TPP_BpData"
-					}else if(this.materialShow){
+					} else if (this.materialShow) {
 						window.location = "http://39.107.243.101:7070/material/excel?filename=plastic"
 					}
 				}).catch(() => {});
@@ -539,12 +619,67 @@
 							'Content-type': 'application/json;charset=UTF-8'
 						}
 					}).then((res) => {
+						if (res.status === 200) {
+							this.$notify.success({
+								title: '成功',
+								message: '删除成功'
+							});
+						}
 						this._getPaiqiData()
 					})
 				}).catch(() => {
 					this.$message({
 						type: 'info',
 						message: '已取消删除'
+					});
+				});
+			},
+			_addCarpettempListItemSubmit() {
+				for (let i in this.addListItemSlot) {
+					if (!this.addListItemSlot[i]) {
+						this.$notify.error({
+							title: '错误',
+							message: "请将表单填写完整"
+						});
+						return;
+					}
+				}
+				let realLength = 0
+				let len = this.addListItemSlot.material.length
+				let charCode = -1
+				for (let i = 0; i < len; i++) {
+					charCode = this.addListItemSlot.material.charCodeAt(i);
+					if (charCode >= 0 && charCode <= 128)
+						realLength += 1;
+					else
+						realLength += 2;
+				}
+				if (realLength >= 32) {
+					this.$notify.error({
+						title: '错误',
+						message: "材料名称过长,请小于32个字符"
+					});
+					return;
+				}
+				this.axios({
+					method: 'post',
+					url: `/carpettemp`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					data: this.addListItemSlot
+				}).then((res) => {
+					this._getCarpettempData()
+					this.dialogCarpettempAdd = false
+					this.$notify.success({
+						title: '成功',
+						message: '添加成功'
+					});
+				}).catch((error) => {
+					this._getCarpettempData()
+					this.$notify.error({
+						title: '错误',
+						message: error.response.data.message
 					});
 				});
 			},
@@ -600,8 +735,14 @@
 					},
 					data: this.addListItemSlot
 				}).then((res) => {
-					this._getPaiqiData()
-					this.dialogFormVisible = false
+					if (res.status === 200) {
+						this._getPaiqiData()
+						this.dialogFormVisible = false
+						this.$notify.success({
+							title: '成功',
+							message: '添加成功'
+						});
+					}
 				}).catch((error) => {
 					this._getPaiqiData()
 					this.$notify.error({
@@ -624,8 +765,14 @@
 					},
 					data: anaModify
 				}).then((res) => {
-					this._getPaiqiData()
-					this.dialogModify = false
+					if (res.status === 200) {
+						this.$notify.success({
+							title: '成功',
+							message: '修改成功'
+						});
+						this._getPaiqiData()
+						this.dialogModify = false
+					}
 				}).catch((error) => {
 					this._getPaiqiData()
 					this.$notify.error({
@@ -634,30 +781,55 @@
 					});
 				});
 			},
-			_modifyMaterialSubmit(){
-					let anaModify = this.currentModify
-					this.axios({
-						method: 'put',
-						url: `/tppData/${anaModify.id}`,
-						headers: {
-							'Content-type': 'application/json;charset=UTF-8'
-						},
-						data: anaModify
-					}).then((res) => {
-						console.log(res)
-						this.$message({
-							message: '修改成功',
-							type: 'success'
-						});
-						this._getMaterialData()
-						this.dialogModify = false
-					}).catch((error) => {
-						this._getMaterialData()
-						this.$notify.error({
-							title: '错误',
-							message: error.response.data.message
-						});
+			_modifyCarpettempSubmit() {
+				let anaModify = this.currentModify
+				this.axios({
+					method: 'put',
+					url: `/carpettemp`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					data: anaModify
+				}).then((res) => {
+					this.$notify.success({
+						title: '成功',
+						message: '修改成功'
 					});
+					this._getCarpettempData()
+					this.dialogModify = false
+				}).catch((error) => {
+					this._getCarpettempData()
+					this.$notify.error({
+						title: '错误',
+						message: error.response.data.message
+					});
+				});
+			},
+			_modifyMaterialSubmit() {
+				let anaModify = this.currentModify
+				this.axios({
+					method: 'put',
+					url: `/tppData/${anaModify.id}`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					data: anaModify
+				}).then((res) => {
+					if (res.data.code === 0) {
+						this.$notify.success({
+							title: '成功',
+							message: '修改成功'
+						});
+					}
+					this._getMaterialData()
+					this.dialogModify = false
+				}).catch((error) => {
+					this._getMaterialData()
+					this.$notify.error({
+						title: '错误',
+						message: error.response.data.message
+					});
+				});
 			},
 			_modifyBpSubmit() {
 				let anaModify = this.currentModify
@@ -670,10 +842,12 @@
 					data: anaModify
 				}).then((res) => {
 					console.log(res)
-					this.$message({
-						message: '修改成功',
-						type: 'success'
-					});
+					if (res.data.code === 0) {
+						this.$notify.success({
+							title: '成功',
+							message: '修改成功'
+						});
+					}
 					this._getBpData()
 					this.dialogModify = false
 				}).catch((error) => {
@@ -688,34 +862,49 @@
 				this.dialogModify = true
 				this.currentModify = Object.assign({}, item);
 			},
-			handleSizeChange(val) {},
 			handleCurrentChange(val) {
 				this.currentPage = val
 				if (this.bpShow) {
 					this._getBpData()
-				} else if(this.qiShow){
+				} else if (this.qiShow) {
 					this._getPaiqiData()
-				}else if(this.materialShow){
+				} else if (this.materialShow) {
 					this._getMaterialData()
 				}
 			},
 			typeChange(values) {
-				this.selectValues = values
-				return;
+				this.qiShow = false
+				this.bpshw = false
+				this.materialShow = false
+				this.carpettempShow = false
 				let value = ''
-				if (typeof (values) == 'string') {
-					value = values
-				} else{
-					value = values[1]
-				}
-				if(values[1]==="BP数据"){
-					this._getBpData()
-				}
-				if(values[1]==="材料温测数据"){
-					this._getMaterialData(values[2],values[3])
-				}
 				this.currentPage = 1
-				return
+				if (typeof (values) !== 'string') {
+					if (values[1] === "BP数据") {
+						this._getBpData()
+						this.bpshw = true
+						return;
+					}
+					if (values.length === 4) {
+						this.selectValues = values
+						this._getMaterialData()
+						this.materialShow = true
+						return;
+					}
+					if (values[1] === "地毯材料属性") {
+						this._getCarpettempData()
+						this.carpettempShow = true
+						return;
+					}
+					if (values[0] === '底盘排气系统' || values[0] === '底盘进气系统') {
+						value = values[1]
+						this.qiShow = true
+
+					}
+				} else {
+					value = values
+					this.qiShow = true
+				}
 				switch (value) {
 					case 'CellZone':
 						this.paiqiType = value
@@ -935,6 +1124,7 @@
 						this.formList.push(nobj)
 						this.formListTitle = this.formList[0]
 					})
+					console.log(this.formList)
 					this.addListItemSlot = {}
 					for (let i in this.formList[0]) {
 						if (i !== 'id') {
@@ -1013,6 +1203,35 @@
 						&:first-child {
 							flex: 0 50px;
 						}
+					}
+				}
+			}
+			.carpettemp_formList {
+				.listTitle {
+					display: flex;
+					span {
+						flex: 1;
+						text-align: left;
+						color: rgb(147, 147, 147);
+						font-weight: 700;
+						border-bottom: 1px solid rgb(235, 238, 245);
+						padding-bottom: 10px;
+						line-height: 20px;
+					}
+				}
+				.list {
+					display: flex;
+					border-bottom: 1px solid rgb(235, 238, 245);
+					.el-button {
+						padding: 4px;
+					}
+					span {
+						font-size: 14px;
+						flex: 1;
+						padding: 10px 0;
+						text-align: left;
+						overflow: hidden;
+						text-overflow: ellipsis;
 					}
 				}
 			}
