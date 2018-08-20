@@ -132,26 +132,26 @@
 			_getData() {
 				this.axios({
 					method: 'get',
-					url: `/bpData/all`,
+					url: `/sly/test`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					}
 				}).then((res) => {
-					if (res.data.code === 0) {
-						this.vpp1Arr = res.data.data
-					}
+// 					if (res.data.code === 0) {
+// 						this.vpp1Arr = res.data.data
+// 					}
 				})
-				this.axios({
-					method: 'get',
-					url: `/material/all`,
-					headers: {
-						'Content-type': 'application/json;charset=UTF-8'
-					}
-				}).then((res) => {
-					if (res.data.code === 0) {
-						this.materialArr = res.data.data
-					}
-				})
+// 				this.axios({
+// 					method: 'get',
+// 					url: `/material/all`,
+// 					headers: {
+// 						'Content-type': 'application/json;charset=UTF-8'
+// 					}
+// 				}).then((res) => {
+// 					if (res.data.code === 0) {
+// 						this.materialArr = res.data.data
+// 					}
+// 				})
 			},
 			_materialChange(value) {
 				for (let i in this.materialArr) {
@@ -246,18 +246,28 @@
 						}
 					})
 					.then((res) => {
-						this.xArr = []
-						this.xArrValue = []
-						for (let i in res.data.data.lins) {
-							this.xArr.push(i)
-							this.xArrValue.push(res.data.data.lins[i])
+						if(res.data.code === 0){
+							this.xArr = []
+							this.xArrValue = []
+							for (let i in res.data.data.lins) {
+								this.xArr.push(i)
+								this.xArrValue.push(res.data.data.lins[i])
+							}
+							this.drawListTwo = new Array(this.xArr.length).fill(this.form.tlimt)
+							this.$refs.colorOne.style.background = res.data.data.limtStatus
+							this.numOne = res.data.limtValue
+							this.firstListType = 'D-T曲线'
+							this.$refs.colorTwo.style.background = 'red'
+							this.drawLine();
 						}
-						this.drawListTwo = new Array(this.xArr.length).fill(this.form.tlimt)
-						this.$refs.colorOne.style.background = res.data.data.limtStatus
-						this.numOne = res.data.limtValue
-						this.firstListType = 'D-T曲线'
-						this.$refs.colorTwo.style.background = 'red'
-						this.drawLine();
+						
+					})
+					.catch((err)=>{
+						this.$notify.error({
+							title: '错误',
+							message: err.response.data.msg
+						});
+						return;
 					})
 			},
 			drawLine() {

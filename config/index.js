@@ -18,6 +18,14 @@ module.exports = {
 					'^/patac_tse': ''
 				}
 			},
+			
+			'/sly': {
+				target: 'http://118.25.63.70:80/shunluya',
+				changeOrigin: true,
+				pathRewrite: {
+					'^/sly': ''
+				}
+			},
 			'/api': {
 				target: 'http://192.168.100.203:8080/portal/api',
 				changeOrigin: true,

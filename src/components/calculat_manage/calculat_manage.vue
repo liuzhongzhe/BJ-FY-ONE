@@ -16,70 +16,73 @@
 						<el-button v-show="bpShow ||materialShow" style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px; "
 						    type="danger" @click="exportFile">导出</el-button>
 					</div>
-					<div class="formList" v-if="qiShow">
-						<div class="listTitle">
-							<span v-for="(item,index) in formListTitle">{{index | materialToCH}}</span>
-							<span>操作</span>
+					<div style="position: relative;">
+						<div class="formList" v-if="qiShow">
+							<div class="listTitle">
+								<span v-for="(item,index) in formListTitle">{{index | materialToCH}}</span>
+								<span>操作</span>
+							</div>
+							<div class="list" v-for="(item,ind) in formList">
+								<span v-for="(list,index) in item">
+									{{list}}
+								</span>
+								<span>
+									<el-button @click="modifyListItem(item)">编辑</el-button>
+									<el-button type="danger" @click="_deleteListItem(item)">删除</el-button>
+								</span>
+							</div>
 						</div>
-						<div class="list" v-for="(item,ind) in formList">
-							<span v-for="(list,index) in item">
-								{{list}}
-							</span>
-							<span>
-								<el-button @click="modifyListItem(item)">编辑</el-button>
-								<el-button type="danger" @click="_deleteListItem(item)">删除</el-button>
-							</span>
+						<div class="bp_formList" v-if="bpShow">
+							<div class="listTitle">
+								<span v-for="(item,index) in formListTitle">{{index | materialToCH}}</span>
+								<span>操作</span>
+							</div>
+							<div class="list" v-for="(item) in formList">
+								<span v-for="(list,index) in item">
+									{{list}}
+								</span>
+								<span>
+									<el-button @click="modifyListItem(item)">编辑</el-button>
+									<el-button type="danger" @click="_deleteBpListItem(item)">删除</el-button>
+								</span>
+							</div>
 						</div>
-					</div>
-					<div class="bp_formList" v-if="bpShow">
-						<div class="listTitle">
-							<span v-for="(item,index) in formListTitle">{{index | materialToCH}}</span>
-							<span>操作</span>
+						<div class="material_formList" v-if="materialShow">
+							<div class="listTitle">
+								<span> </span>
+								<span v-for="(item,index) in formListTitle">{{index}}</span>
+								<span>操作</span>
+							</div>
+							<div class="list" v-for="(item,ind) in formList">
+								<span v-if="ind<8">{{ind*10+10}}</span>
+								<span v-if="ind===8">100</span>
+								<span v-if="ind===9">120</span>
+								<span v-if="ind===10">150</span>
+								<span v-for="(list,index) in item" v-if="index!= 'id'">
+									{{list}}
+								</span>
+								<span>
+									<el-button @click="modifyListItem(item)">编辑</el-button>
+								</span>
+							</div>
 						</div>
-						<div class="list" v-for="(item) in formList">
-							<span v-for="(list,index) in item">
-								{{list}}
-							</span>
-							<span>
-								<el-button @click="modifyListItem(item)">编辑</el-button>
-								<el-button type="danger" @click="_deleteBpListItem(item)">删除</el-button>
-							</span>
+						<div class="carpettemp_formList" v-if="carpettempShow">
+							<div class="listTitle">
+								<span v-for="(item,index) in formListTitle">{{index}}</span>
+								<span>操作</span>
+							</div>
+							<div class="list" v-for="(item,ind) in formList">
+								<span>{{item.material}}</span>
+								<span>{{item.conductivity}}</span>
+								<span>{{item.specificHeat}}</span>
+								<span>{{item.density}}</span>
+								<span>
+									<el-button @click="modifyListItem(item)">编辑</el-button>
+									<el-button type="danger" @click="_deleteCarpettempListItem(item)">删除</el-button>
+								</span>
+							</div>
 						</div>
-					</div>
-					<div class="material_formList" v-if="materialShow">
-						<div class="listTitle">
-							<span> </span>
-							<span v-for="(item,index) in formListTitle">{{index}}</span>
-							<span>操作</span>
-						</div>
-						<div class="list" v-for="(item,ind) in formList">
-							<span v-if="ind<8">{{ind*10+10}}</span>
-							<span v-if="ind===8">100</span>
-							<span v-if="ind===9">120</span>
-							<span v-if="ind===10">150</span>
-							<span v-for="(list,index) in item" v-if="index!= 'id'">
-								{{list}}
-							</span>
-							<span>
-								<el-button @click="modifyListItem(item)">编辑</el-button>
-							</span>
-						</div>
-					</div>
-					<div class="carpettemp_formList" v-if="carpettempShow">
-						<div class="listTitle">
-							<span v-for="(item,index) in formListTitle">{{index}}</span>
-							<span>操作</span>
-						</div>
-						<div class="list" v-for="(item,ind) in formList">
-							<span>{{item.material}}</span>
-							<span>{{item.conductivity}}</span>
-							<span>{{item.specificHeat}}</span>
-							<span>{{item.density}}</span>
-							<span>
-								<el-button @click="modifyListItem(item)">编辑</el-button>
-								<el-button type="danger" @click="_deleteCarpettempListItem(item)">删除</el-button>
-							</span>
-						</div>
+						<Spin size="large" fix v-if="spinShow"></Spin>
 					</div>
 				</el-card>
 				<div class="block" style="margin-top: 20px;">
@@ -188,6 +191,7 @@
 				dialogModify: false,
 				dialogBpImportFile: false,
 				dialogCarpettempAdd: false,
+				spinShow: false,
 				fileList: [],
 				options: [{
 						value: '底盘排气系统',
@@ -386,7 +390,7 @@
 				if (response.code === 0) {
 					this.$notify.success({
 						title: '成功',
-						message: '修改成功'
+						message: '上传成功'
 					});
 					if (this.bpShow) {
 						this.dialogBpImportFile = false
@@ -429,6 +433,7 @@
 						size: this.pageSize
 					}
 				}).then((res) => {
+					this.pageCount = res.data.data.totalElements
 					let _data = res.data.data.content
 					this.formList = _data
 					this.formListTitle = {
@@ -442,6 +447,7 @@
 							this.$set(this.addListItemSlot, i, null)
 						}
 					}
+					this.spinShow = false
 				})
 			},
 			_getMaterialData() {
@@ -489,6 +495,7 @@
 							this.$set(this.addListItemSlot, i, null)
 						}
 					}
+					this.spinShow = false
 				})
 			},
 			_getBpData() {
@@ -548,6 +555,7 @@
 							this.$set(this.addListItemSlot, i, null)
 						}
 					}
+					this.spinShow = false
 
 				})
 			},
@@ -591,6 +599,7 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
+					this.spinShow = true
 					this.axios({
 						method: 'delete',
 						url: `/carpettemp/${item.id}`,
@@ -613,6 +622,7 @@
 					cancelButtonText: '取消',
 					type: 'info'
 				}).then(() => {
+					this.spinShow = true
 					this.axios({
 						method: 'delete',
 						url: `/bpData/${item.id}`,
@@ -635,6 +645,7 @@
 					cancelButtonText: '取消',
 					type: 'info'
 				}).then(() => {
+					this.spinShow = true
 					this.axios({
 						method: 'delete',
 						url: `./api/${localStorage.paiqiType}/${item.id}`,
@@ -684,6 +695,7 @@
 					});
 					return;
 				}
+				this.spinShow = true
 				this.axios({
 					method: 'post',
 					url: `/carpettemp`,
@@ -707,6 +719,15 @@
 				});
 			},
 			_addBpListItemSubmit() {
+				for (let i in this.addListItemSlot) {
+					if (!this.addListItemSlot[i]) {
+						this.$notify.error({
+							title: '错误',
+							message: "请将表单填写完整"
+						});
+						return;
+					}
+				}
 				let p1 = parseInt(this.addListItemSlot.p_1)
 				let p2 = parseInt(this.addListItemSlot.p_2)
 				let p3 = parseInt(this.addListItemSlot.p_3)
@@ -731,6 +752,7 @@
 					});
 					return;
 				}
+				this.spinShow = true
 				this.axios({
 					method: 'post',
 					url: `/bpData`,
@@ -739,8 +761,14 @@
 					},
 					data: this.addListItemSlot
 				}).then((res) => {
-					this._getBpData()
-					this.dialogBpAdd = false
+					if (res.status === 200) {
+						this._getBpData()
+						this.dialogBpAdd = false
+						this.$notify.success({
+							title: '成功',
+							message: '添加成功'
+						});
+					}
 				}).catch((error) => {
 					this._getBpData()
 					this.$notify.error({
@@ -779,6 +807,16 @@
 				this.dialogFormVisible = true
 			},
 			_modifySubmit() {
+				for (let i in this.currentModify) {
+					if (!this.currentModify[i]) {
+						this.$notify.error({
+							title: '错误',
+							message: "请将表单填写完整"
+						});
+						return;
+					}
+				}
+				this.spinShow = true
 				let anaModify = this.currentModify
 				this.axios({
 					method: 'put',
@@ -805,6 +843,16 @@
 				});
 			},
 			_modifyCarpettempSubmit() {
+				for (let i in this.currentModify) {
+					if (!this.currentModify[i]) {
+						this.$notify.error({
+							title: '错误',
+							message: "请将表单填写完整"
+						});
+						return;
+					}
+				}
+				this.spinShow = true
 				let anaModify = this.currentModify
 				this.axios({
 					method: 'put',
@@ -829,6 +877,16 @@
 				});
 			},
 			_modifyMaterialSubmit() {
+				for (let i in this.currentModify) {
+					if (!this.currentModify[i]) {
+						this.$notify.error({
+							title: '错误',
+							message: "请将表单填写完整"
+						});
+						return;
+					}
+				}
+				this.spinShow = true
 				let anaModify = this.currentModify
 				this.axios({
 					method: 'put',
@@ -855,6 +913,16 @@
 				});
 			},
 			_modifyBpSubmit() {
+				for (let i in this.currentModify) {
+					if (!this.currentModify[i]) {
+						this.$notify.error({
+							title: '错误',
+							message: "请将表单填写完整"
+						});
+						return;
+					}
+				}
+				this.spinShow = true
 				let anaModify = this.currentModify
 				this.axios({
 					method: 'put',
@@ -886,6 +954,7 @@
 				this.currentModify = Object.assign({}, item);
 			},
 			handleCurrentChange(val) {
+				this.spinShow = true
 				this.currentPage = val
 				if (this.bpShow) {
 					this._getBpData()
@@ -896,8 +965,9 @@
 				}
 			},
 			typeChange(values) {
+				this.spinShow = true
 				this.qiShow = false
-				this.bpshw = false
+				this.bpShow = false
 				this.materialShow = false
 				this.carpettempShow = false
 				let value = ''
@@ -1147,13 +1217,13 @@
 						this.formList.push(nobj)
 						this.formListTitle = this.formList[0]
 					})
-					console.log(this.formList)
 					this.addListItemSlot = {}
 					for (let i in this.formList[0]) {
 						if (i !== 'id') {
 							this.$set(this.addListItemSlot, i, null)
 						}
 					}
+					this.spinShow = false
 				})
 			},
 		}
