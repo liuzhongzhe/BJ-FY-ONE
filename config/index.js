@@ -18,14 +18,6 @@ module.exports = {
 					'^/patac_tse': ''
 				}
 			},
-			
-			'/sly': {
-				target: 'http://118.25.63.70:80/shunluya',
-				changeOrigin: true,
-				pathRewrite: {
-					'^/sly': ''
-				}
-			},
 			'/api': {
 				target: 'http://192.168.100.203:8080/portal/api',
 				changeOrigin: true,
@@ -33,13 +25,20 @@ module.exports = {
 					'^/api': ''
 				}
 			},
-			'/proinfo': {
-				target: 'http://39.107.243.101:7070/proinfo',
+			'/patac_ras': {
+				target: 'http://39.107.243.101:7070',
 				changeOrigin: true,
 				pathRewrite: {
-					'^/proinfo': ''
+					'^/patac_ras': ''
 				}
 			},
+// 			'/proinfo': {
+// 				target: 'http://39.107.243.101:7070/proinfo',
+// 				changeOrigin: true,
+// 				pathRewrite: {
+// 					'^/proinfo': ''
+// 				}
+// 			},
 			'/bpData': {
 				target: 'http://39.107.243.101:7070/bpData',
 				changeOrigin: true,

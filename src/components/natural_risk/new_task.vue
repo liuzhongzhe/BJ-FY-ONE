@@ -89,6 +89,7 @@
 		data() {
 			return {
 				defaultShow: false,
+				msgState:true,
 				form: {
 					carcode: '',
 					platform: '',
@@ -107,13 +108,19 @@
 			onSubmit() {
 				for(let i in this.form){
 					if(! this.form[i]){
-						this.$Message.error('请将表单填写完整');
+						if(this.msgState){
+							this.msgState=false
+							this.$Message.error('请将表单填写完整');
+							setTimeout(()=>{
+								this.msgState=true
+							},1500)
+						}
 						return;
 					}
 				}
 				this.axios({
 					method: 'post',
-					url: `/proinfo/save`,
+					url: `/patac_ras/proinfo/save`,
 					headers: {
 						'Content-Type': 'application/json'
 					},

@@ -190,7 +190,8 @@
                 valueFour: '',
                 valueFive: '',
                 valueSix: '',
-                valueTime: ''
+                valueTime: '',
+				msgState:true
             }
         },
 		created(){
@@ -230,7 +231,13 @@
 							}
 						})
                     } else {
-                        this.$Message.error('请将项目信息填写完整');
+						if(this.msgState){
+							this.msgState=false
+							this.$Message.error('请将项目信息填写完整');
+							setTimeout(()=>{
+								this.msgState=true
+							},1500)
+						}
                     }
                 })
             },

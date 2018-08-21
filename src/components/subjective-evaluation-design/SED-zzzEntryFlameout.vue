@@ -76,6 +76,7 @@
         data() {
             return {
                 resultObj: {},
+				msgState:true,
                 pro: {
                     valueOne: '',
                     valueTwo: '',
@@ -126,15 +127,33 @@
 							var regNeg =
 								/^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
 							if (regPos.test(val) || regNeg.test(val)) {} else {
-								this.$Message.error('非数字');
+								if (this.msgState) {
+									this.msgState = false
+									this.$Message.error('非数字');
+									setTimeout(() => {
+										this.msgState = true
+									}, 1500)
+								}
 								return
 							}
 							if (Number(this.pro[i]) > 120) {
-								this.$Message.error('请勿输入超过120的数值');
+								if (this.msgState) {
+									this.msgState = false
+									this.$Message.error('请勿输入超过120的数值');
+									setTimeout(() => {
+										this.msgState = true
+									}, 1500)
+								}
 								return
 							}
 							if (Number(this.pro[i]) <20) {
-								this.$Message.error('请勿输入小于20的数值');
+								if (this.msgState) {
+									this.msgState = false
+									this.$Message.error('请勿输入小于20的数值');
+									setTimeout(() => {
+										this.msgState = true
+									}, 1500)
+								}
 								return
 							}
 						}

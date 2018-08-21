@@ -65,7 +65,8 @@
 				sortState: 0,
 				paramsObj: {
 					"sort": "valuationdate,asc",
-				}
+				},
+				msgState:true
 			}
 		},
 		mounted() {
@@ -83,10 +84,9 @@
 		},
 		methods: {
 			_getData() {
-				
 				this.axios({
 					method: 'get',
-					url: `/proinfo/proqry`,
+					url: `/patac_ras/proinfo/proqry`,
 					headers: {
 						'Content-Type': 'application/json'
 					},
@@ -143,31 +143,70 @@
 			},
 			viewListInfo() {
 				if (JSON.stringify(this.currentRow) == "{}") {
-					this.$Message.warning('请选择一条测试');
+					if(this.msgState){
+						this.msgState=false
+						this.$Message.warning('请选择一条测试');
+						setTimeout(()=>{
+							this.msgState=true
+						},1500)
+					}
 					return
 				}
 				this.$router.push(`/pro_info/${this.currentRow.id}`)
 			},
 			toResult() {
-				if(!this.currentRow.valuationstatus){
-					this.$Message.warning('此项目未评估');
+				if (JSON.stringify(this.currentRow) == "{}") {
+					if(this.msgState){
+						this.msgState=false
+						this.$Message.warning('请选择一条测试');
+						setTimeout(()=>{
+							this.msgState=true
+						},1500)
+					}
 					return
 				}
-				if (JSON.stringify(this.currentRow) == "{}") {
-					this.$Message.warning('请选择一条测试');
+				if(!this.currentRow.valuationstatus){
+					if(this.msgState){
+						this.msgState=false
+						this.$Message.warning('此项目未评估');
+						setTimeout(()=>{
+							this.msgState=true
+						},1500)
+					}
 					return
 				}
 				this.$router.push(`/natural_result/${this.currentRow.id}`)
 			},
 			toUserAss() {
-				if(this.currentRow.valuationstatus){
-					this.$Message.warning('已评估');
-					return
-				}
 				if (JSON.stringify(this.currentRow) == "{}") {
-					this.$Message.warning('请选择一条测试');
+					if(this.msgState){
+						this.msgState=false
+						this.$Message.warning('请选择一条测试');
+						setTimeout(()=>{
+							this.msgState=true
+						},1500)
+					}
 					return
 				}
+				if(this.currentRow.valuationstatus){
+					if (JSON.stringify(this.currentRow) == "{}") {
+						this.msgState=false
+						this.$Message.warning('此项目未评估');
+						setTimeout(()=>{
+							this.msgState=true
+						},1500)
+						return
+					}
+					if(this.msgState){
+						this.msgState=false
+						this.$Message.warning('已评估');
+						setTimeout(()=>{
+							this.msgState=true
+						},1500)
+					}
+					return
+				}
+				
 				this.$router.push(`/partin_task/${this.currentRow.id}`)
 			},
 			setCurrent(row) {

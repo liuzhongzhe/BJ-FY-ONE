@@ -54,7 +54,7 @@
 			_getData(){
 				this.axios({
 					method: 'get',
-					url: `/proinfo/evainfo/${this.$route.params.id}`,
+					url: `/patac_ras/proinfo/evainfo/${this.$route.params.id}`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					}

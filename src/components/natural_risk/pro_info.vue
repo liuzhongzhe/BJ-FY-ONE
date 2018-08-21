@@ -64,7 +64,7 @@
 			_getData(){
 				this.axios({
 					method: 'get',
-					url: `/proinfo/proqry/${this.$route.params.id}`,
+					url: `/patac_ras/proinfo/proqry/${this.$route.params.id}`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					}

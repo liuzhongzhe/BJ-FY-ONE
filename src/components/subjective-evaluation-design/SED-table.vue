@@ -117,7 +117,8 @@
 				tabelDatas: [],
 				tabelDatak: [],
 				tableData: [],
-				sortState: 0
+				sortState: 0,
+				msgState:true
 			}
 		},
 		created() {
@@ -188,11 +189,23 @@
 			},
 			toClosePro() {
 				if (this.currentRow.personNum === 0) {
-					this.$Message.warning('无录入数据,不可关闭');
+					if(this.msgState){
+						this.msgState=false
+						this.$Message.warning('无录入数据,不可关闭');
+						setTimeout(()=>{
+							this.msgState=true
+						},1500)
+					}
 					return
 				}
 				if (JSON.stringify(this.currentRow) == "{}") {
-					this.$Message.warning('请选择一条测试');
+					if(this.msgState){
+						this.msgState=false
+						this.$Message.warning('请选择一条测试');
+						setTimeout(()=>{
+							this.msgState=true
+						},1500)
+					}
 					return
 				} else {
 					this.axios({
@@ -211,7 +224,13 @@
 			},
 			viewListInfo() {
 				if (JSON.stringify(this.currentRow) == "{}") {
-					this.$Message.warning('请选择一条测试');
+					if(this.msgState){
+						this.msgState=false
+						this.$Message.warning('请选择一条测试');
+						setTimeout(()=>{
+							this.msgState=true
+						},1500)
+					}
 					return
 				} else {
 					this.listInfoShow = true
@@ -230,7 +249,13 @@
 			},
 			toResult() {
 				if (JSON.stringify(this.currentRow) == "{}") {
-					this.$Message.warning('请选择一条测试');
+					if(this.msgState){
+						this.msgState=false
+						this.$Message.warning('请选择一条测试');
+						setTimeout(()=>{
+							this.msgState=true
+						},1500)
+					}
 					return
 				}
 				if (this.currentRow.evaluationCon === '熄火') {
@@ -242,7 +267,13 @@
 			},
 			toUserAss() {
 				if (JSON.stringify(this.currentRow) == "{}") {
-					this.$Message.warning('请选择一条测试');
+					if(this.msgState){
+						this.msgState=false
+						this.$Message.warning('请选择一条测试');
+						setTimeout(()=>{
+							this.msgState=true
+						},1500)
+					}
 					return
 				}
 				if (!this.zzzShow) {

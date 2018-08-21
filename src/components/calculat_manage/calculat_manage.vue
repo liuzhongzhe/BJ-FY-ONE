@@ -9,12 +9,13 @@
 					<div slot="header" class="clearfix" style="text-align: left;">
 						<el-cascader :options="options" v-model="selectedOptions" @change="typeChange">
 						</el-cascader>
+						<el-button style="float: right;position: relative;top: 5px;margin-left: 10px;  height: 32px;line-height: 1px;"  v-show="!materialShow"  type="danger" @click="_deleteItem">删除</el-button>
 						<el-button style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px;" v-show="!materialShow" type="primary"
 						    @click="_addItem">添加</el-button>
-						<el-button v-show="bpShow ||materialShow" style="float: right;position: relative;top: 5px;right: 5px; height: 32px;line-height: 1px; "
+						<el-button v-show="bpShow ||materialShow" style="float: right;position: relative;top: 5px; height: 32px;line-height: 1px; "
 						    type="success" @click="importFile">导入</el-button>
 						<el-button v-show="bpShow ||materialShow" style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px; "
-						    type="danger" @click="exportFile">导出</el-button>
+						    type="warning" @click="exportFile">导出</el-button>
 					</div>
 					<div style="position: relative;">
 						<div class="formList" v-if="qiShow">
@@ -33,19 +34,46 @@
 							</div>
 						</div>
 						<div class="bp_formList" v-if="bpShow">
-							<div class="listTitle">
+							<el-table ref="multipleTable" :data="bpFormList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+								<el-table-column type="selection" width="40">
+								</el-table-column>
+								<el-table-column type="index" width="50" label="no.">
+								</el-table-column>
+								<el-table-column prop="vpps1" label="vpps1" width="120">
+								</el-table-column>
+								<el-table-column prop="vpps2" label="VPPS2" width="120">
+								</el-table-column>
+								<el-table-column prop="parts" label="Parts" width="120">
+								</el-table-column>
+								<el-table-column prop="p_1" label="P1" width="80">
+								</el-table-column>
+								<el-table-column prop="p_2" label="P2" width="80">
+								</el-table-column>
+								<el-table-column prop="p_3" label="P3" width="80">
+								</el-table-column>
+								<el-table-column prop="distance" label="Distance" min-width="120">
+								</el-table-column>
+								<el-table-column prop="name" label="操作" width="120">
+									<template slot-scope="scope">
+										<el-button size="mini" @click="modifyListItem(scope.$index, scope.row)">编辑</el-button>
+									</template>
+								</el-table-column>
+							</el-table>
+							<!-- <div class="listTitle">
 								<span v-for="(item,index) in formListTitle">{{index | materialToCH}}</span>
 								<span>操作</span>
 							</div>
 							<div class="list" v-for="(item) in formList">
+								<el-checkbox :label="item.id" :key="item.id"></el-checkbox>
 								<span v-for="(list,index) in item">
 									{{list}}
 								</span>
+
 								<span>
 									<el-button @click="modifyListItem(item)">编辑</el-button>
 									<el-button type="danger" @click="_deleteBpListItem(item)">删除</el-button>
 								</span>
-							</div>
+							</div> -->
 						</div>
 						<div class="material_formList" v-if="materialShow">
 							<div class="listTitle">
@@ -158,7 +186,7 @@
 		</el-dialog>
 		<el-dialog title="导入文件" :visible.sync="dialogMaterialImportFile" class="modifyDialog">
 			<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/material/upload" :on-success="handleFileSuccess"
-			    :auto-upload="false" :file-list="fileList" :on-preview="handlePreview" :on-remove="handleRemove" multiple>
+			    :auto-upload="false" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview" :on-remove="handleRemove">
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">将文件拖到此处，或
 					<em>点击上传</em>
@@ -171,7 +199,6 @@
 		</el-dialog>
 	</div>
 </template>
-
 <script>
 	// import tab from '@/base/tab'
 	export default {
@@ -193,6 +220,8 @@
 				dialogCarpettempAdd: false,
 				spinShow: false,
 				fileList: [],
+				bpFormList: [],
+				multipleSelection: [],
 				options: [{
 						value: '底盘排气系统',
 						label: '底盘排气系统',
@@ -248,41 +277,7 @@
 						}, {
 							value: '材料温测数据',
 							label: '材料温测数据',
-							children: [{
-									value: 'plastic',
-									label: 'plastic',
-									children: [{
-										value: 'H5-T88',
-										label: 'H5-T88'
-									}, {
-										value: 'H6-T88',
-										label: 'H6-T88'
-									}, {
-										value: 'H5-T100',
-										label: 'H5-T100'
-									}, {
-										value: 'H6-T100',
-										label: 'H6-T100'
-									}]
-								},
-								{
-									value: 'rubber',
-									label: 'rubber',
-									children: [{
-										value: 'H5-T88',
-										label: 'H5-T88'
-									}, {
-										value: 'H6-T88',
-										label: 'H6-T88'
-									}, {
-										value: 'H5-T100',
-										label: 'H5-T100'
-									}, {
-										value: 'H6-T100',
-										label: 'H6-T100'
-									}]
-								}
-							]
+							children: []
 						}, ],
 					}, {
 						value: '地毯温度计算系统',
@@ -380,12 +375,57 @@
 			}
 		},
 		mounted() {
+			this.axios({
+				method: 'get',
+				url: `/material`,
+				headers: {
+					'Content-type': 'application/json;charset=UTF-8'
+				},
+				params: {
+					page: this.currentPage - 1,
+					size: this.pageSize
+				}
+			}).then((res) => {
+				let nObj = {
+					value: '',
+					label: ''
+				}
+				let sObj = {
+					value: '',
+					label: ''
+				}
+				res.data.data.content.forEach((item) => {
+					nObj = {
+						value: item.name,
+						label: item.name
+					}
+					nObj.children = []
+					item.sheet.forEach((val) => {
+						sObj = {
+							value: val,
+							label: val
+						}
+						nObj.children.push(sObj)
+					})
+					this.options[2].children[1].children.push(nObj)
+				})
+			})
 			this.typeChange(this.paiqiType)
 			// this._getMaterialData()
 			// this._getCarpettempData()
 			document.getElementById("tab").style.minHeight = window.innerHeight + 'px'
 		},
 		methods: {
+			handleSelectionChange(val) {
+				this.multipleSelection = val;
+			},
+			handleFileError(err) {
+				let endCode = err.toString().lastIndexOf(`。`)
+				this.$notify.error({
+					title: '错误',
+					message: err.toString().slice(76, endCode)
+				});
+			},
 			handleFileSuccess(response, file, fileList) {
 				if (response.code === 0) {
 					this.$notify.success({
@@ -480,8 +520,8 @@
 						page: this.currentPage - 1,
 						size: this.pageSize,
 						material: this.selectValues[2],
-						hData: this.selectValues[3].slice(1, 2),
-						tair: this.selectValues[3].slice(4)
+						hData: this.selectValues[3].slice(1, this.selectValues[3].indexOf("_")),
+						tair: this.selectValues[3].slice(this.selectValues[3].indexOf("T")+1)
 					},
 				}).then((res) => {
 					this.pageCount = res.data.data.totalElements
@@ -546,17 +586,16 @@
 							nObj.p_2 = _data[i].p_2
 							nObj.p_3 = _data[i].p_3
 							nObj.distance = _data[i].distance
-							this.formList.push(nObj)
+							this.bpFormList.push(nObj)
 						}
 					}
 					this.addListItemSlot = {}
-					for (let i in this.formList[0]) {
+					for (let i in this.bpFormList[0]) {
 						if (i !== 'id') {
 							this.$set(this.addListItemSlot, i, null)
 						}
 					}
 					this.spinShow = false
-
 				})
 			},
 			handleRemove(file, fileList) {
@@ -592,6 +631,9 @@
 						window.location = "http://39.107.243.101:7070/material/excel?filename=plastic"
 					}
 				}).catch(() => {});
+			},
+			_deleteItem() {
+				this.multipleSelection
 			},
 			_deleteCarpettempListItem(item) {
 				this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -949,7 +991,8 @@
 					});
 				});
 			},
-			modifyListItem(item) {
+			modifyListItem(index, item) {
+				console.log(index, item)
 				this.dialogModify = true
 				this.currentModify = Object.assign({}, item);
 			},
@@ -992,7 +1035,6 @@
 					if (values[0] === '底盘排气系统' || values[0] === '底盘进气系统') {
 						value = values[1]
 						this.qiShow = true
-
 					}
 				} else {
 					value = values

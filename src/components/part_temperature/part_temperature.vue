@@ -132,26 +132,26 @@
 			_getData() {
 				this.axios({
 					method: 'get',
-					url: `/sly/test`,
+					url: `/bpData/all`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					}
 				}).then((res) => {
-// 					if (res.data.code === 0) {
-// 						this.vpp1Arr = res.data.data
-// 					}
+					if (res.data.code === 0) {
+						this.vpp1Arr = res.data.data
+					}
 				})
-// 				this.axios({
-// 					method: 'get',
-// 					url: `/material/all`,
-// 					headers: {
-// 						'Content-type': 'application/json;charset=UTF-8'
-// 					}
-// 				}).then((res) => {
-// 					if (res.data.code === 0) {
-// 						this.materialArr = res.data.data
-// 					}
-// 				})
+				this.axios({
+					method: 'get',
+					url: `/material/all`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					}
+				}).then((res) => {
+					if (res.data.code === 0) {
+						this.materialArr = res.data.data
+					}
+				})
 			},
 			_materialChange(value) {
 				for (let i in this.materialArr) {

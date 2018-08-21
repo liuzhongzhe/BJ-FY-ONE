@@ -93,20 +93,37 @@
 						"evaresult": "",
 						"momo": "",
 					},
-				]
+				],
+				msgState:true
 			}
 		},
 		methods: {
 			submit() {
 				for(let i in this.form){
 					if(!this.form[i].evaresult){
-						this.$Message.error('请将表单填写完整');
+						if(this.msgState){
+							this.msgState=false
+							this.$Message.error('请将表单填写完整');
+							setTimeout(()=>{
+								this.msgState=true
+							},1500)
+						}
+						return;
+					}
+					if(this.form[i].evaresult === "EVA_RESILT_UNPASS" && !this.form[i].momo){
+						if(this.msgState){
+							this.msgState=false
+							this.$Message.error('请填写Nok对应comment');
+							setTimeout(()=>{
+								this.msgState=true
+							},1500)
+						}
 						return;
 					}
 				}
 				this.axios({
 					method: 'post',
-					url: `/proinfo/submit/`,
+					url: `/patac_ras/proinfo/submit/`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					},
