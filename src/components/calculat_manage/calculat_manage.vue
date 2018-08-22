@@ -9,7 +9,8 @@
 					<div slot="header" class="clearfix" style="text-align: left;">
 						<el-cascader :options="options" v-model="selectedOptions" @change="typeChange">
 						</el-cascader>
-						<el-button style="float: right;position: relative;top: 5px;margin-left: 10px;  height: 32px;line-height: 1px;"  v-show="!materialShow"  type="danger" @click="_deleteItem">删除</el-button>
+						<el-button style="float: right;position: relative;top: 5px;margin-left: 10px;  height: 32px;line-height: 1px;" v-show="!materialShow"
+						    type="danger" @click="_deleteItem">删除</el-button>
 						<el-button style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px;" v-show="!materialShow" type="primary"
 						    @click="_addItem">添加</el-button>
 						<el-button v-show="bpShow ||materialShow" style="float: right;position: relative;top: 5px; height: 32px;line-height: 1px; "
@@ -19,19 +20,19 @@
 					</div>
 					<div style="position: relative;">
 						<div class="formList" v-if="qiShow">
-							<div class="listTitle">
-								<span v-for="(item,index) in formListTitle">{{index | materialToCH}}</span>
-								<span>操作</span>
-							</div>
-							<div class="list" v-for="(item,ind) in formList">
-								<span v-for="(list,index) in item">
-									{{list}}
-								</span>
-								<span>
-									<el-button @click="modifyListItem(item)">编辑</el-button>
-									<el-button type="danger" @click="_deleteListItem(item)">删除</el-button>
-								</span>
-							</div>
+							<el-table ref="multipleTable" :data="formList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+								<el-table-column type="selection" width="40">
+								</el-table-column>
+								<el-table-column type="index" width="50" label="no.">
+								</el-table-column>
+								<el-table-column v-for="(item,index) in formListTitle" :key="index" v-if="index!=='id'" :prop="index" :label="index" min-width="120">
+								</el-table-column>
+								<el-table-column prop="name" label="操作" min-width="120">
+									<template slot-scope="scope">
+										<el-button size="mini" @click="modifyListItem(scope.$index, scope.row)">编辑</el-button>
+									</template>
+								</el-table-column>
+							</el-table>
 						</div>
 						<div class="bp_formList" v-if="bpShow">
 							<el-table ref="multipleTable" :data="bpFormList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
@@ -59,21 +60,6 @@
 									</template>
 								</el-table-column>
 							</el-table>
-							<!-- <div class="listTitle">
-								<span v-for="(item,index) in formListTitle">{{index | materialToCH}}</span>
-								<span>操作</span>
-							</div>
-							<div class="list" v-for="(item) in formList">
-								<el-checkbox :label="item.id" :key="item.id"></el-checkbox>
-								<span v-for="(list,index) in item">
-									{{list}}
-								</span>
-
-								<span>
-									<el-button @click="modifyListItem(item)">编辑</el-button>
-									<el-button type="danger" @click="_deleteBpListItem(item)">删除</el-button>
-								</span>
-							</div> -->
 						</div>
 						<div class="material_formList" v-if="materialShow">
 							<div class="listTitle">
@@ -95,20 +81,25 @@
 							</div>
 						</div>
 						<div class="carpettemp_formList" v-if="carpettempShow">
-							<div class="listTitle">
-								<span v-for="(item,index) in formListTitle">{{index}}</span>
-								<span>操作</span>
-							</div>
-							<div class="list" v-for="(item,ind) in formList">
-								<span>{{item.material}}</span>
-								<span>{{item.conductivity}}</span>
-								<span>{{item.specificHeat}}</span>
-								<span>{{item.density}}</span>
-								<span>
-									<el-button @click="modifyListItem(item)">编辑</el-button>
-									<el-button type="danger" @click="_deleteCarpettempListItem(item)">删除</el-button>
-								</span>
-							</div>
+							<el-table ref="multipleTable" :data="carpettempFormList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+								<el-table-column type="selection" width="40">
+								</el-table-column>
+								<el-table-column type="index" label="no." min-width="50">
+								</el-table-column>
+								<el-table-column prop="material" label="material" min-width="120">
+								</el-table-column>
+								<el-table-column prop="conductivity" label="conductivity" min-width="120">
+								</el-table-column>
+								<el-table-column prop="specificHeat" label="specificHeat" min-width="120">
+								</el-table-column>
+								<el-table-column prop="density" label="density" min-width="80">
+								</el-table-column>
+								<el-table-column prop="name" label="操作" min-width="120">
+									<template slot-scope="scope">
+										<el-button size="mini" @click="modifyListItem(scope.$index, scope.row)">编辑</el-button>
+									</template>
+								</el-table-column>
+							</el-table>
 						</div>
 						<Spin size="large" fix v-if="spinShow"></Spin>
 					</div>
@@ -173,7 +164,8 @@
 		</el-dialog>
 		<el-dialog title="导入文件" :visible.sync="dialogBpImportFile" class="modifyDialog">
 			<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/bpData/upload" :on-success="handleFileSuccess"
-			    :auto-upload="false" :file-list="fileList" :on-preview="handlePreview" :on-remove="handleRemove" multiple>
+			    :auto-upload="false" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview" :on-remove="handleRemove"
+			    multiple>
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">将文件拖到此处，或
 					<em>点击上传</em>
@@ -221,6 +213,7 @@
 				spinShow: false,
 				fileList: [],
 				bpFormList: [],
+				carpettempFormList: [],
 				multipleSelection: [],
 				options: [{
 						value: '底盘排气系统',
@@ -306,7 +299,7 @@
 				addListItemSlot: {},
 				currentPage: 1,
 				pageCount: 0,
-				pageSize: 8,
+				pageSize: 10,
 
 			}
 		},
@@ -416,14 +409,21 @@
 			document.getElementById("tab").style.minHeight = window.innerHeight + 'px'
 		},
 		methods: {
+			formListFilter(formList) {
+				for (let i in formList) {
+					console.log(formList[i])
+				}
+
+			},
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			},
 			handleFileError(err) {
+				let startCode = err.toString().lastIndexOf(`页签`)
 				let endCode = err.toString().lastIndexOf(`。`)
 				this.$notify.error({
 					title: '错误',
-					message: err.toString().slice(76, endCode)
+					message: err.toString().slice(startCode, endCode)
 				});
 			},
 			handleFileSuccess(response, file, fileList) {
@@ -462,6 +462,7 @@
 				}
 			},
 			_getCarpettempData() {
+				this.carpettempFormList = []
 				this.axios({
 					method: 'get',
 					url: `/carpettemp`,
@@ -475,7 +476,7 @@
 				}).then((res) => {
 					this.pageCount = res.data.data.totalElements
 					let _data = res.data.data.content
-					this.formList = _data
+					this.carpettempFormList = _data
 					this.formListTitle = {
 						material: '',
 						conductivity: '',
@@ -491,7 +492,6 @@
 				})
 			},
 			_getMaterialData() {
-				this.pageSize = 11
 				this.materialShow = true
 				this.qiShow = false
 				this.bpShow = false
@@ -521,7 +521,7 @@
 						size: this.pageSize,
 						material: this.selectValues[2],
 						hData: this.selectValues[3].slice(1, this.selectValues[3].indexOf("_")),
-						tair: this.selectValues[3].slice(this.selectValues[3].indexOf("T")+1)
+						tair: this.selectValues[3].slice(this.selectValues[3].indexOf("T") + 1)
 					},
 				}).then((res) => {
 					this.pageCount = res.data.data.totalElements
@@ -542,7 +542,7 @@
 				this.bpShow = true
 				this.materialShow = false
 				this.qiShow = false
-				this.formList = []
+				this.bpFormList = []
 				this.formListTitle = {
 					id: "",
 					VPPS1: "",
@@ -617,7 +617,6 @@
 				} else if (this.materialShow) {
 					this.dialogMaterialImportFile = true
 				}
-
 			},
 			exportFile() {
 				this.$confirm('确定导出文件?', '提示', {
@@ -628,87 +627,101 @@
 					if (this.bpShow) {
 						window.location = "http://39.107.243.101:7070/bpData/excel?filename=TPP_BpData"
 					} else if (this.materialShow) {
-						window.location = "http://39.107.243.101:7070/material/excel?filename=plastic"
+
+						window.location = `http://39.107.243.101:7070/material/excel?filename=${this.selectedOptions[2]}`
 					}
 				}).catch(() => {});
 			},
 			_deleteItem() {
-				this.multipleSelection
-			},
-			_deleteCarpettempListItem(item) {
-				this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				}).then(() => {
-					this.spinShow = true
-					this.axios({
-						method: 'delete',
-						url: `/carpettemp/${item.id}`,
-						headers: {
-							'Content-type': 'application/json;charset=UTF-8'
-						}
-					}).then((res) => {
-						this._getCarpettempData()
-					})
-				}).catch(() => {
-					this.$message({
-						type: 'info',
-						message: '已取消删除'
+				let idArr = []
+				this.multipleSelection.forEach((item) => {
+					idArr.push(item.id)
+				})
+				if (this.qiShow) {
+					this.$confirm('是否删除选中信息?', '提示', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						type: 'info'
+					}).then(() => {
+						this.spinShow = true
+						this.axios({
+							method: 'delete',
+							url: `./api/${localStorage.paiqiType}`,
+							headers: {
+								'Content-type': 'application/json;charset=UTF-8'
+							},
+							data: idArr
+						}).then((res) => {
+							if (res.status === 200) {
+								this.$notify.success({
+									title: '成功',
+									message: '删除成功'
+								});
+							}
+							this._getPaiqiData()
+						})
+					}).catch(() => {
+						this.$message({
+							type: 'info',
+							message: '已取消删除'
+						});
 					});
-				});
-			},
-			_deleteBpListItem(item) {
-				this.$confirm('是否删除此信息?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'info'
-				}).then(() => {
-					this.spinShow = true
-					this.axios({
-						method: 'delete',
-						url: `/bpData/${item.id}`,
-						headers: {
-							'Content-type': 'application/json;charset=UTF-8'
-						}
-					}).then((res) => {
-						this._getBpData()
-					})
-				}).catch(() => {
-					this.$message({
-						type: 'info',
-						message: '已取消删除'
+				}
+				if (this.bpShow) {
+					this.$confirm('是否删除选中信息?', '提示', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						type: 'info'
+					}).then(() => {
+						this.spinShow = true
+						this.axios({
+							method: 'delete',
+							url: `/bpData`,
+							headers: {
+								'Content-type': 'application/json;charset=UTF-8'
+							},
+							data: idArr
+						}).then((res) => {
+							if (res.data.code === 0) {
+								this.$notify.success({
+									title: '成功',
+									message: '删除成功'
+								});
+							}
+							this._getBpData()
+						})
+					}).catch(() => {
+						this.$message({
+							type: 'info',
+							message: '已取消删除'
+						});
 					});
-				});
-			},
-			_deleteListItem(item) {
-				this.$confirm('是否删除此信息?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'info'
-				}).then(() => {
-					this.spinShow = true
-					this.axios({
-						method: 'delete',
-						url: `./api/${localStorage.paiqiType}/${item.id}`,
-						headers: {
-							'Content-type': 'application/json;charset=UTF-8'
-						}
-					}).then((res) => {
-						if (res.status === 200) {
-							this.$notify.success({
-								title: '成功',
-								message: '删除成功'
-							});
-						}
-						this._getPaiqiData()
-					})
-				}).catch(() => {
-					this.$message({
-						type: 'info',
-						message: '已取消删除'
+				}
+				if (this.carpettempShow) {
+					this.$confirm('是否删除选中信息?', '提示', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						type: 'warning'
+					}).then(() => {
+						this.spinShow = true
+						this.axios({
+							method: 'delete',
+							url: `/carpettemp`,
+							headers: {
+								'Content-type': 'application/json;charset=UTF-8'
+							},
+							data: idArr
+						}).then((res) => {
+							this._getCarpettempData()
+						})
+					}).catch(() => {
+						this.$message({
+							type: 'info',
+							message: '已取消删除'
+						});
 					});
-				});
+				}
+
 			},
 			_addCarpettempListItemSubmit() {
 				for (let i in this.addListItemSlot) {
@@ -1013,6 +1026,7 @@
 				this.bpShow = false
 				this.materialShow = false
 				this.carpettempShow = false
+				this.multipleSelection = []
 				let value = ''
 				this.currentPage = 1
 				if (typeof (values) !== 'string') {

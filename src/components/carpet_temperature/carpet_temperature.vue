@@ -1,8 +1,5 @@
 <template>
 	<div class="carpet_temperature">
-		<div class="tab" id="tab">
-			<!-- <tab :navIndex="navInd"></tab> -->
-		</div>
 		<div class="right">
 			<el-card class="box-card">
 				<div slot="header" class="clearfix">
@@ -87,9 +84,6 @@
 <script>
 	// import tab from '@/base/tab'
 	export default {
-		components: {
-			// tab
-		},
 		data() {
 			return {
 				navInd: '2',
@@ -314,12 +308,7 @@
 <style lang="scss" scoped="scoped">
 	.carpet_temperature {
 		min-width: 1000px;
-		display: flex;
 		font-size: 14px;
-		.tab {
-			flex: 0 200px;
-			background: rgb(44, 47, 62);
-		}
 		/deep/ .el-card__body {
 			width: 100%;
 		}
@@ -339,7 +328,6 @@
 			padding: 0 10px;
 		}
 		.right {
-			flex: 1;
 			padding: 20px;
 			width: 100%;
 			.box-card {

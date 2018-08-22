@@ -1,8 +1,5 @@
 <template>
 	<div class="part_temperature">
-		<div class="tab" id="tab">
-			<!-- <tab :navIndex="navInd"></tab> -->
-		</div>
 		<div class="right">
 			<el-card class="box-card">
 				<div slot="header" class="clearfix">
@@ -92,11 +89,7 @@
 </template>
 
 <script>
-	// import tab from '@/base/tab'
 	export default {
-		components: {
-			// tab
-		},
 		data() {
 			return {
 				navInd: '2',
@@ -165,6 +158,8 @@
 			},
 			_vpps1Change(value) {
 				this.partnameArr = []
+				this.form.VPPSL2=''
+				this.form.partname=''
 				this.vpp2Arr = []
 				this.axios({
 					method: 'get',
@@ -255,7 +250,8 @@
 							}
 							this.drawListTwo = new Array(this.xArr.length).fill(this.form.tlimt)
 							this.$refs.colorOne.style.background = res.data.data.limtStatus
-							this.numOne = res.data.limtValue
+							this.$refs.colorOne.style.background = res.data.data.arrangeStatus
+							this.numOne = res.data.data.limtValue
 							this.firstListType = 'D-T曲线'
 							this.$refs.colorTwo.style.background = 'red'
 							this.drawLine();
@@ -354,12 +350,7 @@
 <style lang="scss" scoped="scoped">
 	.part_temperature {
 		min-width: 1000px;
-		display: flex;
 		font-size: 14px;
-		.tab {
-			flex: 0 200px;
-			background: rgb(44, 47, 62);
-		}
 		/deep/ .el-button {
 			padding: 10px 30px;
 		}
@@ -379,7 +370,6 @@
 			padding: 0 10px;
 		}
 		.right {
-			flex: 1;
 			padding: 20px;
 			width: 100%;
 			.box-card {
