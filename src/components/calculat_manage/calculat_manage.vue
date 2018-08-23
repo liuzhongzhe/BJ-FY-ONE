@@ -1,16 +1,13 @@
 <template>
 	<div class="default">
-		<div class="tab" id="tab">
-			<!-- <tab :navIndex="navInd"></tab> -->
-		</div>
 		<div class="right">
 			<div class="form">
 				<el-card class="box-card">
 					<div slot="header" class="clearfix" style="text-align: left;">
 						<el-cascader :options="options" v-model="selectedOptions" @change="typeChange">
 						</el-cascader>
-						<el-button style="float: right;position: relative;top: 5px;margin-left: 10px;  height: 32px;line-height: 1px;" v-show="!materialShow"
-						    type="danger" @click="_deleteItem">删除</el-button>
+						<el-button style="float: right;position: relative;top: 5px;margin-left: 10px;  height: 32px;line-height: 1px;" type="danger"
+						    @click="_deleteItem">删除</el-button>
 						<el-button style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px;" v-show="!materialShow" type="primary"
 						    @click="_addItem">添加</el-button>
 						<el-button v-show="bpShow ||materialShow" style="float: right;position: relative;top: 5px; height: 32px;line-height: 1px; "
@@ -40,17 +37,17 @@
 								</el-table-column>
 								<el-table-column type="index" width="50" label="no.">
 								</el-table-column>
-								<el-table-column prop="vpps1" label="vpps1" width="120">
+								<el-table-column prop="vpps1" label="vpps_1" width="120">
 								</el-table-column>
-								<el-table-column prop="vpps2" label="VPPS2" width="120">
+								<el-table-column prop="vpps2" label="VPPS_2" width="120">
 								</el-table-column>
 								<el-table-column prop="parts" label="Parts" width="120">
 								</el-table-column>
-								<el-table-column prop="p_1" label="P1" width="80">
+								<el-table-column prop="p_1" label="D1" width="80">
 								</el-table-column>
-								<el-table-column prop="p_2" label="P2" width="80">
+								<el-table-column prop="p_2" label="D2" width="80">
 								</el-table-column>
-								<el-table-column prop="p_3" label="P3" width="80">
+								<el-table-column prop="p_3" label="D3" width="80">
 								</el-table-column>
 								<el-table-column prop="distance" label="Distance" min-width="120">
 								</el-table-column>
@@ -76,7 +73,7 @@
 									{{list}}
 								</span>
 								<span>
-									<el-button @click="modifyListItem(item)">编辑</el-button>
+									<el-button @click="modifyListItem(ind,item)">编辑</el-button>
 								</span>
 							</div>
 						</div>
@@ -88,11 +85,11 @@
 								</el-table-column>
 								<el-table-column prop="material" label="material" min-width="120">
 								</el-table-column>
-								<el-table-column prop="conductivity" label="conductivity" min-width="120">
+								<el-table-column prop="conductivity" label="Conductivity [w/m²*k]" min-width="120">
 								</el-table-column>
-								<el-table-column prop="specificHeat" label="specificHeat" min-width="120">
+								<el-table-column prop="specificHeat" label="Specific Heat [J/kg*k]" min-width="120">
 								</el-table-column>
-								<el-table-column prop="density" label="density" min-width="80">
+								<el-table-column prop="density" label="Density[kg/m³]" min-width="80">
 								</el-table-column>
 								<el-table-column prop="name" label="操作" min-width="120">
 									<template slot-scope="scope">
@@ -150,7 +147,7 @@
 		<el-dialog title="修改" :visible.sync="dialogModify" class="modifyDialog">
 			<div>
 				<div class="sec" v-for="(item,index) in currentModify" v-show="index !='id'" v-if="index !='createTime' ">
-					<span>{{index}}</span>
+					<span>{{index | modifyFilter}}</span>
 					<el-input style="display: inline-block; width: 300px;" :value="item" v-model="currentModify[index]"></el-input>
 				</div>
 			</div>
@@ -192,11 +189,7 @@
 	</div>
 </template>
 <script>
-	// import tab from '@/base/tab'
 	export default {
-		components: {
-			// tab
-		},
 		data() {
 			return {
 				navInd: '4-3',
@@ -213,6 +206,7 @@
 				spinShow: false,
 				fileList: [],
 				bpFormList: [],
+				materialTypes: [],
 				carpettempFormList: [],
 				multipleSelection: [],
 				options: [{
@@ -304,6 +298,32 @@
 			}
 		},
 		filters: {
+			modifyFilter: function (value) {
+				switch (value) {
+					case 'p_1':
+						return 'D1'
+						break;
+					case 'p_2':
+						return 'D2'
+						break;
+					case 'p_3':
+						return 'D3'
+						break;
+					case 'distance':
+						return 'Distance'
+						break;
+					case 'vpps1':
+						return 'vpps_1'
+						break;
+					case 'vpps2':
+						return 'vpps_2'
+						break;
+					default:
+						{
+							return value
+						}
+				}
+			},
 			materialToCH: function (value) {
 				switch (value) {
 					case 'id':
@@ -368,52 +388,60 @@
 			}
 		},
 		mounted() {
-			this.axios({
-				method: 'get',
-				url: `/material`,
-				headers: {
-					'Content-type': 'application/json;charset=UTF-8'
-				},
-				params: {
-					page: this.currentPage - 1,
-					size: this.pageSize
-				}
-			}).then((res) => {
-				let nObj = {
-					value: '',
-					label: ''
-				}
-				let sObj = {
-					value: '',
-					label: ''
-				}
-				res.data.data.content.forEach((item) => {
-					nObj = {
-						value: item.name,
-						label: item.name
-					}
-					nObj.children = []
-					item.sheet.forEach((val) => {
-						sObj = {
-							value: val,
-							label: val
-						}
-						nObj.children.push(sObj)
-					})
-					this.options[2].children[1].children.push(nObj)
-				})
-			})
+			this._getMaterilTypes()
 			this.typeChange(this.paiqiType)
-			// this._getMaterialData()
-			// this._getCarpettempData()
-			document.getElementById("tab").style.minHeight = window.innerHeight + 'px'
 		},
 		methods: {
+			_getMaterilTypes() {
+				this.options[2].children[1].children = []
+				this.axios({
+					method: 'get',
+					url: `/material`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					params: {
+						page: this.currentPage - 1,
+						size: this.pageSize
+					}
+				}).then((res) => {
+					this.materialTypes = res.data.data.content
+					let nObj = {
+						value: '',
+						label: ''
+					}
+					let sObj = {
+						value: '',
+						label: ''
+					}
+					res.data.data.content.forEach((item) => {
+						nObj = {
+							value: item.name,
+							label: item.name
+						}
+						nObj.children = []
+						item.sheet.forEach((val) => {
+							sObj = {
+								value: val,
+								label: val
+							}
+							nObj.children.push(sObj)
+						})
+						this.options[2].children[1].children.push(nObj)
+					})
+				}).catch((err) => {
+					this.$notify.error({
+						title: '错误',
+						message: err.response.data.msg,
+						duration: 5000
+					});
+					return;
+				})
+			},
 			formListFilter(formList) {
 				for (let i in formList) {
 					console.log(formList[i])
 				}
-
 			},
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
@@ -432,6 +460,7 @@
 						title: '成功',
 						message: '上传成功'
 					});
+					this._getMaterilTypes()
 					if (this.bpShow) {
 						this.dialogBpImportFile = false
 						this._getBpData()
@@ -489,6 +518,13 @@
 						}
 					}
 					this.spinShow = false
+				}).catch((err) => {
+					this.$notify.error({
+						title: '错误',
+						message: err.response.data.msg,
+						duration: 5000
+					});
+					return;
 				})
 			},
 			_getMaterialData() {
@@ -536,6 +572,13 @@
 						}
 					}
 					this.spinShow = false
+				}).catch((err) => {
+					this.$notify.error({
+						title: '错误',
+						message: err.response.data.msg,
+						duration: 5000
+					});
+					return;
 				})
 			},
 			_getBpData() {
@@ -596,6 +639,13 @@
 						}
 					}
 					this.spinShow = false
+				}).catch((err) => {
+					this.$notify.error({
+						title: '错误',
+						message: err.response.data.msg,
+						duration: 5000
+					});
+					return;
 				})
 			},
 			handleRemove(file, fileList) {
@@ -630,13 +680,63 @@
 
 						window.location = `http://39.107.243.101:7070/material/excel?filename=${this.selectedOptions[2]}`
 					}
-				}).catch(() => {});
+				}).catch((err) => {
+					this.$notify.error({
+						title: '错误',
+						message: err.response.data.msg,
+						duration: 5000
+					});
+					return;
+				})
 			},
 			_deleteItem() {
 				let idArr = []
 				this.multipleSelection.forEach((item) => {
 					idArr.push(item.id)
 				})
+				if (this.materialShow) {
+					let materialId = ''
+					for (let i in this.materialTypes) {
+						if (this.materialTypes[i].name === this.currentType[2]) {
+							materialId = this.materialTypes[i].id
+						}
+					}
+					this.$confirm(`是否删除材料${this.currentType[2]}?`, '提示', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						type: 'info'
+					}).then(() => {
+						this.axios({
+							method: 'delete',
+							url: `/material/${materialId}`,
+							headers: {
+								'Content-type': 'application/json;charset=UTF-8'
+							},
+						}).then((res) => {
+							if (res.data.code === 0) {
+								this.$notify.success({
+									title: '成功',
+									message: '删除成功',
+									duration: 1000
+								});
+								this._getMaterilTypes()
+							}
+
+						}).catch((err) => {
+							this.$notify.error({
+								title: '错误',
+								message: err.response.data.msg,
+								duration: 5000
+							});
+							return;
+						})
+					}).catch(() => {
+						this.$message({
+							type: 'info',
+							message: '已取消删除'
+						});
+					});
+				}
 				if (this.qiShow) {
 					this.$confirm('是否删除选中信息?', '提示', {
 						confirmButtonText: '确定',
@@ -655,10 +755,18 @@
 							if (res.status === 200) {
 								this.$notify.success({
 									title: '成功',
-									message: '删除成功'
+									message: '删除成功',
+									duration: 1000
 								});
 							}
 							this._getPaiqiData()
+						}).catch((err) => {
+							this.$notify.error({
+								title: '错误',
+								message: err.response.data.msg,
+								duration: 5000
+							});
+							return;
 						})
 					}).catch(() => {
 						this.$message({
@@ -685,10 +793,18 @@
 							if (res.data.code === 0) {
 								this.$notify.success({
 									title: '成功',
-									message: '删除成功'
+									message: '删除成功',
+									duration: 1000
 								});
 							}
 							this._getBpData()
+						}).catch((err) => {
+							this.$notify.error({
+								title: '错误',
+								message: err.response.data.msg,
+								duration: 5000
+							});
+							return;
 						})
 					}).catch(() => {
 						this.$message({
@@ -713,6 +829,13 @@
 							data: idArr
 						}).then((res) => {
 							this._getCarpettempData()
+						}).catch((err) => {
+							this.$notify.error({
+								title: '错误',
+								message: err.response.data.msg,
+								duration: 5000
+							});
+							return;
 						})
 					}).catch(() => {
 						this.$message({
@@ -728,7 +851,8 @@
 					if (!this.addListItemSlot[i]) {
 						this.$notify.error({
 							title: '错误',
-							message: "请将表单填写完整"
+							message: "请将表单填写完整",
+							duration: 5000
 						});
 						return;
 					}
@@ -746,7 +870,8 @@
 				if (realLength >= 32) {
 					this.$notify.error({
 						title: '错误',
-						message: "材料名称过长,请小于32个字符"
+						message: "材料名称过长,请小于32个字符",
+						duration: 5000
 					});
 					return;
 				}
@@ -763,13 +888,15 @@
 					this.dialogCarpettempAdd = false
 					this.$notify.success({
 						title: '成功',
-						message: '添加成功'
+						message: '添加成功',
+						duration: 1000
 					});
 				}).catch((error) => {
 					this._getCarpettempData()
 					this.$notify.error({
 						title: '错误',
-						message: error.response.data.message
+						message: error.response.data.message,
+						duration: 5000
 					});
 				});
 			},
@@ -778,7 +905,8 @@
 					if (!this.addListItemSlot[i]) {
 						this.$notify.error({
 							title: '错误',
-							message: "请将表单填写完整"
+							message: "请将表单填写完整",
+							duration: 1000
 						});
 						return;
 					}
@@ -789,21 +917,24 @@
 				if (!p1) {
 					this.$notify.error({
 						title: '错误',
-						message: "请将p_1改写成数字类型"
+						message: "请将p_1改写成数字类型",
+						duration: 5000
 					});
 					return;
 				}
 				if (!p2) {
 					this.$notify.error({
 						title: '错误',
-						message: "请将p_2改写成数字类型"
+						message: "请将p_2改写成数字类型",
+						duration: 5000
 					});
 					return;
 				}
 				if (!p3) {
 					this.$notify.error({
 						title: '错误',
-						message: "请将p_3改写成数字类型"
+						message: "请将p_3改写成数字类型",
+						duration: 5000
 					});
 					return;
 				}
@@ -821,14 +952,16 @@
 						this.dialogBpAdd = false
 						this.$notify.success({
 							title: '成功',
-							message: '添加成功'
+							message: '添加成功',
+							duration: 1000
 						});
 					}
 				}).catch((error) => {
 					this._getBpData()
 					this.$notify.error({
 						title: '错误',
-						message: error.response.data.message
+						message: error.response.data.message,
+						duration: 5000
 					});
 				});
 			},
@@ -846,14 +979,16 @@
 						this.dialogFormVisible = false
 						this.$notify.success({
 							title: '成功',
-							message: '添加成功'
+							message: '添加成功',
+							duration: 1000
 						});
 					}
 				}).catch((error) => {
 					this._getPaiqiData()
 					this.$notify.error({
 						title: '错误',
-						message: error.response.data.message
+						message: error.response.data.message,
+						duration: 5000
 					});
 				});
 
@@ -862,11 +997,13 @@
 				this.dialogFormVisible = true
 			},
 			_modifySubmit() {
+				console.log(this.currentModify)
 				for (let i in this.currentModify) {
 					if (!this.currentModify[i]) {
 						this.$notify.error({
 							title: '错误',
-							message: "请将表单填写完整"
+							message: "请将表单填写完整",
+							duration: 5000
 						});
 						return;
 					}
@@ -884,7 +1021,8 @@
 					if (res.status === 200) {
 						this.$notify.success({
 							title: '成功',
-							message: '修改成功'
+							message: '修改成功',
+							duration: 1000
 						});
 						this._getPaiqiData()
 						this.dialogModify = false
@@ -893,7 +1031,8 @@
 					this._getPaiqiData()
 					this.$notify.error({
 						title: '错误',
-						message: error.response.data.message
+						message: error.response.data.message,
+						duration: 5000
 					});
 				});
 			},
@@ -902,7 +1041,8 @@
 					if (!this.currentModify[i]) {
 						this.$notify.error({
 							title: '错误',
-							message: "请将表单填写完整"
+							message: "请将表单填写完整",
+							duration: 5000
 						});
 						return;
 					}
@@ -919,7 +1059,8 @@
 				}).then((res) => {
 					this.$notify.success({
 						title: '成功',
-						message: '修改成功'
+						message: '修改成功',
+						duration: 1000
 					});
 					this._getCarpettempData()
 					this.dialogModify = false
@@ -936,7 +1077,8 @@
 					if (!this.currentModify[i]) {
 						this.$notify.error({
 							title: '错误',
-							message: "请将表单填写完整"
+							message: "请将表单填写完整",
+							duration: 5000
 						});
 						return;
 					}
@@ -954,7 +1096,8 @@
 					if (res.data.code === 0) {
 						this.$notify.success({
 							title: '成功',
-							message: '修改成功'
+							message: '修改成功',
+							duration: 1000
 						});
 					}
 					this._getMaterialData()
@@ -963,7 +1106,8 @@
 					this._getMaterialData()
 					this.$notify.error({
 						title: '错误',
-						message: error.response.data.message
+						message: error.response.data.message,
+						duration: 5000
 					});
 				});
 			},
@@ -972,7 +1116,8 @@
 					if (!this.currentModify[i]) {
 						this.$notify.error({
 							title: '错误',
-							message: "请将表单填写完整"
+							message: "请将表单填写完整",
+							duration: 5000
 						});
 						return;
 					}
@@ -991,7 +1136,8 @@
 					if (res.data.code === 0) {
 						this.$notify.success({
 							title: '成功',
-							message: '修改成功'
+							message: '修改成功',
+							duration: 1000
 						});
 					}
 					this._getBpData()
@@ -1000,12 +1146,12 @@
 					this._getBpData()
 					this.$notify.error({
 						title: '错误',
-						message: error.response.data.message
+						message: error.response.data.message,
+						duration: 5000
 					});
 				});
 			},
 			modifyListItem(index, item) {
-				console.log(index, item)
 				this.dialogModify = true
 				this.currentModify = Object.assign({}, item);
 			},
@@ -1021,6 +1167,7 @@
 				}
 			},
 			typeChange(values) {
+				this.currentType = values
 				this.spinShow = true
 				this.qiShow = false
 				this.bpShow = false
@@ -1280,8 +1427,15 @@
 						}
 					}
 					this.spinShow = false
+				}).catch((err) => {
+					this.$notify.error({
+						title: '错误',
+						message: err.response.data.msg,
+						duration: 5000
+					});
+					return;
 				})
-			},
+			}
 		}
 
 	}

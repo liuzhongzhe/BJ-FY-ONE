@@ -6,71 +6,77 @@
 					<span style="font-size: 14px;">地毯温度计算系统</span>
 				</div>
 				<div style="display: flex;">
-					<el-form ref="form" :model="form" label-width="150px">
+					<Form ref="formValidate" :model="pro" :rules="ruleValidate" :label-width="140">
 						<p style="color: #409EFF;font-weight: bold;font-size: 15px;">长时间接触输入参数</p>
-						<el-form-item label="地毯材料">
-							<el-select v-model="pro.material">
-								<el-option v-for="(item,index) in materialArr" :key="index" :label="item.material" :value="item.material"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="地毯初始温度">
-							<el-input value="36" v-model="pro.initialTemp">
-								<span slot="append">℃</span>
-							</el-input>
-						</el-form-item>
-						<el-form-item label="Continuous温度限值">
-							<el-input value="40" v-model="pro.continuous">
-								<span slot="append">℃</span>
-							</el-input>
-						</el-form-item>
-						<el-form-item label="Excursion温度限值">
-							<el-input value="42.2" v-model="pro.excursion">
-								<span slot="append">℃</span>
-							</el-input>
-						</el-form-item>
-						<el-form-item label="Extreme温度限值">
-							<el-input value="44.4" v-model="pro.extreme">
-								<span slot="append">℃</span>
-							</el-input>
-						</el-form-item>
+						<FormItem label="地毯材料" prop="material">
+							<Select v-model="pro.material">
+								<Option v-for="(item,index) in materialArr" :key="index" :label="item.material" :value="item.material"></Option>
+							</Select>
+						</FormItem>
+						<FormItem label="地毯初始温度" prop="initialTemp">
+							<Input v-model="pro.initialTemp" number>
+							<span slot="append">℃</span>
+							</Input>
+							</Tooltip>
+						</FormItem>
+						<FormItem label="Continuous温度限值" prop="continuous">
+							<Input v-model="pro.continuous" number>
+							<span slot="append">℃</span>
+							</Input>
+						</FormItem>
+						<FormItem label="Excursion温度限值" prop="excursion">
+							<Input v-model="pro.excursion" number>
+							<span slot="append">℃</span>
+							</Input>
+						</FormItem>
+						<FormItem label="Extreme温度限值" prop="extreme">
+							<Input v-model="pro.extreme" number>
+							<span slot="append">℃</span>
+							</Input>
+
+						</FormItem>
 						<div style="margin-top: 30px;margin-bottom: 10px;">
 							<span style="color: #409EFF;font-weight: bold;font-size: 15px;">TCEQ输入参数</span>
-							<el-switch v-model="form.delivery"></el-switch>
+							<el-switch v-model="deliveryShow"></el-switch>
 						</div>
 						<transition name="el-fade-in-linear">
-							<div v-show="form.delivery">
-								<el-form-item label="热源温度">
-									<el-input value="100" v-model="pro.surfaceTemp">
-										<span slot="append">℃</span>
-									</el-input>
-								</el-form-item>
-								<el-form-item label="接触系数">
-									<el-input value="0.8" v-model="pro.contactFactor"></el-input>
-								</el-form-item>
-								<el-form-item label="涂层系数">
-									<el-input value="0.6" v-model="pro.coatingFactor"></el-input>
-								</el-form-item>
+							<div v-show="deliveryShow">
+								<FormItem label="热源温度" prop="surfaceTemp">
+									<Input v-model="pro.surfaceTemp" number>
+									<span slot="append">℃</span>
+									</Input>
+								</FormItem>
+								<FormItem label="接触系数" prop="contactFactor">
+									<Input v-model="pro.contactFactor" number>
+									<span slot="append">℃</span>
+									</Input>
+								</FormItem>
+								<FormItem label="涂层系数" prop="coatingFactor">
+									<Input v-model="pro.coatingFactor" number>
+									<span slot="append">℃</span>
+									</Input>
+								</FormItem>
 							</div>
 						</transition>
-						<div style="text-align: center;">
-							<el-button type="primary" @click="onSubmit">计算</el-button>
-							<el-button @click="clearData">清除</el-button>
-						</div>
-					</el-form>
+						<FormItem>
+							<Button type="primary" @click="_onSubmit">计算</Button>
+							<Button @click="clearData" style="margin-left: 8px;">清除</Button>
+						</FormItem>
+					</Form>
 					<div id="myChartWrapper">
 						<div style="margin-left: 15px;" class="longTimeResult">
 							<p style="color: #409EFF;font-weight: bold;font-size: 15px;">长时间接触温度结果</p>
 							<div class="sec">
 								<span style="line-height: 32px;vertical-align: top;">Continuous温度结果</span>
-								<el-tag style="text-align: left;">{{result.continuous}}</el-tag>
+								<Tag color="default">{{result.continuous}}</Tag>
 							</div>
 							<div class="sec">
 								<span style="line-height: 32px;vertical-align: top;">Excursion温度结果</span>
-								<el-tag style="text-align: left;">{{result.excursion}}</el-tag>
+								<Tag color="default">{{result.excursion}}</Tag>
 							</div>
 							<div class="sec">
 								<span style="line-height: 32px;vertical-align: top;">Extreme温度结果</span>
-								<el-tag style="text-align: left;">{{result.extreme}}</el-tag>
+								<Tag color="default">{{result.extreme}}</Tag>
 							</div>
 						</div>
 						<div id="myChart" style="margin-top: 30px;margin-left: 10px;"></div>
@@ -82,9 +88,42 @@
 </template>
 
 <script>
-	// import tab from '@/base/tab'
 	export default {
 		data() {
+			const validate_initialTemp = (rule, value, callback) => {
+				console.log(value)
+				if (!value) {
+					return callback(new Error('Age cannot be empty'));
+				}
+				if (!Number.isInteger(value)) {
+					callback(new Error('Please enter a numeric value'));
+				} else {
+					if (value < 0) {
+						callback(new Error('Please enter a numeric value'));
+					} else {
+						callback();
+					}
+				}
+			};
+			const validate_surfaceTemp = (rule, value, callback) => {
+				if (!this.deliveryShow) {
+					callback();
+				} else {
+					if (!value) {
+						return callback(new Error('Age cannot be empty'));
+					}
+					if (!Number.isInteger(value)) {
+						callback(new Error('Please enter a numeric value'));
+					} else {
+						if (value < 0) {
+							callback(new Error('Please enter a numeric value'));
+						} else {
+							callback();
+						}
+					}
+				}
+
+			};
 			return {
 				navInd: '2',
 				drawList: [],
@@ -112,17 +151,57 @@
 					region: '',
 					date1: '',
 					date2: '',
-					delivery: false,
 					type: [],
 					resource: '',
 					desc: ''
+				},
+				deliveryShow: false,
+				ruleValidate: {
+					material: [{
+						required: true,
+						trigger: 'change'
+					}],
+					initialTemp: [{
+						required: true,
+						validator: validate_initialTemp,
+						trigger: 'blur'
+					}],
+					continuous: [{
+						required: true,
+						validator: validate_initialTemp,
+						trigger: 'blur'
+					}],
+					excursion: [{
+						required: true,
+						validator: validate_initialTemp,
+						trigger: 'blur'
+					}],
+					extreme: [{
+						required: true,
+						validator: validate_initialTemp,
+						trigger: 'blur'
+					}],
+					surfaceTemp: [{
+						required: true,
+						validator: validate_surfaceTemp,
+						trigger: 'blur'
+					}],
+					contactFactor: [{
+						required: true,
+						validator: validate_surfaceTemp,
+						trigger: 'blur'
+					}],
+					coatingFactor: [{
+						required: true,
+						validator: validate_surfaceTemp,
+						trigger: 'blur'
+					}],
+
 				},
 				firstListType: ''
 			}
 		},
 		mounted() {
-			document.getElementById("tab").style.minHeight = window.innerHeight + 'px'
-			// this.drawLine()
 			this._getData()
 		},
 		methods: {
@@ -137,7 +216,13 @@
 					if (res.data.code === 0) {
 						this.materialArr = res.data.data
 					}
-				})
+				}).catch((error) => {
+					this.$notify.error({
+						title: '错误',
+						message: error.response.data.message,
+						duration: 5000
+					});
+				});
 			},
 			clearData() {
 				this.drawList = []
@@ -146,81 +231,87 @@
 				this.textThree = ''
 				this.firstListType = ''
 				this.pro = {
-						material: '',
-						initialTemp: '',
-						continuous: '',
-						excursion: '',
-						extreme: '',
-						surfaceTemp: '',
-						contactFactor: '',
-						coatingFactor: '',
-					},
-					this.result = {
-						continuous: '',
-						excursion: '',
-						extreme: '',
-					},
-					this.drawLine()
-			},
-			onSubmit() {
-				if (this.form.delivery) {
-					for(let i in this.pro){
-						if(!this.pro[i]){
-							this.$notify.error({
-								title: '错误',
-								message: '请将表单填写完整'
-							});
-							return;
-						}
-					}
-					this.axios({
-						method: 'get',
-						url: `/carpettemp/line`,
-						headers: {
-							'Content-type': 'application/json;charset=UTF-8'
-						},
-						params: this.pro
-					}).then((res) => {
-						let _data = res.data.data
-						this.result.continuous = _data.continuous + "℃"
-						this.result.excursion = _data.excursion + "℃"
-						this.result.extreme = _data.extreme + "℃"
-						for (let i in _data.lins) {
-							this.xArr.push(i)
-							this.xValuesArr.push(_data.lins[i])
-						}
-						this.drawList = this.xValuesArr
-						this.firstListType = 'TCEQ温度'
-						this.drawLine()
-					})
-				} else {
-					if(!this.pro.material ||!this.pro.continuous ||!this.pro.initialTemp||!this.pro.excursion||!this.pro.extreme){
-						this.$notify.error({
-							title: '错误',
-							message: '请将表单填写完整'
-						});
-						return;
-					}
-					this.axios({
-						method: 'get',
-						url: `/carpettemp/query`,
-						headers: {
-							'Content-type': 'application/json;charset=UTF-8'
-						},
-						params: {
-							material: this.pro.material,
-							initialTemp: this.pro.initialTemp,
-							continuous: this.pro.continuous,
-							excursion: this.pro.excursion,
-							extreme: this.pro.extreme
-						}
-					}).then((res) => {
-						this.result = res.data.data
-						this.result.continuous = res.data.data.continuous + "℃"
-						this.result.excursion = res.data.data.excursion + "℃"
-						this.result.extreme = res.data.data.extreme + "℃"
-					})
+					material: '',
+					initialTemp: '',
+					continuous: '',
+					excursion: '',
+					extreme: '',
+					surfaceTemp: '',
+					contactFactor: '',
+					coatingFactor: '',
 				}
+				this.result = {
+					continuous: '',
+					excursion: '',
+					extreme: '',
+				}
+				if (this.deliveryShow) {
+					this.drawLine()
+				}
+
+			},
+			_onSubmit() {
+				this.$refs.formValidate.validate((valid) => {
+					if (valid) {
+						if (this.deliveryShow) {
+							this.axios({
+								method: 'get',
+								url: `/carpettemp/line`,
+								headers: {
+									'Content-type': 'application/json;charset=UTF-8'
+								},
+								params: this.pro
+							}).then((res) => {
+								let _data = res.data.data
+								this.result.continuous = _data.continuous + "℃"
+								this.result.excursion = _data.excursion + "℃"
+								this.result.extreme = _data.extreme + "℃"
+								let nArr = [0, 0]
+								for (let i in _data.lins) {
+									console.log(i)
+									nArr = [i, _data.lins[i]]
+									this.drawList.push(nArr)
+								}
+								this.firstListType = 'TCEQ温度'
+								this.drawLine()
+							}).catch((error) => {
+								this.$notify.error({
+									title: '错误',
+									message: error.response.data.message,
+									duration: 5000
+								});
+							});
+						} else {
+							this.axios({
+								method: 'get',
+								url: `/carpettemp/query`,
+								headers: {
+									'Content-type': 'application/json;charset=UTF-8'
+								},
+								params: {
+									material: this.pro.material,
+									initialTemp: this.pro.initialTemp,
+									continuous: this.pro.continuous,
+									excursion: this.pro.excursion,
+									extreme: this.pro.extreme
+								}
+							}).then((res) => {
+								this.result = res.data.data
+								this.result.continuous = res.data.data.continuous + "℃"
+								this.result.excursion = res.data.data.excursion + "℃"
+								this.result.extreme = res.data.data.extreme + "℃"
+							}).catch((error) => {
+								this.$notify.error({
+									title: '错误',
+									message: error.response.data.message,
+									duration: 5000
+								});
+							});
+						}
+					} else {
+						this.$Message.error('表单填写有误');
+					}
+				})
 			},
 			drawLine() {
 				let myChart = this.$echarts.init(document.getElementById('myChart'))
@@ -266,29 +357,32 @@
 						}
 					},
 					xAxis: {
-						type: 'category',
-						name: 'S',
-						minInterval:1,
-						data: ['0','0.1', '0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9', '1.0',
-						 '1.1','1.2','1.3','1.4','1.5', '1.6', '1.7', '1.8', '1.9',  '2.0', 
-						 '2.1','2.2','2.3','2.4','2.5', '2.6', '2.7', '2.8', '2.9',  '3.0', 
-						 '3.1','3.2','3.3','3.4','3.5', '3.6', '3.7', '3.8', '3.9',  '4.0', 
-						 '4.1','4.2','4.3','4.4','4.5', '4.6', '4.7', '4.8', '4.9',  '5.0']
+						type: 'value',
+						name: 'time / S',
+						min: 0,
+						max: 5,
+						interval: 0.5,
+						splitLine: {
+							show: false
+						}
 					},
 					yAxis: {
 						type: 'value',
-						name: '°C',
+						name: 'TCQ / °C',
 						min: 0,
 						max: 120,
 						interval: 10,
 						axisLabel: {
 							formatter: '{value} '
+						},
+						splitLine: {
+							show: false
 						}
 					},
 					series: [{
 						type: 'line',
 						name: 'TCEQ温度',
-						smooth:true,
+						smooth: true,
 						data: this.drawList,
 						itemStyle: {
 							normal: {
@@ -309,6 +403,21 @@
 	.carpet_temperature {
 		min-width: 1000px;
 		font-size: 14px;
+		/deep/ .ivu-form-item {
+			margin-bottom: 20px;
+		}
+		/deep/ .ivu-form-item-error-tip {
+			display: none;
+		}
+		/deep/ .ivu-select-single .ivu-select-selection,
+		.ivu-input-wrapper {
+			width: 200px;
+		}
+		/deep/ .ivu-tag {
+			width: 80px;
+			position: relative;
+			top: 2px;
+		}
 		/deep/ .el-card__body {
 			width: 100%;
 		}

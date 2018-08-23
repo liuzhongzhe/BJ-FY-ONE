@@ -6,70 +6,61 @@
 					<span style="font-size: 14px;">零件温度预测系统</span>
 				</div>
 				<div style="display: flex;">
-					<el-form ref="form" :model="form" label-width="80px">
-						<el-form-item label="VPPS L1">
-							<el-select v-model="form.VPPSL1" style="margin-bottom: 5px;" @change="_vpps1Change">
-								<el-option v-for="(item,index) in vpp1Arr" :key="index" :label="item.vpps1" :value="item.vpps1"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="VPPS L2">
-							<el-select v-model="form.VPPSL2" style="margin-bottom: 5px;" @change="_vpps2Change">
-								<el-option v-for="(item,index) in vpp2Arr" :key="index" :label="item.vpps2" :value="item.vpps2"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="零件名称">
-							<el-select v-model="form.partname" style="margin-bottom: 5px;">
-								<el-option v-for="(item,index) in partnameArr" :key="index" :label="item.parts" :value="item.parts"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="零件材料">
-							<el-select v-model="form.material" @change="_materialChange">
-								<el-option v-for="(item,index) in  materialArr" :key="index" :label="item.name" :value="item.name"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="对流系数">
-							<el-tooltip :disabled="!range.hdata" class="item" effect="dark" :content="range.hdata" placement="top">
-								<el-input v-model="form.hdata">
-									<span slot="append">w/m2*k</span>
-								</el-input>
-							</el-tooltip>
-						</el-form-item>
-						<el-form-item label="环境温度">
-							<el-tooltip :disabled="!range.tair" class="item" effect="dark" :content="range.tair" placement="top">
-								<el-input v-model="form.tair">
-									<span slot="append">℃</span>
-								</el-input>
-							</el-tooltip>
-						</el-form-item>
-
-						<el-form-item label="热源温度">
-							<el-tooltip :disabled="!range.thot" class="item" effect="dark" :content="range.thot" placement="top">
-								<el-input v-model="form.thot">
-									<span slot="append">℃</span>
-								</el-input>
-							</el-tooltip>
-						</el-form-item>
-						<el-form-item label="热源距离">
-							<el-tooltip :disabled="!range.dhot" class="item" effect="dark" :content="range.dhot" placement="top">
-								<el-input v-model="form.dhot">
-									<span slot="append">mm</span>
-								</el-input>
-							</el-tooltip>
-						</el-form-item>
-						<el-form-item label="温度限值">
-							<el-input v-model="form.tlimt" class="input-with-select">
-								<el-select v-model="secondListSelectType" slot="prepend" placeholder="请选择" style="width: 155px">
-									<el-option label="CONTINUOUS" value="CONTINUOUS "></el-option>
-									<el-option label="EXCURSION" value=" EXCURSION"></el-option>
-								</el-select>
-								<span slot="append">℃</span>
-							</el-input>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="primary" @click="_onSubmit">计算</el-button>
-							<el-button @click="clearData">清除</el-button>
-						</el-form-item>
-					</el-form>
+					<Form ref="formValidate" :model="form" :rules="ruleValidate" :label-width="90">
+						<FormItem label="VPPS_1" prop="VPPSL1">
+							<Select v-model="form.VPPSL1" @on-change="_vpps1Change" filterable>
+								<Option v-for="(item,index) in vpp1Arr" :key="index" :label="item.vpps1" :value="item.vpps1"></Option>
+							</Select>
+						</FormItem>
+						<FormItem label="VPPS_2" prop="VPPSL2">
+							<Select v-model="form.VPPSL2" @on-change="_vpps2Change" filterable>
+								<Option v-for="(item,index) in vpp2Arr" :key="index" :label="item.vpps2" :value="item.vpps2"></Option>
+							</Select>
+						</FormItem>
+						<FormItem label="Component" prop="partname">
+							<Select v-model="form.partname" filterable>
+								<Option v-for="(item,index) in partnameArr" :key="index" :label="item.parts" :value="item.parts"></Option>
+							</Select>
+						</FormItem>
+						<FormItem label="零件材料" prop="material">
+							<Select v-model="form.material" @on-change="_materialChange" filterable>
+								<Option v-for="(item,index) in materialArr" :key="index" :label="item.name" :value="item.name"></Option>
+							</Select>
+						</FormItem>
+						<FormItem label="对流系数" prop="hdata">
+							<Tooltip :content="range.hdata" placement="top">
+								<Input v-model="form.hdata" number></Input>
+							</Tooltip>
+						</FormItem>
+						<FormItem label="环境温度" prop="tair">
+							<Tooltip :content="range.tair" placement="top">
+								<Input v-model="form.tair" number></Input>
+							</Tooltip>
+						</FormItem>
+						<FormItem label="热源温度" prop="thot">
+							<Tooltip :content="range.thot" placement="top">
+								<Input v-model="form.thot" number></Input>
+							</Tooltip>
+						</FormItem>
+						<FormItem label="热源距离" prop="dhot">
+							<Tooltip :content="range.dhot" placement="top">
+								<Input v-model="form.dhot" number></Input>
+							</Tooltip>
+						</FormItem>
+						<FormItem label="温度限值" prop="tlimt">
+							<Input v-model="form.tlimt" number>
+							<span slot="append">℃</span>
+							</Input>
+							<RadioGroup v-model="secondListSelectType">
+								<Radio label="CONTINUOUS"></Radio>
+								<Radio label="EXCURSION"></Radio>
+							</RadioGroup>
+						</FormItem>
+						<FormItem>
+							<Button type="primary" @click="_onSubmit">计算</Button>
+							<Button @click="clearData" style="margin-left: 8px;">清除</Button>
+						</FormItem>
+					</Form>
 					<div id="myChartWrapper">
 						<div style="width: 600px; margin: 0 auto;">
 							<div style="text-align: center;">
@@ -91,6 +82,73 @@
 <script>
 	export default {
 		data() {
+			const validate_hdata = (rule, value, callback) => {
+				if (!value) {
+					return callback(new Error('Age cannot be empty'));
+				}
+				if (!Number.isInteger(value)) {
+					callback(new Error('Please enter a numeric value'));
+				} else {
+					if (value > this.materialRange.h_max || value < this.materialRange.h_min) {
+						return callback(new Error('Age cannot be empty'));
+					} else {
+						callback();
+					}
+				}
+			};
+			const validate_tair = (rule, value, callback) => {
+				if (!value) {
+					return callback(new Error('Age cannot be empty'));
+				}
+				if (!Number.isInteger(value)) {
+					callback(new Error('Please enter a numeric value'));
+				} else {
+					console.log(this.materialRange, value)
+					if (value > this.materialRange.t_max || value < this.materialRange.t_min) {
+						return callback(new Error('Age cannot be empty'));
+					} else {
+						callback();
+					}
+				}
+			};
+			const validate_thot = (rule, value, callback) => {
+				if (!value) {
+					return callback(new Error('Age cannot be empty'));
+				}
+				if (!Number.isInteger(value)) {
+					callback(new Error('Please enter a numeric value'));
+				} else {
+					if (value > this.materialRange.th_max || value < this.materialRange.th_min) {
+						return callback(new Error('Age cannot be empty'));
+					} else {
+						callback();
+					}
+				}
+			};
+			const validate_dhot = (rule, value, callback) => {
+				if (!value) {
+					return callback(new Error('Age cannot be empty'));
+				}
+				if (!Number.isInteger(value)) {
+					callback(new Error('Please enter a numeric value'));
+				} else {
+					if (value > this.materialRange.dh_max || value < this.materialRange.dh_min) {
+						return callback(new Error('Age cannot be empty'));
+					} else {
+						callback();
+					}
+				}
+			};
+			const validate_tlimt = (rule, value, callback) => {
+				if (!value) {
+					return callback(new Error('Age cannot be empty'));
+				}
+				if (!Number.isInteger(value)) {
+					callback(new Error('Please enter a numeric value'));
+				} else {
+					callback();
+				}
+			};
 			return {
 				navInd: '2',
 				numOne: null,
@@ -101,6 +159,7 @@
 				vpp2Arr: [],
 				partnameArr: [],
 				materialArr: [],
+				materialRange: [],
 				range: {
 					hdata: ''
 				},
@@ -114,11 +173,53 @@
 					"thot": "",
 					"dhot": "",
 					"tlimt": ""
+				},
+				ruleValidate: {
+					hdata: [{
+						required: true,
+						validator: validate_hdata,
+						trigger: 'blur'
+					}],
+					"tair": [{
+						required: true,
+						validator: validate_tair,
+						trigger: 'blur'
+					}],
+					"thot": [{
+						required: true,
+						validator: validate_thot,
+						trigger: 'blur'
+					}],
+					"dhot": [{
+						required: true,
+						validator: validate_dhot,
+						trigger: 'blur'
+					}],
+					"tlimt": [{
+						required: true,
+						validator: validate_tlimt,
+						trigger: 'blur'
+					}],
+					VPPSL1: [{
+						required: true,
+						trigger: 'change'
+					}],
+					VPPSL2: [{
+						required: true,
+						trigger: 'change'
+					}],
+					partname: [{
+						required: true,
+						trigger: 'change'
+					}],
+					material: [{
+						required: true,
+						trigger: 'change'
+					}],
 				}
 			}
 		},
 		mounted() {
-			document.getElementById("tab").style.minHeight = window.innerHeight + 'px'
 			this._getData()
 		},
 		methods: {
@@ -133,7 +234,13 @@
 					if (res.data.code === 0) {
 						this.vpp1Arr = res.data.data
 					}
-				})
+				}).catch((error) => {
+					this.$notify.error({
+						title: '错误',
+						message: error.response.data.message,
+						duration: 5000
+					});
+				});
 				this.axios({
 					method: 'get',
 					url: `/material/all`,
@@ -144,11 +251,18 @@
 					if (res.data.code === 0) {
 						this.materialArr = res.data.data
 					}
-				})
+				}).catch((error) => {
+					this.$notify.error({
+						title: '错误',
+						message: error.response.data.message,
+						duration: 5000
+					});
+				});
 			},
 			_materialChange(value) {
 				for (let i in this.materialArr) {
 					if (this.materialArr[i].name === value) {
+						this.materialRange = this.materialArr[i]
 						this.range.hdata = '范围' + this.materialArr[i].h_min.toString() + '-' + this.materialArr[i].h_max.toString()
 						this.range.tair = '范围' + this.materialArr[i].t_min.toString() + '-' + this.materialArr[i].t_max.toString()
 						this.range.dhot = '范围' + this.materialArr[i].dh_min.toString() + '-' + this.materialArr[i].dh_max.toString()
@@ -158,8 +272,8 @@
 			},
 			_vpps1Change(value) {
 				this.partnameArr = []
-				this.form.VPPSL2=''
-				this.form.partname=''
+				this.form.VPPSL2 = ''
+				this.form.partname = ''
 				this.vpp2Arr = []
 				this.axios({
 					method: 'get',
@@ -174,7 +288,13 @@
 					if (res.data.code === 0) {
 						this.vpp2Arr = res.data.data
 					}
-				})
+				}).catch((error) => {
+					this.$notify.error({
+						title: '错误',
+						message: error.response.data.message,
+						duration: 5000
+					});
+				});
 			},
 			_vpps2Change(value) {
 				this.axios({
@@ -191,7 +311,13 @@
 					if (res.data.code === 0) {
 						this.partnameArr = res.data.data
 					}
-				})
+				}).catch((error) => {
+					this.$notify.error({
+						title: '错误',
+						message: error.response.data.message,
+						duration: 5000
+					});
+				});
 			},
 			clearData() {
 				this.xArrValue = []
@@ -215,56 +341,54 @@
 				this.drawLine();
 			},
 			_onSubmit() {
-				for (let i in this.form) {
-					if (!this.form[i]) {
-						this.$notify.error({
-							title: '错误',
-							message: '请将表单填写完整'
-						});
-						return;
+				this.$refs.formValidate.validate((valid) => {
+					if (valid) {
+						let param = new FormData();
+						param.append('VPPSL1', this.form.VPPSL1);
+						param.append('VPPSL2', this.form.VPPSL2);
+						param.append('partname', this.form.partname);
+						param.append('material', this.form.material);
+						param.append('hdata', this.form.hdata);
+						param.append('tair', this.form.tair);
+						param.append('thot', this.form.thot);
+						param.append('dhot', this.form.dhot);
+						param.append('tlimt', this.form.tlimt);
+						param.append('tlimtType', this.secondListSelectType);
+						this.axios.post(`/material/query`, param, {
+								headers: {
+									'Content-Type': 'multipart/form-data'
+								}
+							})
+							.then((res) => {
+								if (res.data.code === 0) {
+									this.xArr = []
+									this.xArrValue = []
+									for (let i in res.data.data.lins) {
+										this.xArr.push(i)
+										this.xArrValue.push(res.data.data.lins[i])
+									}
+									this.drawListTwo = new Array(this.xArr.length).fill(this.form.tlimt)
+									this.$refs.colorOne.style.background = res.data.data.limtStatus
+									this.$refs.colorOne.style.background = res.data.data.arrangeStatus
+									this.numOne = res.data.data.limtValue
+									this.firstListType = 'D-T曲线'
+									this.$refs.colorTwo.style.background = 'red'
+									this.drawLine();
+								}
+							})
+							.catch((err) => {
+								this.$notify.error({
+									title: '错误',
+									message: err.response.data.msg,
+									duration:5000
+								});
+								return;
+							})
+					} else {
+						this.$Message.error('表单填写有误');
 					}
-				}
-				let param = new FormData();
-				param.append('VPPSL1', this.form.VPPSL1);
-				param.append('VPPSL2', this.form.VPPSL2);
-				param.append('partname', this.form.partname);
-				param.append('material', this.form.material);
-				param.append('hdata', this.form.hdata);
-				param.append('tair', this.form.tair);
-				param.append('thot', this.form.thot);
-				param.append('dhot', this.form.dhot);
-				param.append('tlimt', this.form.tlimt);
-				param.append('tlimtType', this.secondListSelectType);
-				this.axios.post(`/material/query`, param, {
-						headers: {
-							'Content-Type': 'multipart/form-data'
-						}
-					})
-					.then((res) => {
-						if(res.data.code === 0){
-							this.xArr = []
-							this.xArrValue = []
-							for (let i in res.data.data.lins) {
-								this.xArr.push(i)
-								this.xArrValue.push(res.data.data.lins[i])
-							}
-							this.drawListTwo = new Array(this.xArr.length).fill(this.form.tlimt)
-							this.$refs.colorOne.style.background = res.data.data.limtStatus
-							this.$refs.colorOne.style.background = res.data.data.arrangeStatus
-							this.numOne = res.data.data.limtValue
-							this.firstListType = 'D-T曲线'
-							this.$refs.colorTwo.style.background = 'red'
-							this.drawLine();
-						}
-						
-					})
-					.catch((err)=>{
-						this.$notify.error({
-							title: '错误',
-							message: err.response.data.msg
-						});
-						return;
-					})
+				})
+
 			},
 			drawLine() {
 				let myChart = this.$echarts.init(document.getElementById('myChart'))
@@ -351,6 +475,19 @@
 	.part_temperature {
 		min-width: 1000px;
 		font-size: 14px;
+		/deep/ .ivu-btn{
+			width: 100px;
+		}
+		/deep/ .ivu-select-single .ivu-select-selection,
+		.ivu-input-wrapper ,.ivu-select{
+			width: 200px;
+		}
+		/deep/ .ivu-form-item{
+			margin-bottom: 20px;
+		}
+		/deep/ .ivu-form-item-error-tip {
+			display: none;
+		}
 		/deep/ .el-button {
 			padding: 10px 30px;
 		}
