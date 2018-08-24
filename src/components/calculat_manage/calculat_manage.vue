@@ -10,9 +10,9 @@
 						    @click="_deleteItem">删除</el-button>
 						<el-button style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px;" v-show="!materialShow" type="primary"
 						    @click="_addItem">添加</el-button>
-						<el-button v-show="bpShow ||materialShow" style="float: right;position: relative;top: 5px; height: 32px;line-height: 1px; "
+						<el-button v-show="bpShow ||materialShow || carpettempShow" style="float: right;position: relative;top: 5px; height: 32px;line-height: 1px; "
 						    type="success" @click="importFile">导入</el-button>
-						<el-button v-show="bpShow ||materialShow" style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px; "
+						<el-button v-show="bpShow ||materialShow || carpettempShow" style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px; "
 						    type="warning" @click="exportFile">导出</el-button>
 					</div>
 					<div style="position: relative;">
@@ -110,10 +110,26 @@
 		</div>
 		<el-dialog title="添加" :visible.sync="dialogCarpettempAdd" class="modifyDialog">
 			<div>
-				<div class="sec" v-for="(item,index) in addListItemSlot">
-					<span>{{index}}</span>
-					<el-input style="display: inline-block; width: 300px;" v-model="addListItemSlot[index]"></el-input>
-				</div>
+				<Form ref="formValiDt" :model="addListItemDt" :rules="ruleDt" :label-width="160">
+					<FormItem label="Material" prop="Material">
+						<Input v-model="addListItemDt.Material"></Input>
+					</FormItem>
+					<FormItem label="Conductivity" prop="Conductivity">
+						<Input v-model="addListItemDt.Conductivity" number>
+						<span slot="append">[w/m²*k]</span>
+						</Input>
+					</FormItem>
+					<FormItem label="Specific heat" prop="Specificheat">
+						<Input v-model="addListItemDt.Specificheat" number>
+						<span slot="append">[kg/m³]</span>
+						</Input>
+					</FormItem>
+					<FormItem label="Density" prop="Density">
+						<Input v-model="addListItemDt.Density" number>
+						<span slot="append">[J/kg*k]</span>
+						</Input>
+					</FormItem>
+				</Form>
 			</div>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="addListItemSlot = false">取 消</el-button>
@@ -122,10 +138,29 @@
 		</el-dialog>
 		<el-dialog title="添加" :visible.sync="dialogBpAdd" class="modifyDialog">
 			<div>
-				<div class="sec" v-for="(item,index) in addListItemSlot">
-					<span>{{index}}</span>
-					<el-input style="display: inline-block; width: 300px;" v-model="addListItemSlot[index]"></el-input>
-				</div>
+				<Form ref="formValiBp" :model="addListItemBp" :rules="ruleBp" :label-width="160">
+					<FormItem label="vpps_1" prop="vpps1">
+						<Input v-model="addListItemBp.vpps1"></Input>
+					</FormItem>
+					<FormItem label="vpps_2" prop="vpps2">
+						<Input v-model="addListItemBp.vpps2"></Input>
+					</FormItem>
+					<FormItem label="Parts" prop="parts">
+						<Input v-model="addListItemBp.parts"></Input>
+					</FormItem>
+					<FormItem label="D1" prop="p_1">
+						<Input v-model="addListItemBp.p_1" number></Input>
+					</FormItem>
+					<FormItem label="D2" prop="p_2">
+						<Input v-model="addListItemBp.p_2" number></Input>
+					</FormItem>
+					<FormItem label="D3" prop="p_3">
+						<Input v-model="addListItemBp.p_3" number></Input>
+					</FormItem>
+					<FormItem label="Distance" prop="distance">
+						<Input v-model="addListItemBp.distance"></Input>
+					</FormItem>
+				</Form>
 			</div>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="addListItemSlot = false">取 消</el-button>
@@ -145,10 +180,95 @@
 			</div>
 		</el-dialog>
 		<el-dialog title="修改" :visible.sync="dialogModify" class="modifyDialog">
-			<div>
-				<div class="sec" v-for="(item,index) in currentModify" v-show="index !='id'" v-if="index !='createTime' ">
-					<span>{{index | modifyFilter}}</span>
-					<el-input style="display: inline-block; width: 300px;" :value="item" v-model="currentModify[index]"></el-input>
+			<div v-if="materialShow ">
+				<Form ref="formValiMateril" :model="currentModify" :rules="ruleMaterial" :label-width="160">
+					<FormItem label="200" prop="200">
+						<Input v-model="currentModify[200]" number></Input>
+					</FormItem>
+					<FormItem label="250" prop="250">
+						<Input v-model="currentModify[250]" number></Input>
+					</FormItem>
+					<FormItem label="300" prop="300">
+						<Input v-model="currentModify[300]" number></Input>
+					</FormItem>
+					<FormItem label="350" prop="350">
+						<Input v-model="currentModify[350]" number></Input>
+					</FormItem>
+					<FormItem label="400" prop="400">
+						<Input v-model="currentModify[400]" number></Input>
+					</FormItem>
+					<FormItem label="450" prop="450">
+						<Input v-model="currentModify[450]" number></Input>
+					</FormItem>
+					<FormItem label="500" prop="500">
+						<Input v-model="currentModify[500]" number></Input>
+					</FormItem>
+					<FormItem label="550" prop="550">
+						<Input v-model="currentModify[550]" number></Input>
+					</FormItem>
+					<FormItem label="600" prop="600">
+						<Input v-model="currentModify[600]" number></Input>
+					</FormItem>
+					<FormItem label="650" prop="650">
+						<Input v-model="currentModify[650]" number></Input>
+					</FormItem>
+					<FormItem label="700" prop="700">
+						<Input v-model="currentModify[700]" number></Input>
+					</FormItem>
+					<FormItem label="750" prop="750">
+						<Input v-model="currentModify[750]" number></Input>
+					</FormItem>
+				</Form>
+			</div>
+			<div v-if="bpShow">
+				<div class="sec">
+					<Form ref="formValiBp" :model="currentModify" :rules="ruleBp" :label-width="160">
+						<FormItem label="vpps_1" prop="vpps1">
+							<Input v-model="currentModify.vpps1"></Input>
+						</FormItem>
+						<FormItem label="vpps_2" prop="vpps2">
+							<Input v-model="currentModify.vpps2"></Input>
+						</FormItem>
+						<FormItem label="Parts" prop="parts">
+							<Input v-model="currentModify.parts"></Input>
+						</FormItem>
+						<FormItem label="D1" prop="p_1">
+							<Input v-model="currentModify.p_1" number></Input>
+						</FormItem>
+						<FormItem label="D2" prop="p_2">
+							<Input v-model="currentModify.p_2" number></Input>
+						</FormItem>
+						<FormItem label="D3" prop="p_3">
+							<Input v-model="currentModify.p_3" number></Input>
+						</FormItem>
+						<FormItem label="Distance" prop="distance">
+							<Input v-model="currentModify.distance"></Input>
+						</FormItem>
+					</Form>
+				</div>
+			</div>
+			<div v-if="carpettempShow ">
+				<div class="sec">
+					<Form ref="formValiDt" :model="currentModify" :rules="ruleDt" :label-width="160">
+						<FormItem label="Material" prop="material">
+							<Input v-model="currentModify.material"></Input>
+						</FormItem>
+						<FormItem label="Conductivity" prop="conductivity">
+							<Input v-model="currentModify.conductivity" number>
+							<span slot="append">[w/m²*k]</span>
+							</Input>
+						</FormItem>
+						<FormItem label="Specific heat" prop="specificHeat">
+							<Input v-model="currentModify.specificHeat" number>
+							<span slot="append">[kg/m³]</span>
+							</Input>
+						</FormItem>
+						<FormItem label="Density" prop="density">
+							<Input v-model="currentModify.density" number>
+							<span style="width: 50px;" slot="append">[J/kg*k]</span>
+							</Input>
+						</FormItem>
+					</Form>
 				</div>
 			</div>
 			<div slot="footer" class="dialog-footer">
@@ -161,8 +281,8 @@
 		</el-dialog>
 		<el-dialog title="导入文件" :visible.sync="dialogBpImportFile" class="modifyDialog">
 			<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/bpData/upload" :on-success="handleFileSuccess"
-			    :auto-upload="false" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview" :on-remove="handleRemove"
-			    multiple>
+			    :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
+			    :on-remove="handleRemove" multiple>
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">将文件拖到此处，或
 					<em>点击上传</em>
@@ -173,9 +293,24 @@
 				<el-button type="success" @click="submitUpload">上传</el-button>
 			</div>
 		</el-dialog>
+		<el-dialog title="导入文件" :visible.sync="dialogCarpettempImportFile" class="modifyDialog">
+			<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/carpettemp/upload" :on-success="handleFileSuccess"
+			    :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
+			    :on-remove="handleRemove" multiple>
+				<i class="el-icon-upload"></i>
+				<div class="el-upload__text">将文件拖到此处，或
+					<em>点击上传</em>
+				</div>
+			</el-upload>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="dialogCarpettempImportFile = false">取 消</el-button>
+				<el-button type="success" @click="submitUpload">上传</el-button>
+			</div>
+		</el-dialog>
 		<el-dialog title="导入文件" :visible.sync="dialogMaterialImportFile" class="modifyDialog">
 			<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/material/upload" :on-success="handleFileSuccess"
-			    :auto-upload="false" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview" :on-remove="handleRemove">
+			    :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
+			    :on-remove="handleRemove">
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">将文件拖到此处，或
 					<em>点击上传</em>
@@ -191,6 +326,68 @@
 <script>
 	export default {
 		data() {
+			const validate_Density = (rule, value, callback) => {
+				console.log(value)
+				if (!value) {
+					return callback(new Error('Age cannot be empty'));
+				}
+				if (typeof (value) !== 'number') {
+					callback(new Error('Please enter a numeric value'));
+				} else {
+
+					if (value < 0) {
+						callback(new Error('Please enter a numeric value'));
+					} else {
+						callback();
+					}
+				}
+			};
+			const validate_200 = (rule, value, callback) => {
+				if (!value) {
+					return callback(new Error('Age cannot be empty'));
+				}
+				if (typeof (value) !== 'number') {
+					callback(new Error('Please enter a numeric value'));
+				} else {
+
+					if (value < 0) {
+						callback(new Error('Please enter a numeric value'));
+					} else {
+						callback();
+					}
+				}
+			};
+			const validate_p_1 = (rule, value, callback) => {
+				if (!value) {
+					return callback(new Error('Age cannot be empty'));
+				}
+				if (typeof (value) !== 'number') {
+					callback(new Error('Please enter a numeric value'));
+				} else {
+
+					if (value < 0) {
+						callback(new Error('Please enter a numeric value'));
+					} else {
+						callback();
+					}
+				}
+			};
+			const validate_distance = (rule, value, callback) => {
+				if (!value) {
+					return callback(new Error('Age cannot be empty'));
+				}
+				let newValue = value.split(',')
+				let a = 0
+				newValue.forEach((item) => {
+					if (isNaN(item)) {
+						return callback(new Error('Age cannot be empty'));
+						++a;
+					}
+				})
+				if (a === 0) {
+					callback();
+				}
+			};
 			return {
 				navInd: '4-3',
 				qiShow: true,
@@ -203,12 +400,165 @@
 				dialogModify: false,
 				dialogBpImportFile: false,
 				dialogCarpettempAdd: false,
+				dialogCarpettempImportFile: false,
 				spinShow: false,
 				fileList: [],
 				bpFormList: [],
 				materialTypes: [],
 				carpettempFormList: [],
 				multipleSelection: [],
+				addListItemBp: {
+					'distance': '',
+					'p_1': '',
+					'p_2': '',
+					'p_3': '',
+					'parts': '',
+					'vpps1': '',
+					'vpps2': '',
+				},
+				ruleMaterial: {
+					200: [{
+						required: true,
+						validator: validate_200,
+						trigger: 'change'
+					}],
+					250: [{
+						required: true,
+						validator: validate_200,
+						trigger: 'change'
+					}],
+					300: [{
+						required: true,
+						validator: validate_200,
+						trigger: 'change'
+					}],
+					350: [{
+						required: true,
+						validator: validate_200,
+						trigger: 'change'
+					}],
+					400: [{
+						required: true,
+						validator: validate_200,
+						trigger: 'change'
+					}],
+					450: [{
+						required: true,
+						validator: validate_200,
+						trigger: 'change'
+					}],
+					500: [{
+						required: true,
+						validator: validate_200,
+						trigger: 'change'
+					}],
+					550: [{
+						required: true,
+						validator: validate_200,
+						trigger: 'change'
+					}],
+					600: [{
+						required: true,
+						validator: validate_200,
+						trigger: 'change'
+					}],
+					650: [{
+						required: true,
+						validator: validate_200,
+						trigger: 'change'
+					}],
+					700: [{
+						required: true,
+						validator: validate_200,
+						trigger: 'change'
+					}],
+					750: [{
+						required: true,
+						validator: validate_200,
+						trigger: 'change'
+					}],
+				},
+				ruleBp: {
+					vpps1: [{
+						required: true,
+						trigger: 'change'
+					}],
+					vpps2: [{
+						required: true,
+						trigger: 'change'
+					}],
+					parts: [{
+						required: true,
+						trigger: 'change'
+					}],
+					p_1: [{
+						required: true,
+						validator: validate_p_1,
+						trigger: 'change'
+					}],
+					p_2: [{
+						required: true,
+						validator: validate_p_1,
+						trigger: 'change'
+					}],
+					p_3: [{
+						required: true,
+						validator: validate_p_1,
+						trigger: 'change'
+					}],
+					distance: [{
+						required: true,
+						validator: validate_distance,
+						trigger: 'blur'
+					}],
+				},
+				addListItemDt: {
+					'Material': '',
+					'Conductivity': '',
+					'Specific heat': '',
+					'Density': '',
+				},
+
+				ruleDt: {
+					Density: [{
+						required: true,
+						validator: validate_Density,
+						trigger: 'change'
+					}],
+					density: [{
+						required: true,
+						validator: validate_Density,
+						trigger: 'change'
+					}],
+					Conductivity: [{
+						required: true,
+						validator: validate_Density,
+						trigger: 'change'
+					}],
+					conductivity: [{
+						required: true,
+						validator: validate_Density,
+						trigger: 'change'
+					}],
+					Specificheat: [{
+						required: true,
+						validator: validate_Density,
+						trigger: 'change'
+					}],
+					specificHeat: [{
+						required: true,
+						validator: validate_Density,
+						trigger: 'change'
+					}],
+					material: [{
+						required: true,
+						trigger: 'change'
+					}],
+					Material: [{
+						required: true,
+						trigger: 'change'
+					}],
+				},
 				options: [{
 						value: '底盘排气系统',
 						label: '底盘排气系统',
@@ -267,8 +617,8 @@
 							children: []
 						}, ],
 					}, {
-						value: '地毯温度计算系统',
-						label: '地毯温度计算系统',
+						value: '人体接触温度评估系统',
+						label: '人体接触温度评估系统',
 						children: [{
 							value: '地毯材料属性',
 							label: '地毯材料属性',
@@ -317,6 +667,18 @@
 						break;
 					case 'vpps2':
 						return 'vpps_2'
+						break;
+					case 'conductivity':
+						return 'Conductivity'
+						break;
+					case 'specificHeat':
+						return 'Specific heat'
+						break;
+					case 'material':
+						return 'Material'
+						break;
+					case 'density':
+						return 'Density'
 						break;
 					default:
 						{
@@ -396,7 +758,7 @@
 				this.options[2].children[1].children = []
 				this.axios({
 					method: 'get',
-					url: `/material`,
+					url: `/patac_ras/material`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					},
@@ -438,21 +800,26 @@
 					return;
 				})
 			},
-			formListFilter(formList) {
-				for (let i in formList) {
-					console.log(formList[i])
-				}
-			},
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			},
 			handleFileError(err) {
-				let startCode = err.toString().lastIndexOf(`页签`)
-				let endCode = err.toString().lastIndexOf(`。`)
-				this.$notify.error({
-					title: '错误',
-					message: err.toString().slice(startCode, endCode)
-				});
+				if (this.carpettempShow) {
+					let startCode = err.toString().lastIndexOf(`msg`)
+					let endCode = err.toString().lastIndexOf(`条`)
+					this.$notify.error({
+						title: '错误',
+						message: err.toString().slice(startCode, endCode)
+					});
+
+				} else {
+					let startCode = err.toString().lastIndexOf(`页签`)
+					let endCode = err.toString().lastIndexOf(`。`)
+					this.$notify.error({
+						title: '错误',
+						message: err.toString().slice(startCode, endCode)
+					});
+				}
 			},
 			handleFileSuccess(response, file, fileList) {
 				if (response.code === 0) {
@@ -460,6 +827,7 @@
 						title: '成功',
 						message: '上传成功'
 					});
+					this.spinShow = true
 					this._getMaterilTypes()
 					if (this.bpShow) {
 						this.dialogBpImportFile = false
@@ -467,6 +835,9 @@
 					} else if (this.materialShow) {
 						this.dialogMaterialImportFile = false
 						this._getMaterialData()
+					} else if (this.carpettempShow) {
+						this.dialogCarpettempImportFile = false
+						this._getCarpettempData()
 					}
 				} else {
 					this.$notify.error({
@@ -494,7 +865,7 @@
 				this.carpettempFormList = []
 				this.axios({
 					method: 'get',
-					url: `/carpettemp`,
+					url: `/patac_ras/carpettemp`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					},
@@ -548,7 +919,7 @@
 				}
 				this.axios({
 					method: 'get',
-					url: `/tppData`,
+					url: `/patac_ras/tppData`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					},
@@ -598,7 +969,7 @@
 				}
 				this.axios({
 					method: 'get',
-					url: `/bpData`,
+					url: `/patac_ras/bpData`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					},
@@ -662,10 +1033,13 @@
 				this.fileList = []
 				this.dialogMaterialImportFile = false
 				this.dialogBpImportFile = false
+				this.dialogCarpettempImportFile = false
 				if (this.bpShow) {
 					this.dialogBpImportFile = true
 				} else if (this.materialShow) {
 					this.dialogMaterialImportFile = true
+				} else if (this.carpettempShow) {
+					this.dialogCarpettempImportFile = true
 				}
 			},
 			exportFile() {
@@ -677,8 +1051,9 @@
 					if (this.bpShow) {
 						window.location = "http://39.107.243.101:7070/bpData/excel?filename=TPP_BpData"
 					} else if (this.materialShow) {
-
 						window.location = `http://39.107.243.101:7070/material/excel?filename=${this.selectedOptions[2]}`
+					} else if (this.carpettempShow) {
+						window.location = `http://39.107.243.101:7070/carpettemp/excel`
 					}
 				}).catch((err) => {
 					this.$notify.error({
@@ -708,7 +1083,7 @@
 					}).then(() => {
 						this.axios({
 							method: 'delete',
-							url: `/material/${materialId}`,
+							url: `/patac_ras/material/${materialId}`,
 							headers: {
 								'Content-type': 'application/json;charset=UTF-8'
 							},
@@ -743,7 +1118,7 @@
 						cancelButtonText: '取消',
 						type: 'info'
 					}).then(() => {
-						this.spinShow = true
+
 						this.axios({
 							method: 'delete',
 							url: `./api/${localStorage.paiqiType}`,
@@ -753,6 +1128,7 @@
 							data: idArr
 						}).then((res) => {
 							if (res.status === 200) {
+								this.spinShow = true
 								this.$notify.success({
 									title: '成功',
 									message: '删除成功',
@@ -781,16 +1157,16 @@
 						cancelButtonText: '取消',
 						type: 'info'
 					}).then(() => {
-						this.spinShow = true
 						this.axios({
 							method: 'delete',
-							url: `/bpData`,
+							url: `/patac_ras/bpData`,
 							headers: {
 								'Content-type': 'application/json;charset=UTF-8'
 							},
 							data: idArr
 						}).then((res) => {
 							if (res.data.code === 0) {
+								this.spinShow = true
 								this.$notify.success({
 									title: '成功',
 									message: '删除成功',
@@ -819,16 +1195,18 @@
 						cancelButtonText: '取消',
 						type: 'warning'
 					}).then(() => {
-						this.spinShow = true
 						this.axios({
 							method: 'delete',
-							url: `/carpettemp`,
+							url: `/patac_ras/carpettemp`,
 							headers: {
 								'Content-type': 'application/json;charset=UTF-8'
 							},
 							data: idArr
 						}).then((res) => {
-							this._getCarpettempData()
+							if (res.data.code === 0) {
+								this.spinShow = true
+								this._getCarpettempData()
+							}
 						}).catch((err) => {
 							this.$notify.error({
 								title: '错误',
@@ -847,123 +1225,88 @@
 
 			},
 			_addCarpettempListItemSubmit() {
-				for (let i in this.addListItemSlot) {
-					if (!this.addListItemSlot[i]) {
-						this.$notify.error({
-							title: '错误',
-							message: "请将表单填写完整",
-							duration: 5000
+				this.$refs.formValiDt.validate((valid) => {
+					if (valid) {
+						let realLength = 0
+						let len = this.addListItemDt.Material.length
+						let charCode = -1
+						for (let i = 0; i < len; i++) {
+							charCode = this.addListItemDt.Material.charCodeAt(i);
+							if (charCode >= 0 && charCode <= 128)
+								realLength += 1;
+							else
+								realLength += 2;
+						}
+						if (realLength >= 32) {
+							this.$notify.error({
+								title: '错误',
+								message: "材料名称过长,请小于32个字符",
+								duration: 5000
+							});
+							return;
+						}
+						this.axios({
+							method: 'post',
+							url: `/patac_ras/carpettemp`,
+							headers: {
+								'Content-type': 'application/json;charset=UTF-8'
+							},
+							data: this.addListItemDt
+						}).then((res) => {
+							this.spinShow = true
+							this._getCarpettempData()
+							this.dialogCarpettempAdd = false
+							this.$notify.success({
+								title: '成功',
+								message: '添加成功',
+								duration: 1000
+							});
+						}).catch((error) => {
+							this._getCarpettempData()
+							this.$notify.error({
+								title: '错误',
+								message: error.response.data.message,
+								duration: 5000
+							});
 						});
-						return;
+					} else {
+						this.$Message.error('表单填写有误');
 					}
-				}
-				let realLength = 0
-				let len = this.addListItemSlot.material.length
-				let charCode = -1
-				for (let i = 0; i < len; i++) {
-					charCode = this.addListItemSlot.material.charCodeAt(i);
-					if (charCode >= 0 && charCode <= 128)
-						realLength += 1;
-					else
-						realLength += 2;
-				}
-				if (realLength >= 32) {
-					this.$notify.error({
-						title: '错误',
-						message: "材料名称过长,请小于32个字符",
-						duration: 5000
-					});
-					return;
-				}
-				this.spinShow = true
-				this.axios({
-					method: 'post',
-					url: `/carpettemp`,
-					headers: {
-						'Content-type': 'application/json;charset=UTF-8'
-					},
-					data: this.addListItemSlot
-				}).then((res) => {
-					this._getCarpettempData()
-					this.dialogCarpettempAdd = false
-					this.$notify.success({
-						title: '成功',
-						message: '添加成功',
-						duration: 1000
-					});
-				}).catch((error) => {
-					this._getCarpettempData()
-					this.$notify.error({
-						title: '错误',
-						message: error.response.data.message,
-						duration: 5000
-					});
-				});
+				})
 			},
 			_addBpListItemSubmit() {
-				for (let i in this.addListItemSlot) {
-					if (!this.addListItemSlot[i]) {
-						this.$notify.error({
-							title: '错误',
-							message: "请将表单填写完整",
-							duration: 1000
+				this.$refs.formValiBp.validate((valid) => {
+					if (valid) {
+						this.axios({
+							method: 'post',
+							url: `/patac_ras/bpData`,
+							headers: {
+								'Content-type': 'application/json;charset=UTF-8'
+							},
+							data: this.addListItemBp
+						}).then((res) => {
+							if (res.status === 200) {
+								this.spinShow = true
+								this._getBpData()
+								this.dialogBpAdd = false
+								this.$notify.success({
+									title: '成功',
+									message: '添加成功',
+									duration: 1000
+								});
+							}
+						}).catch((error) => {
+							this._getBpData()
+							this.$notify.error({
+								title: '错误',
+								message: error.response.data.message,
+								duration: 5000
+							});
 						});
-						return;
+					} else {
+						this.$Message.error('表单填写有误');
 					}
-				}
-				let p1 = parseInt(this.addListItemSlot.p_1)
-				let p2 = parseInt(this.addListItemSlot.p_2)
-				let p3 = parseInt(this.addListItemSlot.p_3)
-				if (!p1) {
-					this.$notify.error({
-						title: '错误',
-						message: "请将p_1改写成数字类型",
-						duration: 5000
-					});
-					return;
-				}
-				if (!p2) {
-					this.$notify.error({
-						title: '错误',
-						message: "请将p_2改写成数字类型",
-						duration: 5000
-					});
-					return;
-				}
-				if (!p3) {
-					this.$notify.error({
-						title: '错误',
-						message: "请将p_3改写成数字类型",
-						duration: 5000
-					});
-					return;
-				}
-				this.spinShow = true
-				this.axios({
-					method: 'post',
-					url: `/bpData`,
-					headers: {
-						'Content-type': 'application/json;charset=UTF-8'
-					},
-					data: this.addListItemSlot
-				}).then((res) => {
-					if (res.status === 200) {
-						this._getBpData()
-						this.dialogBpAdd = false
-						this.$notify.success({
-							title: '成功',
-							message: '添加成功',
-							duration: 1000
-						});
-					}
-				}).catch((error) => {
-					this._getBpData()
-					this.$notify.error({
-						title: '错误',
-						message: error.response.data.message,
-						duration: 5000
-					});
-				});
+				})
 			},
 			_addListItemSubmit() {
 				this.axios({
@@ -975,6 +1318,7 @@
 					data: this.addListItemSlot
 				}).then((res) => {
 					if (res.status === 200) {
+						this.spinShow = true
 						this._getPaiqiData()
 						this.dialogFormVisible = false
 						this.$notify.success({
@@ -997,7 +1341,6 @@
 				this.dialogFormVisible = true
 			},
 			_modifySubmit() {
-				console.log(this.currentModify)
 				for (let i in this.currentModify) {
 					if (!this.currentModify[i]) {
 						this.$notify.error({
@@ -1008,7 +1351,6 @@
 						return;
 					}
 				}
-				this.spinShow = true
 				let anaModify = this.currentModify
 				this.axios({
 					method: 'put',
@@ -1019,6 +1361,7 @@
 					data: anaModify
 				}).then((res) => {
 					if (res.status === 200) {
+						this.spinShow = true
 						this.$notify.success({
 							title: '成功',
 							message: '修改成功',
@@ -1037,81 +1380,125 @@
 				});
 			},
 			_modifyCarpettempSubmit() {
-				for (let i in this.currentModify) {
-					if (!this.currentModify[i]) {
-						this.$notify.error({
-							title: '错误',
-							message: "请将表单填写完整",
-							duration: 5000
+				this.$refs.formValiDt.validate((valid) => {
+					if (valid) {
+						let realLength = 0
+						let len = this.currentModify.material.length
+						let charCode = -1
+						for (let i = 0; i < len; i++) {
+							charCode = this.currentModify.material.charCodeAt(i);
+							if (charCode >= 0 && charCode <= 128)
+								realLength += 1;
+							else
+								realLength += 2;
+						}
+						if (realLength >= 32) {
+							this.$notify.error({
+								title: '错误',
+								message: "材料名称过长,请小于32个字符",
+								duration: 5000
+							});
+							return;
+						}
+						this.axios({
+							method: 'put',
+							url: `/patac_ras/carpettemp`,
+							headers: {
+								'Content-type': 'application/json;charset=UTF-8'
+							},
+							data: this.currentModify
+						}).then((res) => {
+							this.spinShow = true
+							this._getCarpettempData()
+							this.dialogModify = false
+							this.$notify.success({
+								title: '成功',
+								message: '修改成功',
+								duration: 1000
+							});
+						}).catch((error) => {
+							this._getCarpettempData()
+							this.$notify.error({
+								title: '错误',
+								message: error.response.data.message,
+								duration: 5000
+							});
 						});
-						return;
+					} else {
+						this.$Message.error('表单填写有误');
 					}
-				}
-				this.spinShow = true
-				let anaModify = this.currentModify
-				this.axios({
-					method: 'put',
-					url: `/carpettemp`,
-					headers: {
-						'Content-type': 'application/json;charset=UTF-8'
-					},
-					data: anaModify
-				}).then((res) => {
-					this.$notify.success({
-						title: '成功',
-						message: '修改成功',
-						duration: 1000
-					});
-					this._getCarpettempData()
-					this.dialogModify = false
-				}).catch((error) => {
-					this._getCarpettempData()
-					this.$notify.error({
-						title: '错误',
-						message: error.response.data.message
-					});
-				});
+				})
 			},
 			_modifyMaterialSubmit() {
-				for (let i in this.currentModify) {
-					if (!this.currentModify[i]) {
-						this.$notify.error({
-							title: '错误',
-							message: "请将表单填写完整",
-							duration: 5000
+				this.$refs.formValiMateril.validate((valid) => {
+					if (valid) {
+						let anaModify = this.currentModify
+						this.axios({
+							method: 'put',
+							url: `/patac_ras/tppData/${anaModify.id}`,
+							headers: {
+								'Content-type': 'application/json;charset=UTF-8'
+							},
+							data: anaModify
+						}).then((res) => {
+							if (res.data.code === 0) {
+								this.spinShow = true
+								this.$notify.success({
+									title: '成功',
+									message: '修改成功',
+									duration: 1000
+								});
+							}
+							this._getMaterialData()
+							this.dialogModify = false
+						}).catch((error) => {
+							this._getMaterialData()
+							this.$notify.error({
+								title: '错误',
+								message: error.response.data.message,
+								duration: 5000
+							});
 						});
-						return;
+					} else {
+						this.$Message.error('表单填写有误');
 					}
-				}
-				this.spinShow = true
-				let anaModify = this.currentModify
-				this.axios({
-					method: 'put',
-					url: `/tppData/${anaModify.id}`,
-					headers: {
-						'Content-type': 'application/json;charset=UTF-8'
-					},
-					data: anaModify
-				}).then((res) => {
-					if (res.data.code === 0) {
-						this.$notify.success({
-							title: '成功',
-							message: '修改成功',
-							duration: 1000
-						});
-					}
-					this._getMaterialData()
-					this.dialogModify = false
-				}).catch((error) => {
-					this._getMaterialData()
-					this.$notify.error({
-						title: '错误',
-						message: error.response.data.message,
-						duration: 5000
-					});
-				});
+				})
+
 			},
 			_modifyBpSubmit() {
+				this.$refs.formValiBp.validate((valid) => {
+					if (valid) {
+						this.axios({
+							method: 'put',
+							url: `/patac_ras/bpData`,
+							headers: {
+								'Content-type': 'application/json;charset=UTF-8'
+							},
+							data: this.currentModify
+						}).then((res) => {
+							if (res.status === 200) {
+								this.spinShow = true
+								this._getBpData()
+								this.bpShow = false
+								this.$notify.success({
+									title: '成功',
+									message: '添加成功',
+									duration: 1000
+								});
+							}
+						}).catch((error) => {
+							this._getBpData()
+							this.$notify.error({
+								title: '错误',
+								message: error.response.data.message,
+								duration: 5000
+							});
+						});
+					} else {
+						this.$Message.error('表单填写有误');
+					}
+				})
+
 				for (let i in this.currentModify) {
 					if (!this.currentModify[i]) {
 						this.$notify.error({
@@ -1122,38 +1509,11 @@
 						return;
 					}
 				}
-				this.spinShow = true
-				let anaModify = this.currentModify
-				this.axios({
-					method: 'put',
-					url: `/bpData`,
-					headers: {
-						'Content-type': 'application/json;charset=UTF-8'
-					},
-					data: anaModify
-				}).then((res) => {
-					console.log(res)
-					if (res.data.code === 0) {
-						this.$notify.success({
-							title: '成功',
-							message: '修改成功',
-							duration: 1000
-						});
-					}
-					this._getBpData()
-					this.dialogModify = false
-				}).catch((error) => {
-					this._getBpData()
-					this.$notify.error({
-						title: '错误',
-						message: error.response.data.message,
-						duration: 5000
-					});
-				});
 			},
 			modifyListItem(index, item) {
 				this.dialogModify = true
 				this.currentModify = Object.assign({}, item);
+				console.log(this.currentModify)
 			},
 			handleCurrentChange(val) {
 				this.spinShow = true
@@ -1442,10 +1802,20 @@
 </script>
 
 <style lang="scss" scoped="scoped">
+	
+	/deep/ .ivu-form-item {
+		margin-bottom: 20px;
+	}
+	/deep/ .ivu-form-item-error-tip {
+		display: none;
+	}
 	/deep/ .el-cascader-menu__item {
 		display: block !important;
+		padding: 8px 30px !important;
 	}
-
+	/deep/  .el-cascader-menu__item--extensible:after{
+		right: 5px;
+	}
 	/deep/ .el-upload {
 		width: 100%;
 	}
@@ -1459,7 +1829,11 @@
 		background: #eff0dc;
 		padding: 6px 20px !important;
 	}
-
+/deep/ .ivu-select-single .ivu-select-selection,
+	.ivu-input-wrapper,
+	.ivu-select {
+		width: 300px;
+	}
 	.default {
 		min-width: 1000px;
 		display: flex;
@@ -1656,8 +2030,8 @@
 				.sec {
 					margin-bottom: 15px;
 					text-align: left;
-					span {
-						min-width: 180px;
+					>span {
+						min-width: 140px;
 						display: inline-block;
 						text-align: right;
 						margin-right: 10px;

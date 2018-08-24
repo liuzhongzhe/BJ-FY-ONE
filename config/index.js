@@ -39,34 +39,34 @@ module.exports = {
 // 					'^/proinfo': ''
 // 				}
 // 			},
-			'/bpData': {
-				target: 'http://39.107.243.101:7070/bpData',
-				changeOrigin: true,
-				pathRewrite: {
-					'^/bpData': ''
-				}
-			},
-			'/material': {
-				target: 'http://39.107.243.101:7070/material',
-				changeOrigin: true,
-				pathRewrite: {
-					'^/material': ''
-				}
-			},
-			'/tppData': {
-				target: 'http://39.107.243.101:7070/tppData',
-				changeOrigin: true,
-				pathRewrite: {
-					'^/tppData': ''
-				}
-			},
-			'/carpettemp': {
-				target: 'http://39.107.243.101:7070/carpettemp',
-				changeOrigin: true,
-				pathRewrite: {
-					'^/carpettemp': ''
-				}
-			},
+// 			'/bpData': {
+// 				target: 'http://39.107.243.101:7070/bpData',
+// 				changeOrigin: true,
+// 				pathRewrite: {
+// 					'^/bpData': ''
+// 				}
+// 			},
+// 			'/material': {
+// 				target: 'http://39.107.243.101:7070/material',
+// 				changeOrigin: true,
+// 				pathRewrite: {
+// 					'^/material': ''
+// 				}
+// 			},
+// 			'/tppData': {
+// 				target: 'http://39.107.243.101:7070/tppData',
+// 				changeOrigin: true,
+// 				pathRewrite: {
+// 					'^/tppData': ''
+// 				}
+// 			},
+// 			'/carpettemp': {
+// 				target: 'http://39.107.243.101:7070/carpettemp',
+// 				changeOrigin: true,
+// 				pathRewrite: {
+// 					'^/carpettemp': ''
+// 				}
+// 			},
 			
 			
 		},

@@ -95,7 +95,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (!Number.isInteger(value)) {
+				if (typeof(value)!=='number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 					if (value < 0) {
@@ -112,7 +112,7 @@
 					if (!value) {
 						return callback(new Error('Age cannot be empty'));
 					}
-					if (!Number.isInteger(value)) {
+					if (typeof(value)!=='number') {
 						callback(new Error('Please enter a numeric value'));
 					} else {
 						if (value < 0) {
@@ -208,7 +208,7 @@
 			_getData() {
 				this.axios({
 					method: 'get',
-					url: `/carpettemp/all`,
+					url: `/patac_ras/carpettemp/all`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					}
@@ -252,11 +252,12 @@
 			},
 			_onSubmit() {
 				this.$refs.formValidate.validate((valid) => {
+					this.drawList=[]
 					if (valid) {
 						if (this.deliveryShow) {
 							this.axios({
 								method: 'get',
-								url: `/carpettemp/line`,
+								url: `/patac_ras/carpettemp/line`,
 								headers: {
 									'Content-type': 'application/json;charset=UTF-8'
 								},
@@ -268,7 +269,6 @@
 								this.result.extreme = _data.extreme + "℃"
 								let nArr = [0, 0]
 								for (let i in _data.lins) {
-									console.log(i)
 									nArr = [i, _data.lins[i]]
 									this.drawList.push(nArr)
 								}
@@ -284,7 +284,7 @@
 						} else {
 							this.axios({
 								method: 'get',
-								url: `/carpettemp/query`,
+								url: `/patac_ras/carpettemp/query`,
 								headers: {
 									'Content-type': 'application/json;charset=UTF-8'
 								},

@@ -86,7 +86,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (!Number.isInteger(value)) {
+				if (typeof (value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 					if (value > this.materialRange.h_max || value < this.materialRange.h_min) {
@@ -100,7 +100,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (!Number.isInteger(value)) {
+				if (typeof (value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 					console.log(this.materialRange, value)
@@ -115,7 +115,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (!Number.isInteger(value)) {
+				if (typeof (value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 					if (value > this.materialRange.th_max || value < this.materialRange.th_min) {
@@ -129,7 +129,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (!Number.isInteger(value)) {
+				if (typeof (value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 					if (value > this.materialRange.dh_max || value < this.materialRange.dh_min) {
@@ -143,7 +143,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (!Number.isInteger(value)) {
+				if (typeof (value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 					callback();
@@ -226,7 +226,7 @@
 			_getData() {
 				this.axios({
 					method: 'get',
-					url: `/bpData/all`,
+					url: `/patac_ras/bpData/all`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					}
@@ -243,7 +243,7 @@
 				});
 				this.axios({
 					method: 'get',
-					url: `/material/all`,
+					url: `/patac_ras/material/all`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					}
@@ -277,7 +277,7 @@
 				this.vpp2Arr = []
 				this.axios({
 					method: 'get',
-					url: `/bpData/all`,
+					url: `/patac_ras/bpData/all`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					},
@@ -299,7 +299,7 @@
 			_vpps2Change(value) {
 				this.axios({
 					method: 'get',
-					url: `/bpData/all`,
+					url: `/patac_ras/bpData/all`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					},
@@ -380,7 +380,7 @@
 								this.$notify.error({
 									title: '错误',
 									message: err.response.data.msg,
-									duration:5000
+									duration: 5000
 								});
 								return;
 							})
@@ -475,14 +475,15 @@
 	.part_temperature {
 		min-width: 1000px;
 		font-size: 14px;
-		/deep/ .ivu-btn{
+		/deep/ .ivu-btn {
 			width: 100px;
 		}
 		/deep/ .ivu-select-single .ivu-select-selection,
-		.ivu-input-wrapper ,.ivu-select{
+		.ivu-input-wrapper,
+		.ivu-select {
 			width: 200px;
 		}
-		/deep/ .ivu-form-item{
+		/deep/ .ivu-form-item {
 			margin-bottom: 20px;
 		}
 		/deep/ .ivu-form-item-error-tip {
