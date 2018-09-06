@@ -7,13 +7,13 @@
 				</div>
 				<div class="button">
 					<span>车型平台</span>
-					<i-button type="primary">查询</i-button>
-					<i-button type="success">加入对比</i-button>
+					<i-button type="primary" @click="search">查询</i-button>
+					<i-button type="success" @click="toCompare">加入对比</i-button>
 				</div>
 				<div class="selectList" style="margin-top: 10px;">
 					<div>
 						<span>车型数据：</span>
-						<el-select v-model="vehicleValue" filterable placeholder="请选择" @change="vehicleChange">
+						<el-select v-model="vehicleValue" filterable placeholder="请选择" @change="vehicleChange" style="width: 400px;">
 							<el-option v-for="(item,index) in vehicleArr" :key="index" :label="item" :value="item">
 							</el-option>
 						</el-select>
@@ -21,95 +21,73 @@
 					<div class="sec">
 						<span>车型平台：</span>
 						<el-select v-model="pro.valueOne">
-							<el-option value="E2-2" label="E2-2"></el-option>
-							<el-option value="D2XX" label="D2XX"></el-option>
-							<el-option value="GEM" label="GEM"></el-option>
+							<el-option value="" label=""></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>车型名称：</span>
 						<el-select v-model="pro.valueTwo">
-							<el-option value="ELLB-2" label="ELLB-2"></el-option>
-							<el-option value="D2UB" label="D2UB"></el-option>
-							<el-option value="D2SB" label="D2SB"></el-option>
+							<el-option value="" label=""></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>车型年份：</span>
 						<el-select v-model="pro.valueThree">
-							<el-option value="MY17" label="MY17"></el-option>
-							<el-option value="MY16" label="MY16"></el-option>
-							<el-option value="MY15" label="MY15"></el-option>
+							<el-option value="" label=""></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>发动机：</span>
 						<el-select v-model="pro.valueFour">
-							<el-option value="L2B" label="L2B"></el-option>
-							<el-option value="L3T" label="L3T"></el-option>
-							<el-option value="L3Z" label="L3Z"></el-option>
+							<el-option value="" label=""></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>变速箱：</span>
 						<el-select v-model="pro.valueFive">
-							<el-option value="CVT" label="CVT"></el-option>
-							<el-option value="DCT" label="DCT"></el-option>
-							<el-option value="M01" label="M01"></el-option>
+							<el-option value="" label=""></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>驱动形式：</span>
 						<el-select v-model="pro.valueSix">
-							<el-option value="AWD" label="AWD"></el-option>
-							<el-option value="FWD" label="FWD"></el-option>
-							<el-option value="RWD" label="RWD"></el-option>
+							<el-option value="" label=""></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>左/右驾：</span>
 						<el-select v-model="pro.valueSeven">
-							<el-option value="LHD" label="LHD"></el-option>
-							<el-option value="RHD" label="RHD"></el-option>
+							<el-option value="" label=""></el-option>
 						</el-select>
 					</div>
 				</div>
 				<el-tabs value="name1" style="margin-top: 30px;">
 					<el-tab-pane label="查询显示结果" name="name1">
-						<div class="title">
+						<Spin v-show="!searchShow"></Spin>
+						<div class="title" v-if="searchShow">
 							<span>动力冷却性能结果</span>
 						</div>
-						<div class="resultTable">
+						<div class="resultTable" v-if="searchShow">
 							<div class="topTitle">
 								<div></div>
-								<div>
-									<div class="top">
-										<span>发动机水温</span>
-									</div>
-									<div>
-										<span>Con.</span>
-										<span>Exc.</span>
-										<span>Ext.</span>
-									</div>
-								</div>
 								<div>
 									<div class="top">
 										<span>发动机油温</span>
 									</div>
 									<div>
-										<span>Con.</span>
-										<span>Exc.</span>
-										<span>Ext.</span>
+										<span style="background: rgb(240,249,235);">Con.</span>
+										<span style="background: rgb(240,249,235);">Exc.</span>
+										<span style="background: rgb(240,249,235);">Ext.</span>
 									</div>
 								</div>
 								<div>
 									<div class="top">
-										<span>变速箱油温</span>
+										<span>发动机水温</span>
 									</div>
 									<div>
-										<span>Con.</span>
-										<span>Exc.</span>
-										<span>Ext.</span>
+										<span style="background: rgb(240,249,235);">Con.</span>
+										<span style="background: rgb(240,249,235);">Exc.</span>
+										<span style="background: rgb(240,249,235);">Ext.</span>
 									</div>
 								</div>
 								<div>
@@ -117,9 +95,30 @@
 										<span>风扇出风温度 </span>
 									</div>
 									<div>
-										<span>Con.</span>
-										<span>Exc.</span>
-										<span>Ext.</span>
+										<span style="background: rgb(240,249,235);">Con.</span>
+										<span style="background: rgb(240,249,235);">Exc.</span>
+										<span style="background: rgb(240,249,235);">Ext.</span>
+									</div>
+								</div>
+
+								<div>
+									<div class="top">
+										<span>LTR水温</span>
+									</div>
+									<div>
+										<span style="background: rgb(240,249,235);">Con.</span>
+										<span style="background: rgb(240,249,235);">Exc.</span>
+										<span style="background: rgb(240,249,235);">Ext.</span>
+									</div>
+								</div>
+								<div>
+									<div class="top">
+										<span>变速箱油温</span>
+									</div>
+									<div>
+										<span style="background: rgb(240,249,235);">Con.</span>
+										<span style="background: rgb(240,249,235);">Exc.</span>
+										<span style="background: rgb(240,249,235);">Ext.</span>
 									</div>
 								</div>
 								<div>
@@ -127,132 +126,41 @@
 										<span>CAC出口温度</span>
 									</div>
 									<div>
-										<span>Con.</span>
-										<span>Exc.</span>
-										<span>Ext.</span>
-									</div>
-								</div>
-								<div>
-									<div class="top">
-										<span>LTR水温</span>
-									</div>
-									<div>
-										<span>Con.</span>
-										<span>Exc.</span>
-										<span>Ext.</span>
+										<span style="background: rgb(240,249,235);">Con.</span>
+										<span style="background: rgb(240,249,235);">Exc.</span>
+										<span style="background: rgb(240,249,235);">Ext.</span>
 									</div>
 								</div>
 							</div>
 							<div class="tableList">
 								<div>
-									<span style="border-left: none;">试验结果</span>
+									<span style="border-left: none;background: rgb(240,249,235);">试验结果</span>
 								</div>
 								<div>
-									<span>115</span>
-									<span>124</span>
-									<span>131</span>
-								</div>
-								<div>
-									<span>140</span>
-									<span>150</span>
-									<span>160</span>
-								</div>
-								<div>
-									<span>132</span>
-									<span>132</span>
-									<span>140</span>
-								</div>
-								<div>
-									<span>87</span>
-									<span>100</span>
-									<span></span>
-								</div>
-								<div>
-									<span>64</span>
-									<span>74</span>
-									<span></span>
-								</div>
-								<div>
-									<span>NA</span>
-									<span>NA</span>
-									<span></span>
+									<span v-for="item in pscArrText">{{item}}</span>
 								</div>
 							</div>
 							<div class="tableList">
 								<div>
-									<span style="border-left: none;">虚拟结果</span>
+									<span style="border-left: none;background: rgb(240,249,235);">虚拟结果</span>
 								</div>
 								<div>
-									<span>116</span>
-									<span>125</span>
-									<span>132</span>
-								</div>
-								<div>
-									<span>141</span>
-									<span>151</span>
-									<span>161</span>
-								</div>
-								<div>
-									<span>133</span>
-									<span>133</span>
-									<span>141</span>
-								</div>
-								<div>
-									<span>88</span>
-									<span>100</span>
-									<span></span>
-								</div>
-								<div>
-									<span>63</span>
-									<span>73</span>
-									<span></span>
-								</div>
-								<div>
-									<span>na</span>
-									<span>na</span>
-									<span></span>
+									<span v-for="item in pscArrSim">{{item}}</span>
 								</div>
 							</div>
 							<div class="tableList">
 								<div>
-									<span style="border-left: none;">VTS要求</span>
+									<span style="background: rgb(240,249,235);">VTS要求</span>
 								</div>
 								<div>
-									<span>2011</span>
-									<span>12</span>
-									<span>13</span>
-								</div>
-								<div>
-									<span>14</span>
-									<span>15</span>
-									<span>16</span>
-								</div>
-								<div>
-									<span>17</span>
-									<span>18</span>
-									<span>19</span>
-								</div>
-								<div>
-									<span>88</span>
-									<span>100</span>
-									<span></span>
-								</div>
-								<div>
-									<span>65</span>
-									<span>75</span>
-									<span></span>
-								</div>
-								<div>
-									<span>na</span>
-									<span>n1</span>
-									<span></span>
+									<span v-for="item in pscArrVts">{{item}}</span>
 								</div>
 							</div>
 						</div>
-						<div class="title" style="margin-top: 30px;">
+						<div class="title" style="margin-top: 30px;" v-if="searchShow">
 							<span>前端开口和进风量结果</span>
 						</div>
-						<div class="resultTableTwo">
+						<div class="resultTableTwo" v-if="searchShow">
 							<div class="twoTitle">
 								<div>Openging(cm2)</div>
 								<div>Shutter Open(CMM)</div>
@@ -260,218 +168,150 @@
 							</div>
 							<div class="twoList">
 								<div>
-									<span>总体开口面积</span>
-									<span>1.0</span>
+									<span style="background: rgb(240,249,235);">总体开口面积</span>
+									<span>{{intakeObj.one[0].val}}</span>
 								</div>
 								<div>
-									<span>Idle,Fan On</span>
-									<span>2.0</span>
-									<span>50kph,Fan On</span>
-									<span>3.0</span>
+									<span style="background: rgb(240,249,235);">{{intakeObj.two[0].key}}</span>
+									<span>{{intakeObj.two[0].val}}</span>
+									<span style="background: rgb(240,249,235);">{{intakeObj.two[1].key}}</span>
+									<span>{{intakeObj.two[1].val}}</span>
 								</div>
 								<div>
-									<span>90kph</span>
-									<span>4.0</span>
-								</div>
-							</div>
-							<div class="twoList">
-								<div>
-									<span>正投影面积</span>
-									<span>11.0</span>
-								</div>
-								<div>
-									<span>50kph,Fan On</span>
-									<span>5.0</span>
-									<span>Vmax</span>
-									<span>6.0</span>
-								</div>
-								<div>
-									<span>120kph</span>
-									<span>7.0</span>
+									<span style="background: rgb(240,249,235);">{{intakeObj.three[0].key}}</span>
+									<span>{{intakeObj.three[0].val}}</span>
 								</div>
 							</div>
 							<div class="twoList">
 								<div>
-									<span>风扇功率</span>
-									<span>12.0</span>
+									<span style="background: rgb(240,249,235);">正投影面积</span>
+									<span>{{intakeObj.one[1].val}}</span>
 								</div>
 								<div>
-									<span>Idle,Fan On</span>
-									<span>8.0</span>
-									<span>50kph,Fan On</span>
-									<span>9.0</span>
+									<span style="background: rgb(240,249,235);">{{intakeObj.two[2].key}}</span>
+									<span>{{intakeObj.two[2].val}}</span>
+									<span style="background: rgb(240,249,235);">{{intakeObj.two[3].key}}</span>
+									<span>{{intakeObj.two[3].val}}</span>
 								</div>
 								<div>
-									<span>90kph</span>
-									<span>10.0</span>
+									<span style="background: rgb(240,249,235);">{{intakeObj.three[1].key}}</span>
+									<span>{{intakeObj.three[1].val}}</span>
+								</div>
+							</div>
+							<div class="twoList">
+								<div>
+									<span style="background: rgb(240,249,235);">风扇功率</span>
+									<span>{{intakeObj.one[2].val}}</span>
+								</div>
+								<div>
+									<span style="background: rgb(240,249,235);" v-if="intakeObj.two[4]">{{intakeObj.two[4].key}}</span>
+									<span v-if="intakeObj.two[4]">{{intakeObj.two[4].val}}</span>
+									<span style="background: rgb(240,249,235);" v-if="intakeObj.two[5]">{{intakeObj.two[5].key}}</span>
+									<span v-if="intakeObj.two[5]">{{intakeObj.two[5].val}}</span>
+								</div>
+								<div>
+									<span style="background: rgb(240,249,235);">{{intakeObj.three[2].key}}</span>
+									<span>{{intakeObj.three[2].val}}</span>
 								</div>
 							</div>
 						</div>
-						<div class="title" style="margin-top: 30px;">
+						<div class="title" style="margin-top: 30px;" v-if="searchShow">
 							<span>前端冷却模块结果</span>
-							<el-select style="width: 150px;">
-								<el-option>Condenser</el-option>
-								<el-option>CAC</el-option>
-								<el-option>Radiator</el-option>
-								<el-option>LTR</el-option>
+							<el-select style="width: 150px;" v-model="qdlqValue" @change="qdlqValueChange">
+								<el-option v-if="item.name!== 'Fan'" v-for="(item,index) in qdlqArr" :key="index" :label="item.name" :value="item.name">{{item.name}}</el-option>
 							</el-select>
 						</div>
-						<div class="resultTableThree">
+						<div class="resultTableThree" v-if="searchShow">
 							<div class="threeList">
 								<div>
-									<span>Length</span>
-									<span>657.0</span>
+									<span style="background: rgb(240,249,235);">Length</span>
+									<span>{{qdlqDataArr.content[5].val}}</span>
 								</div>
 								<div>
-									<span>No. of Tubes</span>
-									<span>45</span>
+									<span style="background: rgb(240,249,235);">No. of Tubes</span>
+									<span>{{qdlqDataArr.content[1].val}}</span>
 								</div>
 								<div>
-									<span>Flow in Front View</span>
-									<span>NA</span>
+									<span style="background: rgb(240,249,235);">Flow in Front View</span>
+									<span>{{qdlqDataArr.content[0].val}}</span>
 								</div>
 								<div>
-									<span>Primary Inlet Temp</span>
-									<span>NA</span>
+									<span style="background: rgb(240,249,235);">Primary Inlet Temp</span>
+									<span>{{qdlqDataArr.content[9].val}}</span>
 								</div>
 								<div>
-									<span>Air Temp</span>
+									<span style="background: rgb(240,249,235);">Air Temp</span>
 									<span class="ELSELECT">
-										<el-select style="height: 20px;" @change="changeSelectResultTableThree" v-model="pro.valueEight">
-											<el-option value="20" label="20"></el-option>
-											<el-option value="30" label="30"></el-option>
-											<el-option value="50" label="50"></el-option>
+										<el-select style="height: 20px;" @change="airValueChange" v-model="airValue">
+											<el-option v-for="(item,index) in airArr" :key="index" :value="item.temperature" :label="item.temperature"></el-option>
 										</el-select>
 									</span>
 								</div>
 							</div>
 							<div class="threeList">
 								<div>
-									<span>Height</span>
-									<span>329.8</span>
+									<span style="background: rgb(240,249,235);">Height</span>
+									<span>{{qdlqDataArr.content[6].val}}</span>
 								</div>
 								<div>
-									<span>No. of Passes</span>
-									<span>2</span>
+									<span style="background: rgb(240,249,235);">No. of Passes</span>
+									<span>{{qdlqDataArr.content[3].val}}</span>
 								</div>
 								<div>
-									<span>Recirculated Flow</span>
-									<span>NA</span>
+									<span style="background: rgb(240,249,235);">Recirculated Flow</span>
+									<span>{{qdlqDataArr.content[1].val}}</span>
 								</div>
 								<div>
-									<span>Auxiliary Inlet Temp</span>
-									<span>NA</span>
+									<span style="background: rgb(240,249,235);">Auxiliary Inlet Temp</span>
+									<span>{{qdlqDataArr.content[8].val}}</span>
 								</div>
 								<div>
-									<span>Air Density</span>
-									<span>{{pro.valueTen}}</span>
+									<span style="background: rgb(240,249,235);">Air Density</span>
+									<span>{{currentAir.density}}</span>
 								</div>
 							</div>
 							<div class="threeList">
 								<div>
-									<span>Thickness</span>
-									<span>12.0</span>
+									<span style="background: rgb(240,249,235);">Thickness</span>
+									<span>{{qdlqDataArr.content[7].val}}</span>
 								</div>
 								<div>
-									<span>No. of Raws</span>
-									<span>NA</span>
+									<span style="background: rgb(240,249,235);">No. of Raws</span>
+									<span>{{qdlqDataArr.content[4].val}}</span>
 								</div>
 								<div>
-									<span>Cp</span>
-									<span>NA</span>
+									<span style="background: rgb(240,249,235);">Cp</span>
+									<span>{{qdlqDataArr.cp}}</span>
 								</div>
 								<div>
-									<span>Du</span>
-									<span>NA</span>
+									<span style="background: rgb(240,249,235);">Du</span>
+									<span>{{qdlqDataArr.du}}</span>
 								</div>
 								<div>
-									<span>Air Viscosity</span>
-									<span>{{pro.valueNine}}</span>
+									<span style="background: rgb(240,249,235);">Air Viscosity</span>
+									<span>{{currentAir.viscosity}}</span>
 								</div>
 							</div>
 						</div>
-						<div class="resultTableFive">
+						<div class="resultTableFive" v-if="qdlqValue !=='Condenser Parameters'" v-show="searchShow">
 							<div class="fiveTitle">
 								<span>前端冷却模块CDS数据</span>
-								<span>0.027777778</span>
-								<span>0.444444444</span>
-								<span>0.061111111</span>
-								<span>0.077777778</span>
-								<span>0.024648787</span>
+								<span v-if="qdlqValue !=='Condenser Parameters'" v-for="(item,index) in qdlqDataArr.cds['0.5']">
+									{{item.key}}
+								</span>
 							</div>
-							<div class="fiveList">
-								<span>0.05</span>
-								<span>0.444444444</span>
-								<span>0.061111111</span>
-								<span>0.077777778</span>
-								<span>0.024648787</span>
-								<span>0.024648787</span>
-							</div>
-							<div class="fiveList">
-								<span>0.05</span>
-								<span>0.444444444</span>
-								<span>0.061111111</span>
-								<span>0.077777778</span>
-								<span>0.024648787</span>
-								<span>0.024648787</span>
-							</div>
-							<div class="fiveList">
-								<span>0.05</span>
-								<span>0.444444444</span>
-								<span>0.061111111</span>
-								<span>0.077777778</span>
-								<span>0.024648787</span>
-								<span>0.024648787</span>
-							</div>
-							<div class="fiveList">
-								<span>0.05</span>
-								<span>0.444444444</span>
-								<span>0.061111111</span>
-								<span>0.077777778</span>
-								<span>0.024648787</span>
-								<span>0.024648787</span>
+							<div class="fiveList" v-for="(item,index) in qdlqDataArr.cds">
+								<span>{{index}}</span>
+								<span v-for="list in qdlqDataArr.cds[index]">{{list.val}}</span>
 							</div>
 						</div>
-						<div class="title" style="margin-top: 30px;">
+						<div class="title" style="margin-top: 30px;" v-if="searchShow">
 							<span>风扇冷却模块结果</span>
 						</div>
-
-						<div style="display: inline-block; vertical-align:top;" class="resultTableFour">
-							<div class="sec">
-								<span>Fan Type</span>
-								<span>Single</span>
-							</div>
-							<div class="sec">
-								<span>Outer Radius</span>
-								<span>215</span>
-							</div>
-							<div class="sec">
-								<span>Inner Radius</span>
-								<span>99</span>
-							</div>
-							<div class="sec">
-								<span>Fan Coffe.A</span>
-								<span>1.0</span>
-							</div>
-							<div class="sec">
-								<span>Fan Coffe.B</span>
-								<span>6.0</span>
-							</div>
-							<div class="sec">
-								<span>Fan Coffe.C</span>
-								<span>2.0</span>
-							</div>
-							<div class="sec">
-								<span>Fan Coffe.D</span>
-								<span>3.0</span>
-							</div>
-							<div class="sec">
-								<span>Fan Coffe.E</span>
-								<span>4.0</span>
-							</div>
-							<div class="sec">
-								<span>Fan Coffe.F</span>
-								<span>5.0</span>
+						<div style="display: inline-block; vertical-align:top;" class="resultTableFour" v-if="searchShow">
+							<div class="sec" v-for="item in fanDataArr">
+								<span style="background: rgb(240,249,235);">{{item.key}}</span>
+								<span>{{item.val}}</span>
 							</div>
 						</div>
 						<div id="myChart" style="display: inline-block;position: relative;bottom: 20px;left: 20px;">
@@ -480,12 +320,10 @@
 					<el-tab-pane label="对比显示结果" name="name2">
 						<div style="background: #68ab82;line-height: 38px;color: #000;display: block;">
 							<span style="width: 130px;display: inline-block;text-align: left;text-indent: 2px;border: none;text-align: center;">对比项</span>
-							<span style="width: 130px;display: inline-block;border: none;text-align: center;">conpareOne
-								<el-button type="danger" icon="el-icon-close" circle style="margin-left: 2px;"></el-button>
-							</span>
-							<span style="width: 130px;display: inline-block;border: none;text-align: center;">conpareTwo
-								<el-button type="danger" icon="el-icon-close" circle style="margin-left: 2px;"></el-button>
-							</span>
+							<el-tooltip class="item" effect="dark" :content="item" placement="top" :key="index" v-for="(item,index) in compareArr">
+								<span style="vertical-align: top; width: 130px;display: inline-block;border: none;text-align: center; overflow: hidden;height: 38px;">
+									<el-button type="danger" @click="closeCompare(item,index)" icon="el-icon-close" circle style="margin-right: 5px;"></el-button>{{item}}</span>
+							</el-tooltip>
 						</div>
 						<div class="title">
 							<img v-show="dllqxnShow" @click="dllqxnShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
@@ -506,15 +344,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>115</span>
-									<span>124</span>
-									<span>131</span>
-								</div>
-								<div class="compareOneCon">
-									<span>116</span>
-									<span>128</span>
-									<span>132</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["Radiator Inlet Coolant"][0].con}}</span>
+									<span>{{item.psc["Radiator Inlet Coolant"][1].con}}</span>
+									<span>{{item.psc["Radiator Inlet Coolant"][2].con}}</span>
 								</div>
 								<div>
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Exc.</span>
@@ -524,15 +357,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>155</span>
-									<span>167</span>
-									<span>141</span>
-								</div>
-								<div class="compareOneCon">
-									<span>131</span>
-									<span>108</span>
-									<span>144</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["Radiator Inlet Coolant"][0].exc}}</span>
+									<span>{{item.psc["Radiator Inlet Coolant"][1].exc}}</span>
+									<span>{{item.psc["Radiator Inlet Coolant"][2].exc}}</span>
 								</div>
 								<div>
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Ext.</span>
@@ -542,15 +370,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>135</span>
-									<span>124</span>
-									<span>167</span>
-								</div>
-								<div class="compareOneCon">
-									<span>175</span>
-									<span>114</span>
-									<span>121</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["Radiator Inlet Coolant"][0].ext}}</span>
+									<span>{{item.psc["Radiator Inlet Coolant"][1].ext}}</span>
+									<span>{{item.psc["Radiator Inlet Coolant"][2].ext}}</span>
 								</div>
 							</div>
 							<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;">
@@ -566,15 +389,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["Engine Sump Oil"][0].con}}</span>
+									<span>{{item.psc["Engine Sump Oil"][1].con}}</span>
+									<span>{{item.psc["Engine Sump Oil"][2].con}}</span>
 								</div>
 								<div>
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Exc.</span>
@@ -584,15 +402,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["Engine Sump Oil"][0].exc}}</span>
+									<span>{{item.psc["Engine Sump Oil"][1].exc}}</span>
+									<span>{{item.psc["Engine Sump Oil"][2].exc}}</span>
 								</div>
 								<div>
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Ext.</span>
@@ -602,15 +415,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["Engine Sump Oil"][0].ext}}</span>
+									<span>{{item.psc["Engine Sump Oil"][1].ext}}</span>
+									<span>{{item.psc["Engine Sump Oil"][2].ext}}</span>
 								</div>
 							</div>
 							<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;text-indent: 2px;">
@@ -626,15 +434,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["Transmission Sump Oil"][0].con}}</span>
+									<span>{{item.psc["Transmission Sump Oil"][1].con}}</span>
+									<span>{{item.psc["Transmission Sump Oil"][2].con}}</span>
 								</div>
 								<div>
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Exc.</span>
@@ -644,15 +447,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["Transmission Sump Oil"][0].exc}}</span>
+									<span>{{item.psc["Transmission Sump Oil"][1].exc}}</span>
+									<span>{{item.psc["Transmission Sump Oil"][2].exc}}</span>
 								</div>
 								<div>
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Ext.</span>
@@ -662,15 +460,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["Transmission Sump Oil"][0].ext}}</span>
+									<span>{{item.psc["Transmission Sump Oil"][1].ext}}</span>
+									<span>{{item.psc["Transmission Sump Oil"][2].ext}}</span>
 								</div>
 							</div>
 							<span style="line-height: 34px;display: block; width: 100%; background:#c1a075">
@@ -686,15 +479,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["Fan Discharge"][0].con}}</span>
+									<span>{{item.psc["Fan Discharge"][1].con}}</span>
+									<span>{{item.psc["Fan Discharge"][2].con}}</span>
 								</div>
 								<div>
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Exc.</span>
@@ -704,15 +492,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["Fan Discharge"][0].exc}}</span>
+									<span>{{item.psc["Fan Discharge"][1].exc}}</span>
+									<span>{{item.psc["Fan Discharge"][2].exc}}</span>
 								</div>
 								<div>
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Ext.</span>
@@ -722,15 +505,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["Fan Discharge"][0].ext}}</span>
+									<span>{{item.psc["Fan Discharge"][1].ext}}</span>
+									<span>{{item.psc["Fan Discharge"][2].ext}}</span>
 								</div>
 							</div>
 							<span style="line-height: 34px;display: block; width: 100%; background:#c1a075">
@@ -746,15 +524,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["CAC out"][0].con}}</span>
+									<span>{{item.psc["CAC out"][1].con}}</span>
+									<span>{{item.psc["CAC out"][2].con}}</span>
 								</div>
 								<div>
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Exc.</span>
@@ -764,15 +537,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["CAC out"][0].exc}}</span>
+									<span>{{item.psc["CAC out"][1].exc}}</span>
+									<span>{{item.psc["CAC out"][2].exc}}</span>
 								</div>
 								<div>
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Ext.</span>
@@ -782,15 +550,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["CAC out"][0].ext}}</span>
+									<span>{{item.psc["CAC out"][1].ext}}</span>
+									<span>{{item.psc["CAC out"][2].ext}}</span>
 								</div>
 							</div>
 
@@ -807,15 +570,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["LTR"][0].con}}</span>
+									<span>{{item.psc["LTR"][1].con}}</span>
+									<span>{{item.psc["LTR"][2].con}}</span>
 								</div>
 								<div>
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Exc.</span>
@@ -825,15 +583,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["LTR"][0].exc}}</span>
+									<span>{{item.psc["LTR"][1].exc}}</span>
+									<span>{{item.psc["LTR"][2].exc}}</span>
 								</div>
 								<div>
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Ext.</span>
@@ -843,15 +596,10 @@
 									<span>虚拟结果</span>
 									<span>VTS要求</span>
 								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
-								</div>
-								<div class="compareOneCon">
-									<span>aa</span>
-									<span>bb</span>
-									<span>cc</span>
+								<div class="compareOneCon" v-for="(item,index) in compareList">
+									<span>{{item.psc["LTR"][0].ext}}</span>
+									<span>{{item.psc["LTR"][1].ext}}</span>
+									<span>{{item.psc["LTR"][2].ext}}</span>
 								</div>
 							</div>
 						</div>
@@ -871,15 +619,10 @@
 									<span>正投影面积</span>
 									<span>风扇功率</span>
 								</div>
-								<div>
-									<span>1.0</span>
-									<span>2.0</span>
-									<span>3.0</span>
-								</div>
-								<div>
-									<span>1.1</span>
-									<span>2.2</span>
-									<span>3.6</span>
+								<div v-for="(item,index) in compareList">
+									<span>{{item.intake.one[0].val}}</span>
+									<span>{{item.intake.one[1].val}}</span>
+									<span>{{item.intake.one[2].val}}</span>
 								</div>
 							</div>
 							<span>
@@ -890,23 +633,16 @@
 								<div>
 									<span>Idle,Fan On</span>
 									<span>50kph,Fan On</span>
-									<span>60kph,Fan On</span>
+									<span>90kph,Fan On</span>
 									<span>155kph,Fan On</span>
 									<span>Vmax</span>
 								</div>
-								<div>
-									<span>4.0</span>
-									<span>5.0</span>
-									<span>6.0</span>
-									<span>7.0</span>
-									<span>8.0</span>
-								</div>
-								<div>
-									<span>4.1</span>
-									<span>5.6</span>
-									<span>6.7</span>
-									<span>7.5</span>
-									<span>8.6</span>
+								<div v-for="(item,index) in compareList">
+									<span>{{item.intake.two[0].val}}</span>
+									<span>{{item.intake.two[1].val}}</span>
+									<span>{{item.intake.two[2].val}}</span>
+									<span>{{item.intake.two[3].val}}</span>
+									<span>{{item.intake.two[4].val}}</span>
 								</div>
 							</div>
 							<span>
@@ -915,19 +651,14 @@
 							</span>
 							<div class="compareTableTwoList" v-if="qdkkjflItemThreeShow">
 								<div>
-									<span>90kph</span>
+									<span>50/90Kph</span>
 									<span>120kph</span>
 									<span>Vmax</span>
 								</div>
-								<div>
-									<span>9.0</span>
-									<span>10.0</span>
-									<span>11.0</span>
-								</div>
-								<div>
-									<span>9.5</span>
-									<span>10.7</span>
-									<span>11.3</span>
+								<div v-for="(item,index) in compareList">
+									<span>{{item.intake.three[0].val}}</span>
+									<span>{{item.intake.three[1].val}}</span>
+									<span>{{item.intake.three[2].val}}</span>
 								</div>
 							</div>
 						</div>
@@ -937,7 +668,7 @@
 							<span>前端冷却模块结果</span>
 						</div>
 						<div class="compareTableThree" v-if="qdlqmkShow">
-							<div style="display: block;" ref="xxx" @click="xxx">
+							<div style="display: block;">
 								<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;">
 									<img v-show="qdlqmkItemOneShow" @click="qdlqmkItemOneShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
 									<img v-show="!qdlqmkItemOneShow" @click="qdlqmkItemOneShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> Condenser
@@ -956,10 +687,8 @@
 									<span>Primary Inlet Temp</span>
 									<span>Auxiliary</span>
 									<span>Air Temp
-										<el-select style="width: 70px;" @change="changeSelectResultTableThree" placeholder="">
-											<el-option value="20" label="20"></el-option>
-											<el-option value="30" label="30"></el-option>
-											<el-option value="50" label="50"></el-option>
+										<el-select @change="airValueChange" v-model="airValue" style="width: 70px;height: 20px;">
+											<el-option v-for="(item,index) in airArr" :key="index" :value="item.temperature" :label="item.temperature"></el-option>
 										</el-select>
 									</span>
 									<span>Air Density</span>
@@ -967,43 +696,26 @@
 									<span>Cp</span>
 									<span>Du</span>
 								</div>
-								<div>
-									<span>652.0</span>
-									<span>321.2</span>
-									<span>12.0</span>
-									<span>NA</span>
-									<span>NA</span>
-									<span>45</span>
-									<span>3.2</span>
-									<span>5.3</span>
-									<span>Cp</span>
-									<span>9.3</span>
-									<span>NA</span>
-									<span>{{pro.valueNine}}</span>
-									<span>{{pro.valueTen}}</span>
-									<span>NA</span>
-									<span>3.9</span>
-								</div>
-								<div>
-									<span>782.6</span>
-									<span>452.3</span>
-									<span>13.1</span>
-									<span>NA</span>
-									<span>NA</span>
-									<span>37</span>
-									<span>7.8</span>
-									<span>6.7</span>
-									<span>Cp</span>
-									<span>7.5</span>
-									<span>NA</span>
-									<span>{{pro.valueNine}}</span>
-									<span>{{pro.valueTen}}</span>
-									<span>NA</span>
-									<span>7.1</span>
+								<div v-for="(item,index) in compareList">
+									<span>{{item["Condenser Parameters"].content[5].val}}</span>
+									<span>{{item["Condenser Parameters"].content[6].val}}</span>
+									<span>{{item["Condenser Parameters"].content[7].val}}</span>
+									<span>{{item["Condenser Parameters"].content[2].val}}</span>
+									<span>{{item["Condenser Parameters"].content[3].val}}</span>
+									<span>{{item["Condenser Parameters"].content[4].val}}</span>
+									<span>{{item["Condenser Parameters"].content[0].val}}</span>
+									<span>{{item["Condenser Parameters"].content[1].val}}</span>
+									<span>{{item["Condenser Parameters"].content[9].val}}</span>
+									<span>{{item["Condenser Parameters"].content[8].val}}</span>
+									<span>{{airValue}}</span>
+									<span>{{currentAir.density}}</span>
+									<span>{{currentAir.viscosity}}</span>
+									<span>{{item["Condenser Parameters"].cp}}</span>
+									<span>{{item["Condenser Parameters"].du}}</span>
 								</div>
 							</div>
 
-							<div style="display: block;" ref="xxx" @click="xxx">
+							<div style="display: block;">
 								<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;">
 									<img v-show="qdlqmkItemTwoShow" @click="qdlqmkItemTwoShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
 									<img v-show="!qdlqmkItemTwoShow" @click="qdlqmkItemTwoShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> CAC
@@ -1022,10 +734,8 @@
 									<span>Primary Inlet Temp</span>
 									<span>Auxiliary</span>
 									<span>Air Temp
-										<el-select style="width: 70px;" @change="changeSelectResultTableThree" placeholder="">
-											<el-option value="20" label="20"></el-option>
-											<el-option value="30" label="30"></el-option>
-											<el-option value="50" label="50"></el-option>
+										<el-select @change="airValueChange" v-model="airValue" style="width: 70px;height: 20px;">
+											<el-option v-for="(item,index) in airArr" :key="index" :value="item.temperature" :label="item.temperature"></el-option>
 										</el-select>
 									</span>
 									<span>Air Density</span>
@@ -1034,45 +744,29 @@
 									<span>Du</span>
 								</div>
 								<div>
-									<span>652.0</span>
-									<span>321.2</span>
-									<span>12.0</span>
-									<span>NA</span>
-									<span>NA</span>
-									<span>45</span>
-									<span>3.2</span>
-									<span>5.3</span>
-									<span>Cp</span>
-									<span>9.3</span>
-									<span>NA</span>
-									<span>{{pro.valueNine}}</span>
-									<span>{{pro.valueTen}}</span>
-									<span>NA</span>
-									<span>3.9</span>
-								</div>
-								<div>
-									<span>782.6</span>
-									<span>452.3</span>
-									<span>13.1</span>
-									<span>NA</span>
-									<span>NA</span>
-									<span>37</span>
-									<span>7.8</span>
-									<span>6.7</span>
-									<span>Cp</span>
-									<span>7.5</span>
-									<span>NA</span>
-									<span>{{pro.valueNine}}</span>
-									<span>{{pro.valueTen}}</span>
-									<span>NA</span>
-									<span>7.1</span>
+									<div v-for="(item,index) in compareList">
+										<span>{{item["CAC Parameters"].content[5].val}}</span>
+										<span>{{item["CAC Parameters"].content[6].val}}</span>
+										<span>{{item["CAC Parameters"].content[7].val}}</span>
+										<span>{{item["CAC Parameters"].content[2].val}}</span>
+										<span>{{item["CAC Parameters"].content[3].val}}</span>
+										<span>{{item["CAC Parameters"].content[4].val}}</span>
+										<span>{{item["CAC Parameters"].content[0].val}}</span>
+										<span>{{item["CAC Parameters"].content[1].val}}</span>
+										<span>{{item["CAC Parameters"].content[9].val}}</span>
+										<span>{{item["CAC Parameters"].content[8].val}}</span>
+										<span>{{airValue}}</span>
+										<span>{{currentAir.density}}</span>
+										<span>{{currentAir.viscosity}}</span>
+										<span>{{item["CAC Parameters"].cp}}</span>
+										<span>{{item["CAC Parameters"].du}}</span>
+									</div>
 								</div>
 							</div>
-
-							<div style="display: block;" ref="xxx" @click="xxx">
+							<div style="display: block;">
 								<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;">
 									<img v-show="qdlqmkItemThreeShow" @click="qdlqmkItemThreeShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-									<img v-show="!qdlqmkItemThreeShow" @click="qdlqmkItemThreeShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> Condenser CAC Radiator LTR</span>
+									<img v-show="!qdlqmkItemThreeShow" @click="qdlqmkItemThreeShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">LTR</span>
 							</div>
 							<div v-if="qdlqmkItemThreeShow">
 								<div>
@@ -1087,10 +781,8 @@
 									<span>Primary Inlet Temp</span>
 									<span>Auxiliary</span>
 									<span>Air Temp
-										<el-select style="width: 70px;" @change="changeSelectResultTableThree" placeholder="">
-											<el-option value="20" label="20"></el-option>
-											<el-option value="30" label="30"></el-option>
-											<el-option value="50" label="50"></el-option>
+										<el-select @change="airValueChange" v-model="airValue" style="width: 70px;height: 20px;">
+											<el-option v-for="(item,index) in airArr" :key="index" :value="item.temperature" :label="item.temperature"></el-option>
 										</el-select>
 									</span>
 									<span>Air Density</span>
@@ -1099,63 +791,43 @@
 									<span>Du</span>
 								</div>
 								<div>
-									<span>652.0</span>
-									<span>321.2</span>
-									<span>12.0</span>
-									<span>NA</span>
-									<span>NA</span>
-									<span>45</span>
-									<span>3.2</span>
-									<span>5.3</span>
-									<span>Cp</span>
-									<span>9.3</span>
-									<span>NA</span>
-									<span>{{pro.valueNine}}</span>
-									<span>{{pro.valueTen}}</span>
-									<span>NA</span>
-									<span>3.9</span>
-								</div>
-								<div>
-									<span>782.6</span>
-									<span>452.3</span>
-									<span>13.1</span>
-									<span>NA</span>
-									<span>NA</span>
-									<span>37</span>
-									<span>7.8</span>
-									<span>6.7</span>
-									<span>Cp</span>
-									<span>7.5</span>
-									<span>NA</span>
-									<span>{{pro.valueNine}}</span>
-									<span>{{pro.valueTen}}</span>
-									<span>NA</span>
-									<span>7.1</span>
+									<div v-for="(item,index) in compareList">
+										<span>{{item["LTR Parameters"].content[5].val}}</span>
+										<span>{{item["LTR Parameters"].content[6].val}}</span>
+										<span>{{item["LTR Parameters"].content[7].val}}</span>
+										<span>{{item["LTR Parameters"].content[2].val}}</span>
+										<span>{{item["LTR Parameters"].content[3].val}}</span>
+										<span>{{item["LTR Parameters"].content[4].val}}</span>
+										<span>{{item["LTR Parameters"].content[0].val}}</span>
+										<span>{{item["LTR Parameters"].content[1].val}}</span>
+										<span>{{item["LTR Parameters"].content[9].val}}</span>
+										<span>{{item["LTR Parameters"].content[8].val}}</span>
+										<span>{{airValue}}</span>
+										<span>{{currentAir.density}}</span>
+										<span>{{currentAir.viscosity}}</span>
+										<span>{{item["LTR Parameters"].cp}}</span>
+										<span>{{item["LTR Parameters"].du}}</span>
+									</div>
 								</div>
 							</div>
 
-							<div style="display: block;" ref="xxx" @click="xxx">
+							<div style="display: block;">
 								<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;">
 									<img v-show="qdlqmkItemFourShow" @click="qdlqmkItemFourShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-									<img v-show="!qdlqmkItemFourShow" @click="qdlqmkItemFourShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> Condenser CAC Radiator LTR</span>
+									<img v-show="!qdlqmkItemFourShow" @click="qdlqmkItemFourShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">Radiator"</span>
 							</div>
 							<div v-if="qdlqmkItemFourShow">
 								<div>
 									<span>Length</span>
 									<span>Height</span>
 									<span>Thickness</span>
-									<span>No.of Tubes</span>
-									<span>No.of Passes</span>
-									<span>No.of Raws</span>
-									<span>Flow in Front View</span>
-									<span>Recirculated Flow</span>
+									<span>Matrix Row No</span>
+									<span>Matrix Column No</span>
 									<span>Primary Inlet Temp</span>
 									<span>Auxiliary</span>
 									<span>Air Temp
-										<el-select style="width: 70px;" @change="changeSelectResultTableThree" placeholder="">
-											<el-option value="20" label="20"></el-option>
-											<el-option value="30" label="30"></el-option>
-											<el-option value="50" label="50"></el-option>
+										<el-select @change="airValueChange" v-model="airValue" style="width: 70px;height: 20px;">
+											<el-option v-for="(item,index) in airArr" :key="index" :value="item.temperature" :label="item.temperature"></el-option>
 										</el-select>
 									</span>
 									<span>Air Density</span>
@@ -1164,38 +836,20 @@
 									<span>Du</span>
 								</div>
 								<div>
-									<span>652.0</span>
-									<span>321.2</span>
-									<span>12.0</span>
-									<span>NA</span>
-									<span>NA</span>
-									<span>45</span>
-									<span>3.2</span>
-									<span>5.3</span>
-									<span>Cp</span>
-									<span>9.3</span>
-									<span>NA</span>
-									<span>{{pro.valueNine}}</span>
-									<span>{{pro.valueTen}}</span>
-									<span>NA</span>
-									<span>3.9</span>
-								</div>
-								<div>
-									<span>782.6</span>
-									<span>452.3</span>
-									<span>13.1</span>
-									<span>NA</span>
-									<span>NA</span>
-									<span>37</span>
-									<span>7.8</span>
-									<span>6.7</span>
-									<span>Cp</span>
-									<span>7.5</span>
-									<span>NA</span>
-									<span>{{pro.valueNine}}</span>
-									<span>{{pro.valueTen}}</span>
-									<span>NA</span>
-									<span>7.1</span>
+									<div v-for="(item,index) in compareList">
+										<span>{{item["Radiator Parameters"].content[0].val}}</span>
+										<span>{{item["Radiator Parameters"].content[1].val}}</span>
+										<span>{{item["Radiator Parameters"].content[2].val}}</span>
+										<span>{{item["Radiator Parameters"].content[5].val}}</span>
+										<span>{{item["Radiator Parameters"].content[6].val}}</span>
+										<span>{{item["Radiator Parameters"].content[4].val}}</span>
+										<span>{{item["Radiator Parameters"].content[3].val}}</span>
+										<span>{{airValue}}</span>
+										<span>{{currentAir.density}}</span>
+										<span>{{currentAir.viscosity}}</span>
+										<span>{{item["Radiator Parameters"].cp}}</span>
+										<span>{{item["Radiator Parameters"].du}}</span>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -1208,42 +862,35 @@
 							<div style="display: block;">
 								<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;text-indent: 2px;">风扇冷却模块结果</span>
 							</div>
-							<div>
-								<span>Fan Type</span>
-								<span>Outer Radius</span>
-								<span>Inner Radius</span>
-								<span>Fan Coffe.A</span>
-								<span>Fan Coffe.B</span>
-								<span>Fan Coffe.C</span>
-								<span>Fan Coffe.D</span>
-								<span>Fan Coffe.E</span>
-								<span>Fan Coffe.F</span>
+							<div style="display: inline-block;vertical-align: top;">
+								<div>
+									<span>Fan Type</span>
+									<span>Outer Radius</span>
+									<span>Inner Radius</span>
+									<span>Fan Coffe.A</span>
+									<span>Fan Coffe.B</span>
+									<span>Fan Coffe.C</span>
+									<span>Fan Coffe.D</span>
+									<span>Fan Coffe.E</span>
+									<span>Fan Coffe.F</span>
+								</div>
+								<div v-for="(item,index) in compareList">
+									<span>{{item["Radiator Parameters"].fan[0].val}}</span>
+									<span>{{item["Radiator Parameters"].fan[1].val}}</span>
+									<span>{{item["Radiator Parameters"].fan[2].val}}</span>
+									<span>{{item["Radiator Parameters"].fan[3].val}}</span>
+									<span>{{item["Radiator Parameters"].fan[4].val}}</span>
+									<span>{{item["Radiator Parameters"].fan[5].val}}</span>
+									<span>{{item["Radiator Parameters"].fan[6].val}}</span>
+									<span>{{item["Radiator Parameters"].fan[7].val}}</span>
+									<span>{{item["Radiator Parameters"].fan[8].val}}</span>
+								</div>
 							</div>
-							<div>
-								<span>99</span>
-								<span>1.0</span>
-								<span>1.0</span>
-								<span>2.0</span>
-								<span>3.0</span>
-								<span>4.0</span>
-								<span>5.0</span>
-								<span>6.0</span>
-								<span>7.0</span>
+							<i-button @click="drawLineTwo" style="margin-top: 10px;" type="primary">查看曲线图</i-button>
+							<div style="display: inline-block;width: 600px;height:400px;" id="myChartTwo">
 							</div>
-							<div>
-								<span>1.3</span>
-								<span>1.5</span>
-								<span>1.5</span>
-								<span>2.1</span>
-								<span>3.7</span>
-								<span>5.7</span>
-								<span>5.7</span>
-								<span>6.7</span>
-								<span>7.3</span>
-							</div>
-							<i-button @click="drawLineTwo" style="display: block;margin-top: 10px;" type="primary">查看曲线图</i-button>
-							<div style="display: block;width: 600px;height:400px;" id="myChartTwo">
-							</div>
+
+
 						</div>
 					</el-tab-pane>
 				</el-tabs>
@@ -1268,9 +915,34 @@
 					valueNine: '1.0',
 					valueTen: '1.1',
 				},
-				vehicleValue:'',
-				vehicleArr:[],
+				searchShow: false,
+				isCompare: false,
+				vehicleValue: '',
+				vehicleArr: [],
+				compareArr: [],
+				pscArr: [],
+				pscArrText: [],
+				pscArrSim: [],
+				pscArrVts: [],
+				intakeObj: {
+					one: {},
+					two: {},
+					three: {}
+				},
+				qdlqArr: [],
 				navInd: '2',
+				qdlqValue: '',
+				qdlqId: '',
+				fanDataArr: [],
+				qdlqDataArr: {
+					cds: {
+						'0.5': []
+					}
+				},
+				airArr: [],
+				airValue: '20',
+				airId: '3',
+				vehicleId: '',
 				dllqxnShow: true,
 				dllqxnItemOneShow: true,
 				dllqxnItemTwoShow: true,
@@ -1288,36 +960,297 @@
 				qdlqmkItemThreeShow: true,
 				qdlqmkItemFourShow: true,
 				qdlqmkItemFiveShow: true,
-				fslqmkShow: true
+				fslqmkShow: true,
+				compareObj: {
+					psc: {},
+					intake: {},
+					qdlqDataArr: {},
+					fan: {}
+				},
+				compareList: [],
+				fanViewData: [],
+				compareViewData: []
 			}
 		},
 		mounted() {
-			//             document.getElementById("tab").style.minHeight = window.innerHeight + 'px'
-			//             this.drawLine()
 			this._getData()
+			// this._getQDLQSelectData()
 		},
 		methods: {
-			_getData() {
+			toCompare() {
+				if(!this.vehicleValue){
+					this.$notify.error({
+						title: '错误',
+						message: '请选择车型数据'
+					});
+					return
+				}
+				if (this.compareArr.length > 0) {
+					let a = this.compareArr.toString().indexOf(this.vehicleValue)
+					if (a !== -1) {
+						this.$notify.error({
+							title: '错误',
+							message: '车型数据已存在'
+						});
+						return
+					} else {
+						this.compareArr.push(this.vehicleValue)
+						this.isCompare = true
+						this.compareArr.forEach((vehicle) => {
+							this.compare(vehicle)
+						})
+					}
+				} else {
+					this.compareArr.push(this.vehicleValue)
+					this.isCompare = true
+					this.compareArr.forEach((vehicle) => {
+						this.compare(vehicle)
+					})
+				}
+
+			},
+			compare(vehicle) {
+				this.compareList = []
 				this.axios({
 					method: 'get',
-					// url: `/patac_ras/carModel/all/excel`,
-					url: `/patac_ras/carModel/all`,
+					url: `/patac_ras/carModel`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					params: {
+						excelName: vehicle
+					}
+				}).then((res) => {
+					this.pscArr = res.data.data.psc
+					this.pscArrText = []
+					this.pscArrSim = []
+					this.pscArrVts = []
+					this.vehicleId = res.data.data.id
+					for (let i in res.data.data.intake) {
+						if (i === "Openning Area & Fan") {
+							this.$set(this.intakeObj, "one", res.data.data.intake[i])
+						} else if (i === "FEAF Shutter Open") {
+							this.$set(this.intakeObj, "two", res.data.data.intake[i])
+						} else if (i === "FEAF Shutter Closed") {
+							this.$set(this.intakeObj, "three", res.data.data.intake[i])
+						}
+					}
+					for (let i in this.pscArr) {
+						for (let o in this.pscArr[i][0]) {
+							if (o === 'con' || o === 'exc' || o === 'ext') {
+								this.pscArrText.push(this.pscArr[i][0][o])
+							}
+						}
+						for (let o in this.pscArr[i][1]) {
+							if (o === 'con' || o === 'exc' || o === 'ext') {
+								this.pscArrSim.push(this.pscArr[i][1][o])
+							}
+						}
+						for (let o in this.pscArr[i][2]) {
+							if (o === 'con' || o === 'exc' || o === 'ext') {
+								this.pscArrVts.push(this.pscArr[i][2][o])
+							}
+						}
+					}
+					this._getQDLQSelectData()
+					this.compareObj.psc = res.data.data.psc
+					this.compareObj.intake = this.intakeObj
+				})
+			},
+			search() {
+				this.isCompare = false
+				this.axios({
+					method: 'get',
+					url: `/patac_ras/carModel`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					params: {
+						excelName: this.vehicleValue
+					}
+				}).then((res) => {
+					this.pscArr = res.data.data.psc
+					this.pscArrText = []
+					this.pscArrSim = []
+					this.pscArrVts = []
+					this.vehicleId = res.data.data.id
+					for (let i in res.data.data.intake) {
+						if (i === "Openning Area & Fan") {
+							this.$set(this.intakeObj, "one", res.data.data.intake[i])
+						} else if (i === "FEAF Shutter Open") {
+							this.$set(this.intakeObj, "two", res.data.data.intake[i])
+						} else if (i === "FEAF Shutter Closed") {
+							this.$set(this.intakeObj, "three", res.data.data.intake[i])
+						}
+					}
+					for (let i in this.pscArr) {
+						for (let o in this.pscArr[i][0]) {
+							if (o === 'con' || o === 'exc' || o === 'ext') {
+								this.pscArrText.push(this.pscArr[i][0][o])
+							}
+						}
+						for (let o in this.pscArr[i][1]) {
+							if (o === 'con' || o === 'exc' || o === 'ext') {
+								this.pscArrSim.push(this.pscArr[i][1][o])
+							}
+						}
+						for (let o in this.pscArr[i][2]) {
+							if (o === 'con' || o === 'exc' || o === 'ext') {
+								this.pscArrVts.push(this.pscArr[i][2][o])
+							}
+						}
+					}
+					this._getQDLQSelectData()
+					this.compareObj.psc = res.data.data.psc
+					this.compareObj.intake = this.intakeObj
+					setTimeout(() => {
+						this.searchShow = true
+					}, 1000)
+				})
+			},
+			_getQDLQSelectData() {
+				this.axios({
+					method: 'get',
+					url: `/patac_ras/carModel/all/${this.vehicleId}/partModel`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					}
 				}).then((res) => {
-					console.log(res)
-// 					if (res.data.code === 0) {
-// 						this.vehicleArr = res.data.data
-// 					}
-				})
+					this.qdlqArr = res.data.data
+					this.qdlqValue = res.data.data[0].name
+					this.qdlqId = res.data.data[0].id
+					this._getAir()
+					if (this.isCompare) {
+						this._getQDLQDataCompare()
+					} else {
+						this._getQDLQData()
+					}
 
+				})
 			},
-			vehicleChange(value){
-				console.log(value)
+			qdlqValueChange(value) {
+				for (let i in this.qdlqArr) {
+					if (this.qdlqArr[i].name === value) {
+						this.qdlqId = this.qdlqArr[i].id
+						this.axios({
+							method: 'get',
+							url: `/patac_ras/partModel/${this.qdlqId}`,
+							headers: {
+								'Content-type': 'application/json;charset=UTF-8'
+							},
+							params: {
+								id: this.qdlqId,
+								advId: this.airId
+							}
+						}).then((res) => {
+							this.qdlqDataArr = res.data.data
+						})
+					}
+				}
 			},
-			xxx() {
-				console.log(this.$refs.xxx)
+			_getAir() {
+				this.axios({
+					method: 'get',
+					url: `/patac_ras/air/all`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					}
+				}).then((res) => {
+					this.airArr = res.data.data
+					this.currentAir = res.data.data[2]
+				})
+			},
+			airValueChange(value) {
+				for (let i in this.airArr) {
+					if (this.airArr[i].temperature === value) {
+						this.currentAir = this.airArr[i]
+						this.airId = this.airArr[i].id
+					}
+				}
+				if (this.isCompare) {
+					this.compareArr.forEach((vehicle) => {
+						this.compare(vehicle)
+					})
+				}
+			},
+			_getQDLQData() {
+				this.axios({
+					method: 'get',
+					url: `/patac_ras/partModel/${this.qdlqId}`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					params: {
+						advId: this.airId
+					}
+				}).then((res) => {
+					this.qdlqDataArr = res.data.data
+					this.fanDataArr = res.data.data.fan
+					this.compareObj.qdlqDataArr = res.data.data
+					this.compareObj.fan = res.data.data.fan
+					for (let i in this.compareObj.fan) {
+						if (this.compareObj.fan[i].key !== 'Fan Type') {
+							this.fanViewData.push(this.compareObj.fan[i].val)
+						}
+						this.drawLine()
+					}
+				})
+			},
+			_getQDLQDataCompare() {
+				for (let i in this.qdlqArr) {
+					this.axios({
+						method: 'get',
+						url: `/patac_ras/partModel/${this.qdlqArr[i].id}`,
+						headers: {
+							'Content-type': 'application/json;charset=UTF-8'
+						},
+						params: {
+							advId: this.airId
+						}
+					}).then((res) => {
+						this.compareObj.fan = res.data.data.fan
+						this.$set(this.compareObj, this.qdlqArr[i].name, res.data.data)
+					})
+				}
+				this.compareList.push(this.compareObj)
+			},
+			_getData() {
+				this.axios({
+					method: 'get',
+					url: `/patac_ras/carModel/all/excel`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					}
+				}).then((res) => {
+					if (res.data.code === 0) {
+						this.vehicleArr = res.data.data
+						this.vehicleValue = res.data.data[0]
+						this.pro.valueOne =  this.vehicleValue.split("_")[0]
+						this.pro.valueTwo =  this.vehicleValue.split("_")[1]
+						this.pro.valueThree =  this.vehicleValue.split("_")[2]
+						this.pro.valueFour =  this.vehicleValue.split("_")[3]
+						this.pro.valueFive =  this.vehicleValue.split("_")[4]
+						this.pro.valueSix =  this.vehicleValue.split("_")[5]
+						this.pro.valueSeven =  this.vehicleValue.split("_")[6]
+					}
+				})
+			},
+			vehicleChange(value) {
+				this.vehicleValue = value
+				this.pro.valueOne =  this.vehicleValue.split("_")[0]
+				this.pro.valueTwo =  this.vehicleValue.split("_")[1]
+				this.pro.valueThree =  this.vehicleValue.split("_")[2]
+				this.pro.valueFour =  this.vehicleValue.split("_")[3]
+				this.pro.valueFive =  this.vehicleValue.split("_")[4]
+				this.pro.valueSix =  this.vehicleValue.split("_")[5]
+				this.pro.valueSeven =  this.vehicleValue.split("_")[6]
+			},
+			closeCompare(item, index) {
+				console.log(index)
+				this.compareArr.splice(index,1)
+				this.compareArr.forEach((vehicle) => {
+					this.compare(vehicle)
+				})
 			},
 			changeSelectResultTableThree(value) {
 				if (value === '20') {
@@ -1337,14 +1270,14 @@
 					xAxis: {
 						type: 'category',
 						data: [],
-						name: 'm/s'
+						name: ''
 					},
 					yAxis: {
 						type: 'value',
-						name: "压力(Pa)"
+						name: " "
 					},
 					series: [{
-						data: [820, 932, 901, 934, 1290, 1330, 1320],
+						data: this.fanViewData,
 						type: 'line',
 						itemStyle: {
 							normal: {
@@ -1373,7 +1306,55 @@
 				})
 			},
 			drawLineTwo() {
+				this.compareViewData = []
+				this.compareList.forEach((item) => {
+					let nArr = []
+					for (let i in item.fan) {
+						if (item.fan[i].key !== 'Fan Type') {
+							nArr.push(item.fan[i].val)
+						}
+					}
+					this.compareViewData.push(nArr)
+				})
 				let myChart = this.$echarts.init(document.getElementById('myChartTwo'))
+				let serArr = []
+				if (this.compareViewData.length === 1) {
+					serArr = [{
+						name: 'one',
+						type: 'line',
+						smooth: true,
+						data: this.compareViewData[0]
+					}, ]
+				} else if (this.compareViewData.length === 2) {
+					serArr = [{
+						name: 'one',
+						type: 'line',
+						smooth: true,
+						data: this.compareViewData[0]
+					}, {
+						name: 'one',
+						type: 'line',
+						smooth: true,
+						data: this.compareViewData[1]
+					}]
+				} else if (this.compareViewData.length === 3) {
+					serArr = [{
+						name: 'one',
+						type: 'line',
+						smooth: true,
+						data: this.compareViewData[0]
+					}, {
+						name: 'one',
+						type: 'line',
+						smooth: true,
+						data: this.compareViewData[1]
+					}, {
+						name: 'one',
+						type: 'line',
+						smooth: true,
+						data: this.compareViewData[2]
+					}]
+				}
 				myChart.setOption({
 					tooltip: {
 						trigger: 'axis'
@@ -1413,21 +1394,7 @@
 					yAxis: {
 						type: 'value'
 					},
-					series: [{
-							name: 'one',
-							type: 'line',
-							smooth: true,
-							stack: '总量',
-							data: [120, 132, 101, 134, 90, 230, 210]
-						},
-						{
-							name: 'two',
-							type: 'line',
-							smooth: true,
-							stack: '总量',
-							data: [220, 182, 191, 234, 290, 330, 310]
-						}
-					]
+					series: serArr
 				})
 
 			}
@@ -1485,11 +1452,13 @@
 						display: inline-block;
 						vertical-align: top;
 						font-size: 12px;
+						vertical-align: top;
 						span {
 							width: 130px;
 							display: block;
 							text-align: left;
 							line-height: 30px;
+							height: 31px;
 							border-right: 1px solid #E4E4E4;
 							border-bottom: 1px solid #E4E4E4;
 							text-indent: 2px;
@@ -1499,14 +1468,16 @@
 			}
 			.compareTableFour {
 				div {
-					display: inline-block;
-					span {
-						width: 130px;
-						display: block;
-						text-align: left;
-						line-height: 30px;
-						border-right: 1px solid #E4E4E4;
-						border-bottom: 1px solid #E4E4E4;
+					div {
+						display: inline-block;
+						span {
+							width: 130px;
+							display: block;
+							text-align: left;
+							line-height: 30px;
+							border-right: 1px solid #E4E4E4;
+							border-bottom: 1px solid #E4E4E4;
+						}
 					}
 				}
 			}
@@ -1544,6 +1515,7 @@
 				.compareOneCon,
 				.compareOneExc,
 				.compareOneExt {
+					vertical-align: top;
 					display: inline-block;
 					span {
 						display: block;
@@ -1552,6 +1524,7 @@
 						width: 130px;
 						line-height: 30px;
 						text-align: center;
+						height: 31px;
 					}
 				}
 			}
