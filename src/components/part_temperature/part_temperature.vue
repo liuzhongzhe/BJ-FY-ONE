@@ -221,6 +221,10 @@
 		},
 		mounted() {
 			this._getData()
+			this.xArrValue = []
+			this.drawListTwo = []
+			this.firstListType = ''
+			this.drawLine()
 		},
 		methods: {
 			_getData() {
@@ -237,7 +241,7 @@
 				}).catch((error) => {
 					this.$notify.error({
 						title: '错误',
-						message: error.response.data.message,
+						message: error.response.data.msg,
 						duration: 5000
 					});
 				});
@@ -254,7 +258,7 @@
 				}).catch((error) => {
 					this.$notify.error({
 						title: '错误',
-						message: error.response.data.message,
+						message: error.response.data.msg,
 						duration: 5000
 					});
 				});
@@ -291,7 +295,7 @@
 				}).catch((error) => {
 					this.$notify.error({
 						title: '错误',
-						message: error.response.data.message,
+						message: error.response.data.msg,
 						duration: 5000
 					});
 				});
@@ -314,7 +318,7 @@
 				}).catch((error) => {
 					this.$notify.error({
 						title: '错误',
-						message: error.response.data.message,
+						message: error.response.data.msg,
 						duration: 5000
 					});
 				});
@@ -343,6 +347,13 @@
 			_onSubmit() {
 				this.$refs.formValidate.validate((valid) => {
 					if (valid) {
+						this.xArrValue = []
+						this.drawListTwo = []
+						this.firstListType = ''
+						this.$refs.colorOne.style.background = '#82848A'
+						this.$refs.colorTwo.style.background = '#82848A'
+						this.numOne = null
+						this.drawLine();
 						let param = new FormData();
 						param.append('VPPSL1', this.form.VPPSL1);
 						param.append('VPPSL2', this.form.VPPSL2);
@@ -354,7 +365,7 @@
 						param.append('dhot', this.form.dhot);
 						param.append('tlimt', this.form.tlimt);
 						param.append('tlimtType', this.secondListSelectType);
-						this.axios.post(`/material/query`, param, {
+						this.axios.post(`/patac_ras/material/query`, param, {
 								headers: {
 									'Content-Type': 'multipart/form-data'
 								}

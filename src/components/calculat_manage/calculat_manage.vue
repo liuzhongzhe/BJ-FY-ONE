@@ -647,7 +647,7 @@
 				</Form>
 			</div>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="addListItemSlot = false">取 消</el-button>
+				<el-button @click="dialogCarpettempAdd = false">取 消</el-button>
 				<el-button type="success" @click="_addCarpettempListItemSubmit">确定</el-button>
 			</div>
 		</el-dialog>
@@ -670,7 +670,7 @@
 				</Form>
 			</div>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="addListItemSlot = false">取 消</el-button>
+				<el-button @click="dialogAirAdd = false">取 消</el-button>
 				<el-button type="success" @click="_addAirListItemSubmit">确定</el-button>
 			</div>
 		</el-dialog>
@@ -701,7 +701,7 @@
 				</Form>
 			</div>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="addListItemSlot = false">取 消</el-button>
+				<el-button @click="dialogBpAdd = false">取 消</el-button>
 				<el-button type="success" @click="_addBpListItemSubmit">确定</el-button>
 			</div>
 		</el-dialog>
@@ -1463,7 +1463,7 @@
 					this.$notify.error({
 						title: '错误',
 						message: err.response.data.msg,
-						duration: 5000
+						duration: 2500
 					});
 					return;
 				})
@@ -1570,7 +1570,7 @@
 					this.$notify.error({
 						title: '错误',
 						message: err.response.data.msg,
-						duration: 5000
+						duration: 2500
 					});
 					return;
 				})
@@ -1624,7 +1624,7 @@
 					this.$notify.error({
 						title: '错误',
 						message: err.response.data.msg,
-						duration: 5000
+						duration: 2500
 					});
 					return;
 				})
@@ -1691,7 +1691,7 @@
 					this.$notify.error({
 						title: '错误',
 						message: err.response.data.msg,
-						duration: 5000
+						duration: 2500
 					});
 					return;
 				})
@@ -1827,7 +1827,7 @@
 					this.$notify.error({
 						title: '错误',
 						message: err.response.data.msg,
-						duration: 5000
+						duration: 2500
 					});
 					return;
 				})
@@ -1879,7 +1879,7 @@
 					this.$notify.error({
 						title: '错误',
 						message: err.response.data.msg,
-						duration: 5000
+						duration: 2500
 					});
 					return;
 				})
@@ -1921,7 +1921,7 @@
 							this.$notify.error({
 								title: '错误',
 								message: err.response.data.msg,
-								duration: 5000
+								duration: 2500
 							});
 							return;
 						})
@@ -1933,6 +1933,14 @@
 					});
 				}
 				if (this.qiShow) {
+					if(idArr.length === 0){
+						this.$notify.error({
+							title: '错误',
+							message: '请选中信息',
+							duration: 1000
+						});
+						return;
+					}
 					this.$confirm('是否删除选中信息?', '提示', {
 						confirmButtonText: '确定',
 						cancelButtonText: '取消',
@@ -1960,7 +1968,7 @@
 							this.$notify.error({
 								title: '错误',
 								message: err.response.data.message,
-								duration: 5000
+								duration: 2500
 							});
 							return;
 						})
@@ -1972,6 +1980,14 @@
 					});
 				}
 				if (this.bpShow) {
+					if(idArr.length === 0){
+						this.$notify.error({
+							title: '错误',
+							message: '请选中信息',
+							duration: 1000
+						});
+						return;
+					}
 					this.$confirm('是否删除选中信息?', '提示', {
 						confirmButtonText: '确定',
 						cancelButtonText: '取消',
@@ -1998,7 +2014,7 @@
 							this.$notify.error({
 								title: '错误',
 								message: err.response.data.message,
-								duration: 5000
+								duration: 2500
 							});
 							return;
 						})
@@ -2010,6 +2026,14 @@
 					});
 				}
 				if (this.carpettempShow) {
+					if(idArr.length === 0){
+						this.$notify.error({
+							title: '错误',
+							message: '请选中信息',
+							duration: 1000
+						});
+						return;
+					}
 					this.$confirm('是否删除选中信息?', '提示', {
 						confirmButtonText: '确定',
 						cancelButtonText: '取消',
@@ -2030,8 +2054,8 @@
 						}).catch((err) => {
 							this.$notify.error({
 								title: '错误',
-								message: err.response.data.message,
-								duration: 5000
+								message: err.response.data.msg,
+								duration: 2500
 							});
 							return;
 						})
@@ -2043,6 +2067,14 @@
 					});
 				}
 				if (this.airShow) {
+					if(idArr.length === 0){
+						this.$notify.error({
+							title: '错误',
+							message: '请选中信息',
+							duration: 1000
+						});
+						return;
+					}
 					this.$confirm('是否删除选中信息?', '提示', {
 						confirmButtonText: '确定',
 						cancelButtonText: '取消',
@@ -2060,7 +2092,7 @@
 								this.$notify.error({
 									title: '成功',
 									message: "删除成功",
-									duration: 5000
+									duration: 2500
 								});
 								this.spinShow = true
 								this._getAirData()
@@ -2069,7 +2101,7 @@
 							this.$notify.error({
 								title: '错误',
 								message: err.response.data.message,
-								duration: 5000
+								duration: 2500
 							});
 							return;
 						})
@@ -2115,7 +2147,7 @@
 							this.$notify.error({
 								title: '错误',
 								message: error.response.data.msg,
-								duration: 5000
+								duration: 2500
 							});
 						});
 					} else {
@@ -2140,7 +2172,7 @@
 							this.$notify.error({
 								title: '错误',
 								message: "材料名称过长,请小于32个字符",
-								duration: 5000
+								duration: 2500
 							});
 							return;
 						}
@@ -2165,7 +2197,7 @@
 							this.$notify.error({
 								title: '错误',
 								message: error.response.data.msg,
-								duration: 5000
+								duration: 2500
 							});
 						});
 					} else {
@@ -2199,7 +2231,7 @@
 							this.$notify.error({
 								title: '错误',
 								message: error.response.data.msg,
-								duration: 5000
+								duration: 2500
 							});
 						});
 					} else {
@@ -2231,7 +2263,7 @@
 					this.$notify.error({
 						title: '错误',
 						message: error.response.data.msg,
-						duration: 5000
+						duration: 2500
 					});
 				});
 
@@ -2245,7 +2277,7 @@
 						this.$notify.error({
 							title: '错误',
 							message: "请将表单填写完整",
-							duration: 5000
+							duration: 2500
 						});
 						return;
 					}
@@ -2274,7 +2306,7 @@
 					this.$notify.error({
 						title: '错误',
 						message: error.response.data.msg,
-						duration: 5000
+						duration: 2500
 					});
 				});
 			},
@@ -2303,7 +2335,7 @@
 							this.$notify.error({
 								title: '错误',
 								message: error.response.data.msg,
-								duration: 5000
+								duration: 2500
 							});
 						});
 					} else {
@@ -2328,7 +2360,7 @@
 							this.$notify.error({
 								title: '错误',
 								message: "材料名称过长,请小于32个字符",
-								duration: 5000
+								duration: 2500
 							});
 							return;
 						}
@@ -2353,7 +2385,7 @@
 							this.$notify.error({
 								title: '错误',
 								message: error.response.data.msg,
-								duration: 5000
+								duration: 2500
 							});
 						});
 					} else {
@@ -2388,7 +2420,7 @@
 							this.$notify.error({
 								title: '错误',
 								message: error.response.data.msg,
-								duration: 5000
+								duration: 2500
 							});
 						});
 					} else {
@@ -2410,7 +2442,7 @@
 							if (res.status === 200) {
 								this.spinShow = true
 								this._getBpData()
-								this.bpShow = false
+								this.dialogModify = false
 								this.$notify.success({
 									title: '成功',
 									message: '添加成功',
@@ -2422,7 +2454,7 @@
 							this.$notify.error({
 								title: '错误',
 								message: error.response.data.msg,
-								duration: 5000
+								duration: 2500
 							});
 						});
 					} else {
@@ -2435,7 +2467,7 @@
 						this.$notify.error({
 							title: '错误',
 							message: "请将表单填写完整",
-							duration: 5000
+							duration: 2500
 						});
 						return;
 					}
@@ -2457,7 +2489,7 @@
 					this._getMaterialData()
 				} else if (this.airShow) {
 					this._getAirData()
-				} else if (this.carpettempShow){
+				} else if (this.carpettempShow) {
 					this._getCarpettempData()
 				}
 			},
@@ -2739,7 +2771,7 @@
 					this.$notify.error({
 						title: '错误',
 						message: err.response.data.msg,
-						duration: 5000
+						duration: 2500
 					});
 					return;
 				})

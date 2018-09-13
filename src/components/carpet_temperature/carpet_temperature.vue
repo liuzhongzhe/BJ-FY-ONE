@@ -79,7 +79,7 @@
 								<Tag color="default">{{result.extreme}}</Tag>
 							</div>
 						</div>
-						<div id="myChart" style="margin-top: 30px;margin-left: 10px;"></div>
+						<div id="myChart" style="margin-top: 30px;margin-left: 10px;" v-show="deliveryShow"></div>
 					</div>
 				</div>
 			</el-card>
@@ -204,6 +204,19 @@
 		mounted() {
 			this._getData()
 		},
+		watch:{
+			deliveryShow(){
+				if (this.deliveryShow) {
+					this.drawList = []
+					this.textOne = ''
+					this.textTwo = ''
+					this.textThree = ''
+					this.firstListType = ''
+					this.drawLine()
+				}else{
+				}
+			}
+		},
 		methods: {
 			_getData() {
 				this.axios({
@@ -219,7 +232,7 @@
 				}).catch((error) => {
 					this.$notify.error({
 						title: '错误',
-						message: error.response.data.message,
+						message: error.response.data.msg,
 						duration: 5000
 					});
 				});
@@ -248,12 +261,21 @@
 				if (this.deliveryShow) {
 					this.drawLine()
 				}
-
 			},
 			_onSubmit() {
 				this.$refs.formValidate.validate((valid) => {
 					this.drawList=[]
 					if (valid) {
+						this.drawList = []
+						this.textOne = ''
+						this.textTwo = ''
+						this.textThree = ''
+						this.firstListType = ''
+						this.result = {
+							continuous: '',
+							excursion: '',
+							extreme: '',
+						}
 						if (this.deliveryShow) {
 							this.axios({
 								method: 'get',
@@ -277,7 +299,7 @@
 							}).catch((error) => {
 								this.$notify.error({
 									title: '错误',
-									message: error.response.data.message,
+									message: error.response.data.msg,
 									duration: 5000
 								});
 							});
@@ -303,7 +325,7 @@
 							}).catch((error) => {
 								this.$notify.error({
 									title: '错误',
-									message: error.response.data.message,
+									message: error.response.data.msg,
 									duration: 5000
 								});
 							});
