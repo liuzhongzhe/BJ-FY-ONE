@@ -8,18 +8,18 @@
 				<div style="display: flex;">
 					<Form ref="formValidate" :model="form" :rules="ruleValidate" :label-width="90">
 						<FormItem label="VPPS_1" prop="VPPSL1">
-							<Select v-model="form.VPPSL1" @on-change="_vpps1Change" filterable>
-								<Option v-for="(item,index) in vpp1Arr" :key="index" :label="item.vpps1" :value="item.vpps1"></Option>
+							<Select v-model="form.VPPSL1" filterable>
+								<Option v-for="(item,index) in vpp1Arr"   :key="index" :label="item.vpps1" :value="item.vpps1"></Option>
 							</Select>
 						</FormItem>
 						<FormItem label="VPPS_2" prop="VPPSL2">
-							<Select v-model="form.VPPSL2" @on-change="_vpps2Change" filterable>
-								<Option v-for="(item,index) in vpp2Arr" :key="index" :label="item.vpps2" :value="item.vpps2"></Option>
+							<Select v-model="form.VPPSL2" filterable>
+								<Option v-for="(item,index) in vpp2Arr"   :key="index" :label="item.vpps2" :value="item.vpps2"></Option>
 							</Select>
 						</FormItem>
 						<FormItem label="Component" prop="partname">
 							<Select v-model="form.partname" filterable>
-								<Option v-for="(item,index) in partnameArr" :key="index" :label="item.parts" :value="item.parts"></Option>
+								<Option v-for="(item,index) in partnameArr"  :key="index" :label="item.parts" :value="item.parts"></Option>
 							</Select>
 						</FormItem>
 						<FormItem label="零件材料" prop="material">
@@ -226,6 +226,61 @@
 			this.firstListType = ''
 			this.drawLine()
 		},
+		watch: {
+			'form.VPPSL1' (val) {
+				
+				this.axios({
+					method: 'get',
+					url: `/patac_ras/bpData/all`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					params: {
+						vpps1: val
+					}
+				}).then((res) => {
+					if (res.data.code === 0) {
+						this.vpp2Arr = res.data.data
+						this.form.VPPSL2 = this.vpp2Arr[0].vpps2
+					}
+				}).catch((error) => {
+					this.$notify.error({
+						title: '错误',
+						message: error.response.data.msg,
+						duration: 5000
+					});
+				});
+			},
+			'form.VPPSL2' (val) {
+				if (!val) {
+					return;
+				} else {
+					this.axios({
+						method: 'get',
+						url: `/patac_ras/bpData/all`,
+						headers: {
+							'Content-type': 'application/json;charset=UTF-8'
+						},
+						params: {
+							vpps1: this.form.VPPSL1,
+							vpps2: val
+						}
+					}).then((res) => {
+						if (res.data.code === 0) {
+							this.partnameArr = res.data.data
+							this.form.partname = this.partnameArr[0].parts
+							console.log(this.form.partname)
+						}
+					}).catch((error) => {
+						this.$notify.error({
+							title: '错误',
+							message: error.response.data.msg,
+							duration: 5000
+						});
+					});
+				}
+			}
+		},
 		methods: {
 			_getData() {
 				this.axios({
@@ -273,55 +328,6 @@
 						this.range.thot = '范围' + this.materialArr[i].th_min.toString() + '-' + this.materialArr[i].th_max.toString()
 					}
 				}
-			},
-			_vpps1Change(value) {
-				this.partnameArr = []
-				this.form.VPPSL2 = ''
-				this.form.partname = ''
-				this.vpp2Arr = []
-				this.axios({
-					method: 'get',
-					url: `/patac_ras/bpData/all`,
-					headers: {
-						'Content-type': 'application/json;charset=UTF-8'
-					},
-					params: {
-						vpps1: value
-					}
-				}).then((res) => {
-					if (res.data.code === 0) {
-						this.vpp2Arr = res.data.data
-					}
-				}).catch((error) => {
-					this.$notify.error({
-						title: '错误',
-						message: error.response.data.msg,
-						duration: 5000
-					});
-				});
-			},
-			_vpps2Change(value) {
-				this.axios({
-					method: 'get',
-					url: `/patac_ras/bpData/all`,
-					headers: {
-						'Content-type': 'application/json;charset=UTF-8'
-					},
-					params: {
-						vpps1: this.form.VPPSL1,
-						vpps2: value
-					}
-				}).then((res) => {
-					if (res.data.code === 0) {
-						this.partnameArr = res.data.data
-					}
-				}).catch((error) => {
-					this.$notify.error({
-						title: '错误',
-						message: error.response.data.msg,
-						duration: 5000
-					});
-				});
 			},
 			clearData() {
 				this.xArrValue = []
@@ -379,11 +385,26 @@
 										this.xArrValue.push(res.data.data.lins[i])
 									}
 									this.drawListTwo = new Array(this.xArr.length).fill(this.form.tlimt)
-									this.$refs.colorOne.style.background = res.data.data.limtStatus
-									this.$refs.colorOne.style.background = res.data.data.arrangeStatus
+									if (res.data.data.limtStatus === 'GREEN') {
+										this.$refs.colorOne.style.background = "rgb(148,205,88)"
+									} else if (res.data.data.limtStatus === 'YELLOW1') {
+										this.$refs.colorOne.style.background = "rgb(255,253,56)"
+									} else if (res.data.data.limtStatus === 'YELLOW2') {
+										this.$refs.colorOne.style.background = "rgb(253,191,46)"
+									} else if (res.data.data.limtStatus === 'RED') {
+										this.$refs.colorOne.style.background = "rgb(251,13,28)"
+									}
+									if (res.data.data.arrangeStatus === 'GREEN') {
+										this.$refs.colorTwo.style.background = "rgb(148,205,88)"
+									} else if (res.data.data.arrangeStatus === 'YELLOW1') {
+										this.$refs.colorTwo.style.background = "rgb(255,253,56)"
+									} else if (res.data.data.arrangeStatus === 'YELLOW2') {
+										this.$refs.colorTwo.style.background = "rgb(253,191,46)"
+									} else if (res.data.data.arrangeStatus === 'RED') {
+										this.$refs.colorTwo.style.background = "rgb(251,13,28)"
+									}
 									this.numOne = res.data.data.limtValue
 									this.firstListType = 'D-T曲线'
-									this.$refs.colorTwo.style.background = 'red'
 									this.drawLine();
 								}
 							})

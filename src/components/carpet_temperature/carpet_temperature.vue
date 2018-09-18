@@ -95,7 +95,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (typeof(value)!=='number') {
+				if (typeof (value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 					if (value < 0) {
@@ -112,7 +112,7 @@
 					if (!value) {
 						return callback(new Error('Age cannot be empty'));
 					}
-					if (typeof(value)!=='number') {
+					if (typeof (value) !== 'number') {
 						callback(new Error('Please enter a numeric value'));
 					} else {
 						if (value < 0) {
@@ -204,8 +204,8 @@
 		mounted() {
 			this._getData()
 		},
-		watch:{
-			deliveryShow(){
+		watch: {
+			deliveryShow() {
 				if (this.deliveryShow) {
 					this.drawList = []
 					this.textOne = ''
@@ -213,8 +213,7 @@
 					this.textThree = ''
 					this.firstListType = ''
 					this.drawLine()
-				}else{
-				}
+				} else {}
 			}
 		},
 		methods: {
@@ -264,7 +263,7 @@
 			},
 			_onSubmit() {
 				this.$refs.formValidate.validate((valid) => {
-					this.drawList=[]
+					this.drawList = []
 					if (valid) {
 						this.drawList = []
 						this.textOne = ''
@@ -289,11 +288,57 @@
 								this.result.continuous = _data.continuous + "℃"
 								this.result.excursion = _data.excursion + "℃"
 								this.result.extreme = _data.extreme + "℃"
-								let nArr = [0, 0]
-								for (let i in _data.lins) {
-									nArr = [i, _data.lins[i]]
-									this.drawList.push(nArr)
-								}
+								this.drawList.push([0.0, _data.lins["0.0"]])
+								this.drawList.push([0.1, _data.lins["0.1"]])
+								this.drawList.push([0.2, _data.lins["0.2"]])
+								this.drawList.push([0.3, _data.lins["0.3"]])
+								this.drawList.push([0.4, _data.lins["0.4"]])
+								this.drawList.push([0.5, _data.lins["0.5"]])
+								this.drawList.push([0.6, _data.lins["0.6"]])
+								this.drawList.push([0.7, _data.lins["0.7"]])
+								this.drawList.push([0.8, _data.lins["0.8"]])
+								this.drawList.push([0.9, _data.lins["0.9"]])
+								this.drawList.push([1.0, _data.lins["1.0"]])
+								this.drawList.push([1.1, _data.lins["1.1"]])
+								this.drawList.push([1.2, _data.lins["1.2"]])
+								this.drawList.push([1.3, _data.lins["1.3"]])
+								this.drawList.push([1.4, _data.lins["1.4"]])
+								this.drawList.push([1.5, _data.lins["1.5"]])
+								this.drawList.push([1.6, _data.lins["1.6"]])
+								this.drawList.push([1.7, _data.lins["1.7"]])
+								this.drawList.push([1.8, _data.lins["1.8"]])
+								this.drawList.push([1.9, _data.lins["1.9"]])
+								this.drawList.push([2.0, _data.lins["2.0"]])
+								this.drawList.push([2.1, _data.lins["2.1"]])
+								this.drawList.push([2.2, _data.lins["2.2"]])
+								this.drawList.push([2.3, _data.lins["2.3"]])
+								this.drawList.push([2.4, _data.lins["2.4"]])
+								this.drawList.push([2.5, _data.lins["2.5"]])
+								this.drawList.push([2.6, _data.lins["2.6"]])
+								this.drawList.push([2.7, _data.lins["2.7"]])
+								this.drawList.push([2.8, _data.lins["2.8"]])
+								this.drawList.push([2.9, _data.lins["2.9"]])
+								this.drawList.push([3.0, _data.lins["3.0"]])
+								this.drawList.push([3.1, _data.lins["3.1"]])
+								this.drawList.push([3.2, _data.lins["3.2"]])
+								this.drawList.push([3.3, _data.lins["3.3"]])
+								this.drawList.push([3.4, _data.lins["3.4"]])
+								this.drawList.push([3.5, _data.lins["3.5"]])
+								this.drawList.push([3.6, _data.lins["3.6"]])
+								this.drawList.push([3.7, _data.lins["3.7"]])
+								this.drawList.push([3.8, _data.lins["3.8"]])
+								this.drawList.push([3.9, _data.lins["3.9"]])
+								this.drawList.push([4.0, _data.lins["4.0"]])
+								this.drawList.push([4.1, _data.lins["4.1"]])
+								this.drawList.push([4.2, _data.lins["4.2"]])
+								this.drawList.push([4.3, _data.lins["4.3"]])
+								this.drawList.push([4.4, _data.lins["4.4"]])
+								this.drawList.push([4.5, _data.lins["4.5"]])
+								this.drawList.push([4.6, _data.lins["4.6"]])
+								this.drawList.push([4.7, _data.lins["4.7"]])
+								this.drawList.push([4.8, _data.lins["4.8"]])
+								this.drawList.push([4.9, _data.lins["4.9"]])
+								this.drawList.push([5.0, _data.lins["5.0"]])
 								this.firstListType = 'TCEQ温度'
 								this.drawLine()
 							}).catch((error) => {

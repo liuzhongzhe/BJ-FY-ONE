@@ -37,7 +37,7 @@
 								</el-table-column>
 								<el-table-column type="index" width="50" label="no.">
 								</el-table-column>
-								<el-table-column prop="vpps1" label="vpps_1" width="120">
+								<el-table-column prop="vpps1" label="VPPS_1" width="120">
 								</el-table-column>
 								<el-table-column prop="vpps2" label="VPPS_2" width="120">
 								</el-table-column>
@@ -59,29 +59,40 @@
 							</el-table>
 						</div>
 						<div class="material_formList" v-if="materialShow">
-							<div class="listTitle">
+							<div class="listTitle" v-show="!materialListNoneShow">
 								<span> </span>
-								<span v-for="(item,index) in formListTitle">{{index}}</span>
+								<span v-for="(item,index) in formList[0]" v-if=" index!= 'dHot'" v-show="index!= 'id'">{{index}}</span>
 								<span>操作</span>
 							</div>
-							<div class="list" v-for="(item,ind) in formList">
-								<span v-if="ind<8">{{ind*10+10}}</span>
-								<span v-if="ind===8">100</span>
-								<span v-if="ind===9">120</span>
-								<span v-if="ind===10">150</span>
-								<span v-for="(list,index) in item" v-if="index!= 'id'">
+							<div class="list" v-for="(item,ind) in formList" v-if="!materialListNoneShow">
+								<span>{{item.dHot}}</span>
+								<span v-for="(list,index) in item" v-if=" index!= 'dHot'" v-show="index!= 'id'">
 									{{list}}
 								</span>
 								<span>
 									<el-button @click="modifyListItem(ind,item)">编辑</el-button>
 								</span>
 							</div>
+							<div v-if="materialListNoneShow">
+								<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/material/upload" :on-success="handleFileSuccess"
+									:auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
+									:on-remove="handleRemove">
+									<i class="el-icon-upload"></i>
+									<div class="el-upload__text">将文件拖到此处，或
+										<em>点击上传</em>
+									</div>
+								</el-upload>
+								<div slot="footer" class="dialog-footer" style="margin-right: 5%; float: right; padding: 20px;">
+									<el-button @click="dialogMaterialImportFile = false">取 消</el-button>
+									<el-button type="success" @click="submitUpload">上传</el-button>
+								</div>
+							</div>
 						</div>
 						<div class="carpettemp_formList" v-if="carpettempShow">
-							<el-table ref="multipleTable" :data="carpettempFormList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-								<el-table-column type="selection" width="40">
+							<el-table ref="multipleTableCarpettemp" :data="carpettempFormList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+								<el-table-column type="selection" width="40" disabled>
 								</el-table-column>
-								<el-table-column type="index" label="no." min-width="50">
+								<el-table-column type="index" label="no." min-width="50" >
 								</el-table-column>
 								<el-table-column prop="material" label="material" min-width="120">
 								</el-table-column>
@@ -101,16 +112,20 @@
 						<div v-if="dllqShow">
 							<div class="selectList" style="margin-top: 10px;">
 								<div>
-									<span style="margin-left: 10px;">车型数据：</span>
+									<span style="margin-right: 60px;margin-top: 10px;display: inline-block;"> 
+									<span style="display: inline-block; width: 90px;text-align: right;">车型数据：</span>
 									<el-select v-model="vehicleValue" filterable placeholder="请选择" @change="vehicleChange" style="width: 400px;">
 										<el-option v-for="(item,index) in vehicleArr" :key="index" :label="item" :value="item">
 										</el-option>
 									</el-select>
-									<span style="margin-left: 50px;">数据表：</span>
+									</span>
+									<span style="margin-top: 10px; display: inline-block;">
+										<span style="display: inline-block; width: 90px;text-align: right;">数据表：</span>
 									<el-select v-model="sjbValue" filterable placeholder="请选择" style="width: 400px;">
 										<el-option v-for="(item,index) in sjbArr" :key="index" :label="item" :value="item">
 										</el-option>
 									</el-select>
+									</span>
 									<el-button @click="dllqSearch">查询</el-button>
 								</div>
 								<div class="sec">
@@ -491,77 +506,104 @@
 								<div class="threeList" v-if="dllqData.part.Fan.length >0">
 									<div>
 										<span style="background: rgb(240,249,235);">Fan Type</span>
-										<span style="width: 120px;">{{dllqData.part["Fan"][0].val}}</span>
+										<span style="width: 60px;">{{dllqData.part["Fan"][0].val}}</span>
 									</div>
 									<div>
 										<span style="background: rgb(240,249,235);">DriverSide Outer Radiaus</span>
-										<span>{{dllqData.part["Fan"][1].val}}</span>
+										<span style="width: 60px;">{{dllqData.part["Fan"][1].val}}</span>
 									</div>
 									<div>
 										<span style="background: rgb(240,249,235);">DriverSide Ineer Radiaus</span>
-										<span>{{dllqData.part["Fan"][2].val}}</span>
+										<span style="width: 60px;">{{dllqData.part["Fan"][2].val}}</span>
 									</div>
 									<div>
 										<span style="background: rgb(240,249,235);">PassengerSide Outer Radiaus</span>
-										<span>{{dllqData.part["Fan"][3].val}}</span>
+										<span style="width: 60px;">{{dllqData.part["Fan"][3].val}}</span>
 									</div>
 									<div>
 										<span style="background: rgb(240,249,235);">PassengerSide Inner Radiaus</span>
-										<span>{{dllqData.part["Fan"][4].val}}</span>
+										<span style="width: 60px;">{{dllqData.part["Fan"][4].val}}</span>
 									</div>
 								</div>
 							</div>
 							<div v-if="conHrShow" style="margin-top: 10px;">
 								<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
-									<span style="flex: 1;text-align: center;" v-for="(item,index) in dllqData.endHR['Condenser Parameters'][0]">{{index}}</span>
+									<span style="flex: 0 60px;text-align: center;border-right: 1px solid #E4E4E4;">Sample</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Air Volumn Flow Rate(m3/s)</span>
+									<span style="flex: 0 100px;text-align: center;border-right: 1px solid #E4E4E4;">Air Inlet Temp.(C)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Air Inlet Relative Humidity(%)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Air OutletTemp.(C</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Air PressureDrop(Pa)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Refrigerant Mass Air Flow Rate(m3/s)</span>
+									<span style="flex: 0 100px;text-align: center;border-right: 1px solid #E4E4E4;">Refrigerant Inlet Temp.(C)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Refrigerant Inlet Pressure(Pa-Gage)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Refrigerant Outlet Temp.(C)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Refrigerant OutletPressure(Pa-Gage)</span>
+									<span style="flex: 0 120px;text-align: center;">Percent OilRecirculation(%)</span>
 								</div>
 								<div style="display: flex;" v-for="item in dllqData.endHR['Condenser Parameters'] ">
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Air Inlet\n Temp.(C)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Refrigerant Outlet\nPressure(Pa-Gage)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Sample"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Air Outlet\nTemp.(C)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Air Volumn \nFlow Rate(m3/s)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Air Pressure\nDrop(Pa)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Refrigerant Mass \nAir Flow Rate(m3/s)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Percent Oil\nRecirculation(%)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Refrigerant Inlet\n Pressure(Pa-Gage)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Refrigerant Inlet Temp.(C)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Air Inlet \nRelative Humidity(%)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Refrigerant \nOutlet Temp.(C)"]}}</span>
+									<span style="flex: 0 60px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Sample"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Volumn \nFlow Rate(m3/s)"]}}</span>
+									<span style="flex: 0 100px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Inlet\n Temp.(C)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Inlet \nRelative Humidity(%)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant Outlet\nPressure(Pa-Gage)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Outlet\nTemp.(C)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Pressure\nDrop(Pa)"]}}</span>
+									<span style="flex: 0 100px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant Inlet Temp.(C)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant Inlet\n Pressure(Pa-Gage)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant \nOutlet Temp.(C)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant Mass \nAir Flow Rate(m3/s)"]}}</span>
+									<span style="flex: 0 120px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;">{{item["Percent Oil\nRecirculation(%)"]}}</span>
 								</div>
 							</div>
 							<div v-if="cacHrShow" style="margin-top: 10px;">
 								<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
-									<span style="flex: 1;text-align: center;" v-for="(item,index) in dllqData.endHR['CAC Parameters'][0]">{{index}}</span>
+									<span style="flex: 0 60px;text-align: center;border-right: 1px solid #E4E4E4;" >Sample</span>
+									<span style="flex: 0 120px;text-align: center;border-right: 1px solid #E4E4E4;" >Cooling AirInlet Temp.(C)</span>
+									<span style="flex: 0 120px;text-align: center;border-right: 1px solid #E4E4E4;" >Charged AirInlet Temp.(C)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Cooling Air Mass Flow Rate(kg/s)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Charged Air Mass Air Flow Rate(kg/s)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Heat Transfer Rate(W)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Cooling Air Inlet Pressure(Pa-Gage)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Charged Air Inlet Pressure(Pa-Gage)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Charged AirPressure Drop(Pa)</span>
+									<span style="flex: 1;text-align: center;" >(Optional)Charged Air Re Number</span>
 								</div>
 								<div style="display: flex;" v-for="item in dllqData.endHR['CAC Parameters'] ">
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Charged Air Mass \nAir Flow Rate(kg/s)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Heat Transfer Rate(W)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Charged Air Inlet Pressure(Pa-Gage)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Charged Air\nInlet Temp.(C)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Cooling Air\nPressure Drop(Pa)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Sample"]}}</span>
+									<span style="flex: 0 60px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Sample"]}}</span>
+									<span style="flex: 0 120px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Cooling Air\nInlet Temp.(C)"]}}</span>
+									<span style="flex: 0 120px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Charged Air\nInlet Temp.(C)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Cooling Air Mass \nFlow Rate(kg/s)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Charged Air Mass \nAir Flow Rate(kg/s)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Heat Transfer Rate(W)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Cooling Air Inlet Pressure(Pa-Gage)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Charged Air Inlet Pressure(Pa-Gage)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Charged Air\nPressure Drop(Pa)"]}}</span>
 									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["(Optional)\nCharged Air Re Number"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Cooling Air Inlet Pressure(Pa-Gage)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Cooling Air Mass \nFlow Rate(kg/s)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Cooling Air\nInlet Temp.(C)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Charged Air\nPressure Drop(Pa)"]}}</span>
 								</div>
 							</div>
 							<div v-if="ltrHrShow" style="margin-top: 10px;">
 								<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
-									<span style="flex: 1;text-align: center;" v-for="(item,index) in dllqData.endHR['LTR Parameters'][0]">{{index}}</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Sample</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Liquid Temp.(C)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Air Inlet Temp.(C)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Liquid MassFlow Rate(kg/s)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" > Air Mass Flow Rate(kg/s)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Heat Transfer Rate(W)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Luquid PressureDrop(Pa)</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Air PressureDrop(Pa)</span>
+									<span style="flex: 1;text-align: center;" >(Optional)Luquid Re Number</span>
 								</div>
 								<div style="display: flex;" v-for="item in dllqData.endHR['LTR Parameters'] ">
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Sample"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Liquid Temp.(C)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Inlet Temp.(C)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Liquid Mass\nFlow Rate(kg/s)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item[" Air Mass \nFlow Rate(kg/s)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Heat Transfer Rate(W)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Luquid Pressure\nDrop(Pa)"]}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Pressure\nDrop(Pa)"]}}</span>
 									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["(Optional)\nLuquid Re Number"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Heat Transfer Rate(W)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Sample"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Liquid Mass\nFlow Rate(kg/s)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Air Inlet Temp.(C)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Air Pressure\nDrop(Pa)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Air Mass \nFlow Rate(kg/s)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Liquid Temp.(C)"]}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Luquid Pressure\nDrop(Pa)"]}}</span>
 								</div>
 							</div>
 							<div v-if="rdHrShow" style="margin-top: 10px;">
@@ -581,16 +623,23 @@
 								</div>
 							</div>
 							<div v-if="pqShow" style="margin-top: 10px;">
-								<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
-									<span style="flex: 1;text-align: center;" v-for="(item,index) in dllqData.endPQ[0]">{{index}}</span>
+								<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;" >
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >FEAF</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Condenser</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >CAC</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >LTR</span>
+									<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;" >Radiator</span>
+									<span style="flex: 1;text-align: center;" >Fan</span>
 								</div>
 								<div style="display: flex;" v-for="item in dllqData.endPQ">
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item.cac}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item.condenser}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item.fan}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item.feaf}}</span>
-									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item.ltr}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.feaf}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.condenser}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.cac}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.ltr}}</span>
 									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item.radiator}}</span>
+									<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.fan}}</span>
+									
+									
 								</div>
 							</div>
 						</div>
@@ -720,10 +769,10 @@
 		<el-dialog title="修改" :visible.sync="dialogModify" class="modifyDialog">
 			<div v-if="materialShow ">
 				<Form ref="formValiMateril" :model="currentModify" :rules="ruleMaterial" :label-width="160">
-					<FormItem label="200" prop="200">
-						<Input v-model="currentModify[200]" number></Input>
+					<FormItem :label="index" :prop="index" v-for="(item,index) in addListItemSlot">
+						<Input v-model="currentModify[index]" number></Input>
 					</FormItem>
-					<FormItem label="250" prop="250">
+					<!-- <FormItem label="250" prop="250">
 						<Input v-model="currentModify[250]" number></Input>
 					</FormItem>
 					<FormItem label="300" prop="300">
@@ -755,7 +804,7 @@
 					</FormItem>
 					<FormItem label="750" prop="750">
 						<Input v-model="currentModify[750]" number></Input>
-					</FormItem>
+					</FormItem> -->
 				</Form>
 			</div>
 			<div v-if="bpShow">
@@ -993,6 +1042,7 @@
 				dialogCarpettempAdd: false,
 				dialogCarpettempImportFile: false,
 				dialogAirImportFile: false,
+				materialListNoneShow: false,
 				spinShow: false,
 				fileList: [],
 				bpFormList: [],
@@ -1232,8 +1282,7 @@
 						}, {
 							value: '材料温测数据',
 							label: '材料温测数据',
-							children: []
-						}, ],
+						}, ]
 					},
 					{
 						value: '人体接触温度评估系统',
@@ -1423,7 +1472,6 @@
 				this.pro.valueSeven = this.vehicleValue.split("_")[6]
 			},
 			_getMaterilTypes() {
-				this.options[2].children[1].children = []
 				this.axios({
 					method: 'get',
 					url: `/patac_ras/material`,
@@ -1436,29 +1484,57 @@
 					}
 				}).then((res) => {
 					this.materialTypes = res.data.data.content
-					let nObj = {
-						value: '',
-						label: ''
-					}
-					let sObj = {
-						value: '',
-						label: ''
-					}
-					res.data.data.content.forEach((item) => {
-						nObj = {
-							value: item.name,
-							label: item.name
+					if(this.materialTypes.length !== 0){
+								this.options[2] = {
+							value: '零件温度预测系统',
+							label: '零件温度预测系统',
+							children: [{
+								value: 'BP数据',
+								label: 'BP数据',
+							}, {
+								value: '材料温测数据',
+								label: '材料温测数据',
+								children:[],
+							}, ]
 						}
-						nObj.children = []
-						item.sheet.forEach((val) => {
-							sObj = {
-								value: val,
-								label: val
+						let nObj = {
+							value: '',
+							label: ''
+						}
+						let sObj = {
+							value: '',
+							label: ''
+						}
+						this.materialTypes.forEach((item) => {
+							nObj = {
+								value: item.name,
+								label: item.name
 							}
-							nObj.children.push(sObj)
+							nObj.children = []
+							item.sheet.forEach((val) => {
+								sObj = {
+									value: val,
+									label: val
+								}
+								nObj.children.push(sObj)
+							})
+							this.options[2].children[1].children.push(nObj)
+							console.log(this.options[2].children[1])
 						})
-						this.options[2].children[1].children.push(nObj)
-					})
+					}else{
+								this.options[2] = {
+							value: '零件温度预测系统',
+							label: '零件温度预测系统',
+							children: [{
+								value: 'BP数据',
+								label: 'BP数据',
+							}, {
+								value: '材料温测数据',
+								label: '材料温测数据',
+							}, ]
+						}
+					}
+					
 				}).catch((err) => {
 					this.$notify.error({
 						title: '错误',
@@ -1470,6 +1546,13 @@
 			},
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
+				for(let i in val){
+					if(val[i].material === 'Skin'){
+						this.$refs.multipleTableCarpettemp.toggleRowSelection(this.carpettempFormList[0]);
+						// this.multipleSelection.splice(this.multipleSelection.length-1,1)
+					}
+				}
+				console.log(this.multipleSelection)
 			},
 			handleFileError(err) {
 				if (this.carpettempShow) {
@@ -1502,6 +1585,7 @@
 						this.dialogBpImportFile = false
 						this._getBpData()
 					} else if (this.materialShow) {
+						this.materialListNoneShow = false
 						this.dialogMaterialImportFile = false
 						this._getMaterialData()
 					} else if (this.carpettempShow) {
@@ -1580,20 +1664,6 @@
 				this.qiShow = false
 				this.bpShow = false
 				this.formList = []
-				this.formListTitle = {
-					"200": null,
-					"250": null,
-					"300": null,
-					"350": null,
-					"400": null,
-					"450": null,
-					"500": null,
-					"550": null,
-					"600": null,
-					"650": null,
-					"700": null,
-					"750": null,
-				}
 				this.axios({
 					method: 'get',
 					url: `/patac_ras/tppData`,
@@ -1608,6 +1678,7 @@
 						tair: this.selectValues[3].slice(this.selectValues[3].indexOf("T") + 1)
 					},
 				}).then((res) => {
+					this.materialListNoneShow = false
 					this.pageCount = res.data.data.totalElements
 					let _data = res.data.data.content
 					if (res.data.code === 0) {
@@ -1615,10 +1686,13 @@
 					}
 					this.addListItemSlot = {}
 					for (let i in _data[0]) {
-						if (i !== 'id') {
+						if (i !== 'id' && i !== 'dHot') {
 							this.$set(this.addListItemSlot, i, null)
 						}
 					}
+					setTimeout(()=>{
+						console.log(this.addListItemSlot)
+					},200)
 					this.spinShow = false
 				}).catch((err) => {
 					this.$notify.error({
@@ -1915,8 +1989,9 @@
 									duration: 1000
 								});
 								this._getMaterilTypes()
+								// this._getMaterialData()
+								this.materialListNoneShow = true
 							}
-
 						}).catch((err) => {
 							this.$notify.error({
 								title: '错误',
@@ -2507,37 +2582,52 @@
 				this.currentPage = 1
 				if (typeof (values) !== 'string') {
 					if (values[1] === "BP数据") {
+						this.pageSize = 10
 						this._getBpData()
 						this.bpshw = true
 						return;
 					}
-					if (values.length === 4) {
+					if (values.length === 4  ) {
+						this.pageSize = 15
 						this.selectValues = values
 						this._getMaterialData()
 						this.materialShow = true
 						return;
 					}
+					if(values[1] === "材料温测数据"){
+						this.pageSize = 15
+						this.spinShow = false
+						this.selectValues = values
+						this.materialListNoneShow = true
+						this.materialShow = true
+						return;
+					}
 					if (values[1] === "地毯材料属性") {
+						this.pageSize = 10
 						this._getCarpettempData()
 						this.carpettempShow = true
 						return;
 					}
 					if (values[1] === '动力冷却性能数据') {
+						this.pageSize = 10
 						this.pageCount = 0
 						this._getDllqData()
 						this.dllqShow = true
 						return;
 					}
 					if (values[1] === '空气属性数据') {
+						this.pageSize = 10
 						this._getAirData()
 						this.airShow = true
 						return;
 					}
 					if (values[0] === '底盘排气系统' || values[0] === '底盘进气系统') {
+						this.pageSize = 10
 						value = values[1]
 						this.qiShow = true
 					}
 				} else {
+					this.pageSize = 10
 					value = values
 					this.qiShow = true
 				}
@@ -2818,7 +2908,11 @@
 	.ivu-select {
 		width: 300px;
 	}
-
+	.lzz2{
+		span{
+			border-right: 1px solid #E4E4E4;
+		}
+	}
 	.resultTableThree {
 		margin-top: 10px;
 		.threeList {
@@ -2974,6 +3068,7 @@
 			.selectList {
 				display: inline-block;
 				.sec {
+					width: 350px;
 					display: inline-block;
 					margin-top: 10px;
 					margin-left: 10px;
