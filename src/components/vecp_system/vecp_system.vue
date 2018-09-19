@@ -321,8 +321,10 @@
 						<div style="background: #68ab82;line-height: 38px;color: #000;display: block;">
 							<span style="width: 130px;display: inline-block;text-align: left;text-indent: 2px;border: none;text-align: center;">对比项</span>
 							<el-tooltip class="item" effect="dark" :content="item" placement="top" :key="index" v-for="(item,index) in compareArr">
-								<span style="vertical-align: top; width: 130px;display: inline-block;border: none;text-align: center; overflow: hidden;height: 38px;">
-									<el-button type="danger" @click="closeCompare(item,index)" icon="el-icon-close" circle style="margin-right: 5px;"></el-button>{{item}}</span>
+								<span style="vertical-align: top; width: 130px;display: inline-block;border: none; height: 38px;">
+									<el-button type="danger" @click="closeCompare(item,index)" icon="el-icon-close" circle style="margin-right: 5px;position: relative;bottom: 6px;"></el-button>
+										<span style="width: 90px; overflow: hidden; display: inline-block;height: 30px;">{{item}}</span>	
+									</span>
 							</el-tooltip>
 						</div>
 						<div class="title">
@@ -969,7 +971,8 @@
 				},
 				compareList: [],
 				fanViewData: [],
-				compareViewData: []
+				compareViewData: [],
+				CId:''
 			}
 		},
 		mounted() {
@@ -1021,6 +1024,7 @@
 						excelName: vehicle
 					}
 				}).then((res) => {
+					this.CId = res.data.data.id
 					this.pscArr = res.data.data.psc
 					this.pscArrText = []
 					this.pscArrSim = []
@@ -1069,6 +1073,7 @@
 						excelName: this.vehicleValue
 					}
 				}).then((res) => {
+					this.CId = res.data.data.id
 					this.pscArr = res.data.data.psc
 					this.pscArrText = []
 					this.pscArrSim = []
@@ -1181,7 +1186,8 @@
 						'Content-type': 'application/json;charset=UTF-8'
 					},
 					params: {
-						advId: this.airId
+						advId: this.airId,
+						cId:this.CId
 					}
 				}).then((res) => {
 					this.qdlqDataArr = res.data.data
@@ -1205,7 +1211,8 @@
 							'Content-type': 'application/json;charset=UTF-8'
 						},
 						params: {
-							advId: this.airId
+							advId: this.airId,
+							cId:this.CId
 						}
 					}).then((res) => {
 						this.compareObj.fan = res.data.data.fan
