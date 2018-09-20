@@ -21,43 +21,43 @@
 					<div class="sec">
 						<span>车型平台：</span>
 						<el-select v-model="pro.valueOne">
-							<el-option value="" label=""></el-option>
+							<el-option v-for="item in cxptArr" :value="item" :label="item"></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>车型名称：</span>
 						<el-select v-model="pro.valueTwo">
-							<el-option value="" label=""></el-option>
+							<el-option v-for="item in cxmcArr" :value="item" :label="item"></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>车型年份：</span>
 						<el-select v-model="pro.valueThree">
-							<el-option value="" label=""></el-option>
+							<el-option v-for="item in cxnfArr" :value="item" :label="item"></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>发动机：</span>
 						<el-select v-model="pro.valueFour">
-							<el-option value="" label=""></el-option>
+							<el-option v-for="item in fdjArr" :value="item" :label="item"></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>变速箱：</span>
 						<el-select v-model="pro.valueFive">
-							<el-option value="" label=""></el-option>
+							<el-option v-for="item in bsxArr" :value="item" :label="item"></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>驱动形式：</span>
 						<el-select v-model="pro.valueSix">
-							<el-option value="" label=""></el-option>
+							<el-option v-for="item in qdxsArr" :value="item" :label="item"></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>左/右驾：</span>
 						<el-select v-model="pro.valueSeven">
-							<el-option value="" label=""></el-option>
+							<el-option v-for="item in zyjArr" :value="item" :label="item"></el-option>
 						</el-select>
 					</div>
 				</div>
@@ -221,7 +221,7 @@
 								<el-option v-if="item.name!== 'Fan'" v-for="(item,index) in qdlqArr" :key="index" :label="item.name" :value="item.name">{{item.name}}</el-option>
 							</el-select>
 						</div>
-						<div class="resultTableThree" v-if="searchShow">
+						<div class="resultTableThree" v-if="searchShow"> 
 							<div class="threeList">
 								<div>
 									<span style="background: rgb(240,249,235);">Length</span>
@@ -293,10 +293,10 @@
 								</div>
 							</div>
 						</div>
-						<div class="resultTableFive" v-if="qdlqValue !=='Condenser Parameters'" v-show="searchShow">
+						<div class="resultTableFive" v-if="qdlqValue !=='Condenser'" v-show="searchShow">
 							<div class="fiveTitle">
 								<span>前端冷却模块CDS数据</span>
-								<span v-if="qdlqValue !=='Condenser Parameters'" v-for="(item,index) in qdlqDataArr.cds['0.5']">
+								<span v-if="qdlqValue !=='Condenser'" v-for="(item,index) in qdlqDataArr.cds['0.5']">
 									{{item.key}}
 								</span>
 							</div>
@@ -323,8 +323,8 @@
 							<el-tooltip class="item" effect="dark" :content="item" placement="top" :key="index" v-for="(item,index) in compareArr">
 								<span style="vertical-align: top; width: 130px;display: inline-block;border: none; height: 38px;">
 									<el-button type="danger" @click="closeCompare(item,index)" icon="el-icon-close" circle style="margin-right: 5px;position: relative;bottom: 6px;"></el-button>
-										<span style="width: 90px; overflow: hidden; display: inline-block;height: 30px;">{{item}}</span>	
-									</span>
+									<span style="width: 90px; overflow: hidden; display: inline-block;height: 30px;">{{item}}</span>
+								</span>
 							</el-tooltip>
 						</div>
 						<div class="title">
@@ -699,21 +699,21 @@
 									<span>Du</span>
 								</div>
 								<div v-for="(item,index) in compareList">
-									<span>{{item["Condenser Parameters"].content[5].val}}</span>
-									<span>{{item["Condenser Parameters"].content[6].val}}</span>
-									<span>{{item["Condenser Parameters"].content[7].val}}</span>
-									<span>{{item["Condenser Parameters"].content[2].val}}</span>
-									<span>{{item["Condenser Parameters"].content[3].val}}</span>
-									<span>{{item["Condenser Parameters"].content[4].val}}</span>
-									<span>{{item["Condenser Parameters"].content[0].val}}</span>
-									<span>{{item["Condenser Parameters"].content[1].val}}</span>
-									<span>{{item["Condenser Parameters"].content[9].val}}</span>
-									<span>{{item["Condenser Parameters"].content[8].val}}</span>
+									<span>{{item["Condenser"].content[5].val}}</span>
+									<span>{{item["Condenser"].content[6].val}}</span>
+									<span>{{item["Condenser"].content[7].val}}</span>
+									<span>{{item["Condenser"].content[2].val}}</span>
+									<span>{{item["Condenser"].content[3].val}}</span>
+									<span>{{item["Condenser"].content[4].val}}</span>
+									<span>{{item["Condenser"].content[0].val}}</span>
+									<span>{{item["Condenser"].content[1].val}}</span>
+									<span>{{item["Condenser"].content[9].val}}</span>
+									<span>{{item["Condenser"].content[8].val}}</span>
 									<span>{{airValue}}</span>
 									<span>{{currentAir.density}}</span>
 									<span>{{currentAir.viscosity}}</span>
-									<span>{{item["Condenser Parameters"].cp}}</span>
-									<span>{{item["Condenser Parameters"].du}}</span>
+									<span>{{item["Condenser"].cp}}</span>
+									<span>{{item["Condenser"].du}}</span>
 								</div>
 							</div>
 
@@ -905,6 +905,13 @@
 	export default {
 		data() {
 			return {
+				cxptArr:['E2-2','D2XX'],
+				cxmcArr:['E2LB','E2LC','D2UB','D2SB'],
+				cxnfArr:['MY16','MY17','MY18'],
+				fdjArr:['L2B','L3T','L3Z'],
+				bsxArr:['CVT','DCT'],
+				qdxsArr:['AWD','FWD'],
+				zyjArr:['LHD','RHD'],
 				pro: {
 					valueOne: '',
 					valueTwo: '',
@@ -972,7 +979,7 @@
 				compareList: [],
 				fanViewData: [],
 				compareViewData: [],
-				CId:''
+				CId: ''
 			}
 		},
 		mounted() {
@@ -981,7 +988,7 @@
 		},
 		methods: {
 			toCompare() {
-				if(!this.vehicleValue){
+				if (!this.vehicleValue) {
 					this.$notify.error({
 						title: '错误',
 						message: '请选择车型数据'
@@ -993,7 +1000,7 @@
 					if (a !== -1) {
 						this.$notify.error({
 							title: '错误',
-							message: '车型数据已存在'
+							message: '当前车型数据已加入对比！'
 						});
 						return
 					} else {
@@ -1024,7 +1031,7 @@
 						excelName: vehicle
 					}
 				}).then((res) => {
-					this.CId = res.data.data.id
+					this._getQDLQSelectData(res.data.data.id)
 					this.pscArr = res.data.data.psc
 					this.pscArrText = []
 					this.pscArrSim = []
@@ -1056,7 +1063,7 @@
 							}
 						}
 					}
-					this._getQDLQSelectData()
+					
 					this.compareObj.psc = res.data.data.psc
 					this.compareObj.intake = this.intakeObj
 				})
@@ -1079,6 +1086,7 @@
 					this.pscArrSim = []
 					this.pscArrVts = []
 					this.vehicleId = res.data.data.id
+					this._getQDLQSelectData(res.data.data.id)
 					for (let i in res.data.data.intake) {
 						if (i === "Openning Area & Fan") {
 							this.$set(this.intakeObj, "one", res.data.data.intake[i])
@@ -1105,7 +1113,6 @@
 							}
 						}
 					}
-					this._getQDLQSelectData()
 					this.compareObj.psc = res.data.data.psc
 					this.compareObj.intake = this.intakeObj
 					setTimeout(() => {
@@ -1113,10 +1120,10 @@
 					}, 1000)
 				})
 			},
-			_getQDLQSelectData() {
+			_getQDLQSelectData(value) {
 				this.axios({
 					method: 'get',
-					url: `/patac_ras/carModel/all/${this.vehicleId}/partModel`,
+					url: `/patac_ras/carModel/all/${value}/partModel`,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8'
 					}
@@ -1126,11 +1133,10 @@
 					this.qdlqId = res.data.data[0].id
 					this._getAir()
 					if (this.isCompare) {
-						this._getQDLQDataCompare()
+						this._getQDLQDataCompare(value)
 					} else {
 						this._getQDLQData()
 					}
-
 				})
 			},
 			qdlqValueChange(value) {
@@ -1144,7 +1150,7 @@
 								'Content-type': 'application/json;charset=UTF-8'
 							},
 							params: {
-								id: this.qdlqId,
+								cId: this.CId,
 								advId: this.airId
 							}
 						}).then((res) => {
@@ -1187,7 +1193,7 @@
 					},
 					params: {
 						advId: this.airId,
-						cId:this.CId
+						cId: this.CId
 					}
 				}).then((res) => {
 					this.qdlqDataArr = res.data.data
@@ -1202,7 +1208,7 @@
 					}
 				})
 			},
-			_getQDLQDataCompare() {
+			_getQDLQDataCompare(value) {
 				for (let i in this.qdlqArr) {
 					this.axios({
 						method: 'get',
@@ -1212,7 +1218,7 @@
 						},
 						params: {
 							advId: this.airId,
-							cId:this.CId
+							cId: value
 						}
 					}).then((res) => {
 						this.compareObj.fan = res.data.data.fan
@@ -1220,6 +1226,7 @@
 					})
 				}
 				this.compareList.push(this.compareObj)
+				console.log(this.compareList)
 			},
 			_getData() {
 				this.axios({
@@ -1232,29 +1239,29 @@
 					if (res.data.code === 0) {
 						this.vehicleArr = res.data.data
 						this.vehicleValue = res.data.data[0]
-						this.pro.valueOne =  this.vehicleValue.split("_")[0]
-						this.pro.valueTwo =  this.vehicleValue.split("_")[1]
-						this.pro.valueThree =  this.vehicleValue.split("_")[2]
-						this.pro.valueFour =  this.vehicleValue.split("_")[3]
-						this.pro.valueFive =  this.vehicleValue.split("_")[4]
-						this.pro.valueSix =  this.vehicleValue.split("_")[5]
-						this.pro.valueSeven =  this.vehicleValue.split("_")[6]
+						this.pro.valueOne = this.vehicleValue.split("_")[0]
+						this.pro.valueTwo = this.vehicleValue.split("_")[1]
+						this.pro.valueThree = this.vehicleValue.split("_")[2]
+						this.pro.valueFour = this.vehicleValue.split("_")[3]
+						this.pro.valueFive = this.vehicleValue.split("_")[4]
+						this.pro.valueSix = this.vehicleValue.split("_")[5]
+						this.pro.valueSeven = this.vehicleValue.split("_")[6]
 					}
 				})
 			},
 			vehicleChange(value) {
 				this.vehicleValue = value
-				this.pro.valueOne =  this.vehicleValue.split("_")[0]
-				this.pro.valueTwo =  this.vehicleValue.split("_")[1]
-				this.pro.valueThree =  this.vehicleValue.split("_")[2]
-				this.pro.valueFour =  this.vehicleValue.split("_")[3]
-				this.pro.valueFive =  this.vehicleValue.split("_")[4]
-				this.pro.valueSix =  this.vehicleValue.split("_")[5]
-				this.pro.valueSeven =  this.vehicleValue.split("_")[6]
+				this.pro.valueOne = this.vehicleValue.split("_")[0]
+				this.pro.valueTwo = this.vehicleValue.split("_")[1]
+				this.pro.valueThree = this.vehicleValue.split("_")[2]
+				this.pro.valueFour = this.vehicleValue.split("_")[3]
+				this.pro.valueFive = this.vehicleValue.split("_")[4]
+				this.pro.valueSix = this.vehicleValue.split("_")[5]
+				this.pro.valueSeven = this.vehicleValue.split("_")[6]
 			},
 			closeCompare(item, index) {
 				console.log(index)
-				this.compareArr.splice(index,1)
+				this.compareArr.splice(index, 1)
 				this.compareArr.forEach((vehicle) => {
 					this.compare(vehicle)
 				})

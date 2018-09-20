@@ -94,7 +94,7 @@
 								</el-table-column>
 								<el-table-column type="index" label="no." min-width="50">
 								</el-table-column>
-								<el-table-column prop="material" label="material" min-width="120">
+								<el-table-column prop="material" label="Material" min-width="120">
 								</el-table-column>
 								<el-table-column prop="conductivity" label="Conductivity [w/m²*k]" min-width="120">
 								</el-table-column>
@@ -112,13 +112,6 @@
 						<div v-if="dllqShow">
 							<div class="selectList" style="margin-top: 10px; display: block;">
 								<div>
-									<!-- <span style="margin-right: 60px;margin-top: 10px;display: inline-block;"> 
-									<span style="display: inline-block; width: 90px;text-align: right;">车型数据：</span>
-									<el-select v-model="vehicleValue" filterable placeholder="请选择" @change="vehicleChange" style="width: 400px;">
-										<el-option v-for="(item,index) in vehicleArr" :key="index" :label="item" :value="item">
-										</el-option>
-									</el-select>
-									</span> -->
 									<span style="margin-top: 10px; display: inline-block;" v-if="!dllqListNoneShow">
 										<span style="display: inline-block; width: 90px;text-align: right;">数据表：</span>
 										<el-select v-model="sjbValue" filterable placeholder="请选择" style="width: 400px;">
@@ -143,479 +136,487 @@
 									<el-button @click="dllqSearch" v-if="!dllqListNoneShow">查询</el-button>
 								</div>
 							</div>
-							<div v-if="!dllqListNoneShow">
+							<div v-if="!dllqListNoneShow" v-show="dllqDataNoneShow">
 								<div class="resultTable" v-if="pscShow">
-																<div class="topTitle">
-																	<div></div>
-																	<div>
-																		<div class="top">
-																			<span>发动机油温</span>
-																		</div>
-																		<div>
-																			<span style="background: rgb(240,249,235);">Con.</span>
-																			<span style="background: rgb(240,249,235);">Exc.</span>
-																			<span style="background: rgb(240,249,235);">Ext.</span>
-																		</div>
-																	</div>
-																	<div>
-																		<div class="top">
-																			<span>发动机水温</span>
-																		</div>
-																		<div>
-																			<span style="background: rgb(240,249,235);">Con.</span>
-																			<span style="background: rgb(240,249,235);">Exc.</span>
-																			<span style="background: rgb(240,249,235);">Ext.</span>
-																		</div>
-																	</div>
-																	<div>
-																		<div class="top">
-																			<span>风扇出风温度 </span>
-																		</div>
-																		<div>
-																			<span style="background: rgb(240,249,235);">Con.</span>
-																			<span style="background: rgb(240,249,235);">Exc.</span>
-																			<span style="background: rgb(240,249,235);">Ext.</span>
-																		</div>
-																	</div>
-								
-																	<div>
-																		<div class="top">
-																			<span>LTR水温</span>
-																		</div>
-																		<div>
-																			<span style="background: rgb(240,249,235);">Con.</span>
-																			<span style="background: rgb(240,249,235);">Exc.</span>
-																			<span style="background: rgb(240,249,235);">Ext.</span>
-																		</div>
-																	</div>
-																	<div>
-																		<div class="top">
-																			<span>变速箱油温</span>
-																		</div>
-																		<div>
-																			<span style="background: rgb(240,249,235);">Con.</span>
-																			<span style="background: rgb(240,249,235);">Exc.</span>
-																			<span style="background: rgb(240,249,235);">Ext.</span>
-																		</div>
-																	</div>
-																	<div>
-																		<div class="top">
-																			<span>CAC出口温度</span>
-																		</div>
-																		<div>
-																			<span style="background: rgb(240,249,235);">Con.</span>
-																			<span style="background: rgb(240,249,235);">Exc.</span>
-																			<span style="background: rgb(240,249,235);">Ext.</span>
-																		</div>
-																	</div>
-																</div>
-																<div class="tableList">
-																	<div>
-																		<span style="border-left: none;background: rgb(240,249,235);">试验结果</span>
-																	</div>
-																	<div>
-																		<span v-for="item in pscArrText">{{item}}</span>
-																	</div>
-																</div>
-																<div class="tableList">
-																	<div>
-																		<span style="border-left: none;background: rgb(240,249,235);">虚拟结果</span>
-																	</div>
-																	<div>
-																		<span v-for="item in pscArrSim">{{item}}</span>
-																	</div>
-																</div>
-																<div class="tableList">
-																	<div>
-																		<span style="background: rgb(240,249,235);">VTS要求</span>
-																	</div>
-																	<div>
-																		<span v-for="item in pscArrVts">{{item}}</span>
-																	</div>
-																</div>
-															</div>
-															<div class="resultTableTwo" v-if="feafShow">
-																<div class="twoTitle">
-																	<div>Openging(cm2)</div>
-																	<div>Shutter Open(CMM)</div>
-																	<div>Shutter Close(CMM)</div>
-																</div>
-																<div class="twoList">
-																	<div>
-																		<span style="background: rgb(240,249,235);">总体开口面积</span>
-																		<span>{{intakeObj.one[0].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">{{intakeObj.two[0].key}}</span>
-																		<span>{{intakeObj.two[0].val}}</span>
-																		<span style="background: rgb(240,249,235);">{{intakeObj.two[1].key}}</span>
-																		<span>{{intakeObj.two[1].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">{{intakeObj.three[0].key}}</span>
-																		<span>{{intakeObj.three[0].val}}</span>
-																	</div>
-																</div>
-																<div class="twoList">
-																	<div>
-																		<span style="background: rgb(240,249,235);">正投影面积</span>
-																		<span>{{intakeObj.one[1].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">{{intakeObj.two[2].key}}</span>
-																		<span>{{intakeObj.two[2].val}}</span>
-																		<span style="background: rgb(240,249,235);">{{intakeObj.two[3].key}}</span>
-																		<span>{{intakeObj.two[3].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">{{intakeObj.three[1].key}}</span>
-																		<span>{{intakeObj.three[1].val}}</span>
-																	</div>
-																</div>
-																<div class="twoList">
-																	<div>
-																		<span style="background: rgb(240,249,235);">风扇功率</span>
-																		<span>{{intakeObj.one[2].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);" v-if="intakeObj.two[4]">{{intakeObj.two[4].key}}</span>
-																		<span v-if="intakeObj.two[4]">{{intakeObj.two[4].val}}</span>
-																		<span style="background: rgb(240,249,235);" v-if="intakeObj.two[5]">{{intakeObj.two[5].key}}</span>
-																		<span v-if="intakeObj.two[5]">{{intakeObj.two[5].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">{{intakeObj.three[2].key}}</span>
-																		<span>{{intakeObj.three[2].val}}</span>
-																	</div>
-																</div>
-															</div>
-															<div class="resultTableThree" v-if="crfmShow">
-																<p style="line-height: 40px;font-size: 18px;">CAC Parameters</p>
-																<div class="threeList">
-																	<div>
-																		<span style="background: rgb(240,249,235);">Flow in Front View</span>
-																		<span>{{dllqData.part["CAC Parameters"][0].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Recirculated Flow</span>
-																		<span>{{dllqData.part["CAC Parameters"][1].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">No. of Tubes</span>
-																		<span>{{dllqData.part["CAC Parameters"][2].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">No. of Passes</span>
-																		<span>{{dllqData.part["CAC Parameters"][3].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">No. of Raws</span>
-																		<span>{{dllqData.part["CAC Parameters"][4].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Length(mm)</span>
-																		<span>{{dllqData.part["CAC Parameters"][5].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Height(mm)</span>
-																		<span>{{dllqData.part["CAC Parameters"][6].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Thickness</span>
-																		<span>{{dllqData.part["CAC Parameters"][7].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Auxiliary Inlet Temp</span>
-																		<span>{{dllqData.part["CAC Parameters"][8].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Primary Inlet Temp</span>
-																		<span>{{dllqData.part["CAC Parameters"][9].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Matrix Row No.</span>
-																		<span>{{dllqData.part["CAC Parameters"][10].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Matrix Column No.</span>
-																		<span>{{dllqData.part["CAC Parameters"][11].val}}</span>
-																	</div>
-																</div>
-																<p style="line-height: 40px;font-size: 18px;">Condenser Parameters</p>
-																<div class="threeList">
-																	<div>
-																		<span style="background: rgb(240,249,235);">Flow in Front View</span>
-																		<span>{{dllqData.part["Condenser Parameters"][0].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Recirculated Flow</span>
-																		<span>{{dllqData.part["Condenser Parameters"][1].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">No. of Tubes</span>
-																		<span>{{dllqData.part["Condenser Parameters"][2].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">No. of Passes</span>
-																		<span>{{dllqData.part["Condenser Parameters"][3].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">No. of Raws</span>
-																		<span>{{dllqData.part["Condenser Parameters"][4].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Length(mm)</span>
-																		<span>{{dllqData.part["Condenser Parameters"][5].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Height(mm)</span>
-																		<span>{{dllqData.part["Condenser Parameters"][6].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Thickness</span>
-																		<span>{{dllqData.part["Condenser Parameters"][7].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Auxiliary Inlet Temp</span>
-																		<span>{{dllqData.part["Condenser Parameters"][8].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Primary Inlet Temp</span>
-																		<span>{{dllqData.part["Condenser Parameters"][9].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Matrix Row No.</span>
-																		<span>{{dllqData.part["Condenser Parameters"][10].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Matrix Column No.</span>
-																		<span>{{dllqData.part["Condenser Parameters"][11].val}}</span>
-																	</div>
-																</div>
-																<p style="line-height: 40px;font-size: 18px;">LTR Parameters</p>
-																<div class="threeList">
-																	<div>
-																		<span style="background: rgb(240,249,235);">Flow in Front View</span>
-																		<span>{{dllqData.part["LTR Parameters"][0].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Recirculated Flow</span>
-																		<span>{{dllqData.part["LTR Parameters"][1].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">No. of Tubes</span>
-																		<span>{{dllqData.part["LTR Parameters"][2].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">No. of Passes</span>
-																		<span>{{dllqData.part["LTR Parameters"][3].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">No. of Raws</span>
-																		<span>{{dllqData.part["LTR Parameters"][4].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Length(mm)</span>
-																		<span>{{dllqData.part["LTR Parameters"][5].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Height(mm)</span>
-																		<span>{{dllqData.part["LTR Parameters"][6].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Thickness</span>
-																		<span>{{dllqData.part["LTR Parameters"][7].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Auxiliary Inlet Temp</span>
-																		<span>{{dllqData.part["LTR Parameters"][8].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Primary Inlet Temp</span>
-																		<span>{{dllqData.part["LTR Parameters"][9].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Matrix Row No.</span>
-																		<span>{{dllqData.part["LTR Parameters"][10].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Matrix Column No.</span>
-																		<span>{{dllqData.part["LTR Parameters"][11].val}}</span>
-																	</div>
-																</div>
-																<p style="line-height: 40px;font-size: 18px;">Radiator Parameters</p>
-																<div class="threeList">
-																	<div>
-																		<span style="background: rgb(240,249,235);">Length(mm)</span>
-																		<span>{{dllqData.part["LTR Parameters"][0].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Height(mm)</span>
-																		<span>{{dllqData.part["LTR Parameters"][1].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Thickness(mm)</span>
-																		<span>{{dllqData.part["LTR Parameters"][2].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Auxiliary Inlet Temp</span>
-																		<span>{{dllqData.part["LTR Parameters"][3].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Primary Inlet Temp</span>
-																		<span>{{dllqData.part["LTR Parameters"][4].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Matrix Row No.</span>
-																		<span>{{dllqData.part["LTR Parameters"][5].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">Matrix Column No.</span>
-																		<span>{{dllqData.part["LTR Parameters"][6].val}}</span>
-																	</div>
-																</div>
-																<p style="line-height: 40px;font-size: 18px;">Fan</p>
-																<span v-if="dllqData.part.Fan.length ===0">无</span>
-																<div class="threeList" v-if="dllqData.part.Fan.length >0">
-																	<div>
-																		<span style="background: rgb(240,249,235);">Fan Type</span>
-																		<span style="width: 60px;">{{dllqData.part["Fan"][0].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">DriverSide Outer Radiaus</span>
-																		<span style="width: 60px;">{{dllqData.part["Fan"][1].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">DriverSide Ineer Radiaus</span>
-																		<span style="width: 60px;">{{dllqData.part["Fan"][2].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">PassengerSide Outer Radiaus</span>
-																		<span style="width: 60px;">{{dllqData.part["Fan"][3].val}}</span>
-																	</div>
-																	<div>
-																		<span style="background: rgb(240,249,235);">PassengerSide Inner Radiaus</span>
-																		<span style="width: 60px;">{{dllqData.part["Fan"][4].val}}</span>
-																	</div>
-																</div>
-															</div>
-															<div v-if="conHrShow" style="margin-top: 10px;">
-																<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
-																	<span style="flex: 0 60px;text-align: center;border-right: 1px solid #E4E4E4;">Sample</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Air Volumn Flow Rate(m3/s)</span>
-																	<span style="flex: 0 100px;text-align: center;border-right: 1px solid #E4E4E4;">Air Inlet Temp.(C)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Air Inlet Relative Humidity(%)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Air OutletTemp.(C</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Air PressureDrop(Pa)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Refrigerant Mass Air Flow Rate(m3/s)</span>
-																	<span style="flex: 0 100px;text-align: center;border-right: 1px solid #E4E4E4;">Refrigerant Inlet Temp.(C)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Refrigerant Inlet Pressure(Pa-Gage)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Refrigerant Outlet Temp.(C)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Refrigerant OutletPressure(Pa-Gage)</span>
-																	<span style="flex: 0 120px;text-align: center;">Percent OilRecirculation(%)</span>
-																</div>
-																<div style="display: flex;" v-for="item in dllqData.endHR['Condenser Parameters'] ">
-																	<span style="flex: 0 60px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Sample"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Volumn \nFlow Rate(m3/s)"]}}</span>
-																	<span style="flex: 0 100px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Inlet\n Temp.(C)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Inlet \nRelative Humidity(%)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant Outlet\nPressure(Pa-Gage)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Outlet\nTemp.(C)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Pressure\nDrop(Pa)"]}}</span>
-																	<span style="flex: 0 100px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant Inlet Temp.(C)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant Inlet\n Pressure(Pa-Gage)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant \nOutlet Temp.(C)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant Mass \nAir Flow Rate(m3/s)"]}}</span>
-																	<span style="flex: 0 120px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;">{{item["Percent Oil\nRecirculation(%)"]}}</span>
-																</div>
-															</div>
-															<div v-if="cacHrShow" style="margin-top: 10px;">
-																<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
-																	<span style="flex: 0 60px;text-align: center;border-right: 1px solid #E4E4E4;">Sample</span>
-																	<span style="flex: 0 120px;text-align: center;border-right: 1px solid #E4E4E4;">Cooling AirInlet Temp.(C)</span>
-																	<span style="flex: 0 120px;text-align: center;border-right: 1px solid #E4E4E4;">Charged AirInlet Temp.(C)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Cooling Air Mass Flow Rate(kg/s)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Charged Air Mass Air Flow Rate(kg/s)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Heat Transfer Rate(W)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Cooling Air Inlet Pressure(Pa-Gage)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Charged Air Inlet Pressure(Pa-Gage)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Charged AirPressure Drop(Pa)</span>
-																	<span style="flex: 1;text-align: center;">(Optional)Charged Air Re Number</span>
-																</div>
-																<div style="display: flex;" v-for="item in dllqData.endHR['CAC Parameters'] ">
-																	<span style="flex: 0 60px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Sample"]}}</span>
-																	<span style="flex: 0 120px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Cooling Air\nInlet Temp.(C)"]}}</span>
-																	<span style="flex: 0 120px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Charged Air\nInlet Temp.(C)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Cooling Air Mass \nFlow Rate(kg/s)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Charged Air Mass \nAir Flow Rate(kg/s)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Heat Transfer Rate(W)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Cooling Air Inlet Pressure(Pa-Gage)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Charged Air Inlet Pressure(Pa-Gage)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Charged Air\nPressure Drop(Pa)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["(Optional)\nCharged Air Re Number"]}}</span>
-																</div>
-															</div>
-															<div v-if="ltrHrShow" style="margin-top: 10px;">
-																<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Sample</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Liquid Temp.(C)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Air Inlet Temp.(C)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Liquid MassFlow Rate(kg/s)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;"> Air Mass Flow Rate(kg/s)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Heat Transfer Rate(W)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Luquid PressureDrop(Pa)</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Air PressureDrop(Pa)</span>
-																	<span style="flex: 1;text-align: center;">(Optional)Luquid Re Number</span>
-																</div>
-																<div style="display: flex;" v-for="item in dllqData.endHR['LTR Parameters'] ">
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Sample"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Liquid Temp.(C)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Inlet Temp.(C)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Liquid Mass\nFlow Rate(kg/s)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item[" Air Mass \nFlow Rate(kg/s)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Heat Transfer Rate(W)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Luquid Pressure\nDrop(Pa)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Pressure\nDrop(Pa)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["(Optional)\nLuquid Re Number"]}}</span>
-																</div>
-															</div>
-															<div v-if="rdHrShow" style="margin-top: 10px;">
-																<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
-																	<span style="flex: 1;text-align: center;" v-for="(item,index) in dllqData.endHR['Radiator Parameters'][0]">{{index}}</span>
-																</div>
-																<div style="display: flex;" v-for="item in dllqData.endHR['Radiator Parameters'] ">
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["(Optional)\nLuquid Re Number"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Heat Transfer Rate(W)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Sample"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Liquid Mass\nFlow Rate(kg/s)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Air Inlet Temp.(C)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Air Pressure\nDrop(Pa)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Air Mass \nFlow Rate(kg/s)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Liquid Temp.(C)"]}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Luquid Pressure\nDrop(Pa)"]}}</span>
-																</div>
-															</div>
-															<div v-if="pqShow" style="margin-top: 10px;">
-																<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">FEAF</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Condenser</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">CAC</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">LTR</span>
-																	<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;">Radiator</span>
-																	<span style="flex: 1;text-align: center;">Fan</span>
-																</div>
-																<div style="display: flex;" v-for="item in dllqData.endPQ">
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.feaf}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.condenser}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.cac}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.ltr}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item.radiator}}</span>
-																	<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.fan}}</span>
-																</div>
-															</div>
-														
+									<div class="topTitle">
+										<div></div>
+										<div>
+											<div class="top">
+												<span>发动机油温</span>
+											</div>
+											<div>
+												<span style="background: rgb(240,249,235);">Con.</span>
+												<span style="background: rgb(240,249,235);">Exc.</span>
+												<span style="background: rgb(240,249,235);">Ext.</span>
+											</div>
+										</div>
+										<div>
+											<div class="top">
+												<span>发动机水温</span>
+											</div>
+											<div>
+												<span style="background: rgb(240,249,235);">Con.</span>
+												<span style="background: rgb(240,249,235);">Exc.</span>
+												<span style="background: rgb(240,249,235);">Ext.</span>
+											</div>
+										</div>
+										<div>
+											<div class="top">
+												<span>风扇出风温度 </span>
+											</div>
+											<div>
+												<span style="background: rgb(240,249,235);">Con.</span>
+												<span style="background: rgb(240,249,235);">Exc.</span>
+												<span style="background: rgb(240,249,235);">Ext.</span>
+											</div>
+										</div>
+
+										<div>
+											<div class="top">
+												<span>LTR水温</span>
+											</div>
+											<div>
+												<span style="background: rgb(240,249,235);">Con.</span>
+												<span style="background: rgb(240,249,235);">Exc.</span>
+												<span style="background: rgb(240,249,235);">Ext.</span>
+											</div>
+										</div>
+										<div>
+											<div class="top">
+												<span>变速箱油温</span>
+											</div>
+											<div>
+												<span style="background: rgb(240,249,235);">Con.</span>
+												<span style="background: rgb(240,249,235);">Exc.</span>
+												<span style="background: rgb(240,249,235);">Ext.</span>
+											</div>
+										</div>
+										<div>
+											<div class="top">
+												<span>CAC出口温度</span>
+											</div>
+											<div>
+												<span style="background: rgb(240,249,235);">Con.</span>
+												<span style="background: rgb(240,249,235);">Exc.</span>
+												<span style="background: rgb(240,249,235);">Ext.</span>
+											</div>
+										</div>
+									</div>
+									<div class="tableList">
+										<div>
+											<span style="border-left: none;background: rgb(240,249,235);">试验结果</span>
+										</div>
+										<div>
+											<span v-for="item in pscArrText">{{item}}</span>
+										</div>
+									</div>
+									<div class="tableList">
+										<div>
+											<span style="border-left: none;background: rgb(240,249,235);">虚拟结果</span>
+										</div>
+										<div>
+											<span v-for="item in pscArrSim">{{item}}</span>
+										</div>
+									</div>
+									<div class="tableList">
+										<div>
+											<span style="background: rgb(240,249,235);">VTS要求</span>
+										</div>
+										<div>
+											<span v-for="item in pscArrVts">{{item}}</span>
+										</div>
+									</div>
+								</div>
+								<div class="resultTableTwo" v-if="feafShow">
+									<div class="twoTitle">
+										<div>Openging(cm2)</div>
+										<div>Shutter Open(CMM)</div>
+										<div>Shutter Close(CMM)</div>
+									</div>
+									<div class="twoList">
+										<div>
+											<span style="background: rgb(240,249,235);">总体开口面积</span>
+											<span>{{intakeObj.one[0].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">{{intakeObj.two[0].key}}</span>
+											<span>{{intakeObj.two[0].val}}</span>
+											<span style="background: rgb(240,249,235);">{{intakeObj.two[1].key}}</span>
+											<span>{{intakeObj.two[1].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">{{intakeObj.three[0].key}}</span>
+											<span>{{intakeObj.three[0].val}}</span>
+										</div>
+									</div>
+									<div class="twoList">
+										<div>
+											<span style="background: rgb(240,249,235);">正投影面积</span>
+											<span>{{intakeObj.one[1].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">{{intakeObj.two[2].key}}</span>
+											<span>{{intakeObj.two[2].val}}</span>
+											<span style="background: rgb(240,249,235);">{{intakeObj.two[3].key}}</span>
+											<span>{{intakeObj.two[3].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">{{intakeObj.three[1].key}}</span>
+											<span>{{intakeObj.three[1].val}}</span>
+										</div>
+									</div>
+									<div class="twoList">
+										<div>
+											<span style="background: rgb(240,249,235);">风扇功率</span>
+											<span>{{intakeObj.one[2].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);" v-if="intakeObj.two[4]">{{intakeObj.two[4].key}}</span>
+											<span v-if="intakeObj.two[4]">{{intakeObj.two[4].val}}</span>
+											<span style="background: rgb(240,249,235);" v-if="intakeObj.two[5]">{{intakeObj.two[5].key}}</span>
+											<span v-if="intakeObj.two[5]">{{intakeObj.two[5].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">{{intakeObj.three[2].key}}</span>
+											<span>{{intakeObj.three[2].val}}</span>
+										</div>
+									</div>
+								</div>
+								<div class="resultTableThree" v-if="crfmShow">
+									<p style="line-height: 40px;font-size: 18px;">CAC Parameters</p>
+									<div class="threeList">
+										<div>
+											<span style="background: rgb(240,249,235);">Flow in Front View</span>
+											<span>{{dllqData.part["CAC Parameters"][0].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Recirculated Flow</span>
+											<span>{{dllqData.part["CAC Parameters"][1].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">No. of Tubes</span>
+											<span>{{dllqData.part["CAC Parameters"][2].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">No. of Passes</span>
+											<span>{{dllqData.part["CAC Parameters"][3].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">No. of Raws</span>
+											<span>{{dllqData.part["CAC Parameters"][4].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Length(mm)</span>
+											<span>{{dllqData.part["CAC Parameters"][5].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Height(mm)</span>
+											<span>{{dllqData.part["CAC Parameters"][6].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Thickness</span>
+											<span>{{dllqData.part["CAC Parameters"][7].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Auxiliary Inlet Temp</span>
+											<span>{{dllqData.part["CAC Parameters"][8].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Primary Inlet Temp</span>
+											<span>{{dllqData.part["CAC Parameters"][9].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Matrix Row No.</span>
+											<span>{{dllqData.part["CAC Parameters"][10].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Matrix Column No.</span>
+											<span>{{dllqData.part["CAC Parameters"][11].val}}</span>
+										</div>
+									</div>
+									<p style="line-height: 40px;font-size: 18px;">Condenser Parameters</p>
+									<div class="threeList">
+										<div>
+											<span style="background: rgb(240,249,235);">Flow in Front View</span>
+											<span>{{dllqData.part["Condenser Parameters"][0].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Recirculated Flow</span>
+											<span>{{dllqData.part["Condenser Parameters"][1].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">No. of Tubes</span>
+											<span>{{dllqData.part["Condenser Parameters"][2].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">No. of Passes</span>
+											<span>{{dllqData.part["Condenser Parameters"][3].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">No. of Raws</span>
+											<span>{{dllqData.part["Condenser Parameters"][4].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Length(mm)</span>
+											<span>{{dllqData.part["Condenser Parameters"][5].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Height(mm)</span>
+											<span>{{dllqData.part["Condenser Parameters"][6].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Thickness</span>
+											<span>{{dllqData.part["Condenser Parameters"][7].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Auxiliary Inlet Temp</span>
+											<span>{{dllqData.part["Condenser Parameters"][8].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Primary Inlet Temp</span>
+											<span>{{dllqData.part["Condenser Parameters"][9].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Matrix Row No.</span>
+											<span>{{dllqData.part["Condenser Parameters"][10].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Matrix Column No.</span>
+											<span>{{dllqData.part["Condenser Parameters"][11].val}}</span>
+										</div>
+									</div>
+									<p style="line-height: 40px;font-size: 18px;">LTR Parameters</p>
+									<div class="threeList">
+										<div>
+											<span style="background: rgb(240,249,235);">Flow in Front View</span>
+											<span>{{dllqData.part["LTR Parameters"][0].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Recirculated Flow</span>
+											<span>{{dllqData.part["LTR Parameters"][1].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">No. of Tubes</span>
+											<span>{{dllqData.part["LTR Parameters"][2].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">No. of Passes</span>
+											<span>{{dllqData.part["LTR Parameters"][3].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">No. of Raws</span>
+											<span>{{dllqData.part["LTR Parameters"][4].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Length(mm)</span>
+											<span>{{dllqData.part["LTR Parameters"][5].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Height(mm)</span>
+											<span>{{dllqData.part["LTR Parameters"][6].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Thickness</span>
+											<span>{{dllqData.part["LTR Parameters"][7].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Auxiliary Inlet Temp</span>
+											<span>{{dllqData.part["LTR Parameters"][8].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Primary Inlet Temp</span>
+											<span>{{dllqData.part["LTR Parameters"][9].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Matrix Row No.</span>
+											<span>{{dllqData.part["LTR Parameters"][10].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Matrix Column No.</span>
+											<span>{{dllqData.part["LTR Parameters"][11].val}}</span>
+										</div>
+									</div>
+									<p style="line-height: 40px;font-size: 18px;">Radiator Parameters</p>
+									<div class="threeList">
+										<div>
+											<span style="background: rgb(240,249,235);">Length(mm)</span>
+											<span>{{dllqData.part["LTR Parameters"][0].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Height(mm)</span>
+											<span>{{dllqData.part["LTR Parameters"][1].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Thickness(mm)</span>
+											<span>{{dllqData.part["LTR Parameters"][2].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Auxiliary Inlet Temp</span>
+											<span>{{dllqData.part["LTR Parameters"][3].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Primary Inlet Temp</span>
+											<span>{{dllqData.part["LTR Parameters"][4].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Matrix Row No.</span>
+											<span>{{dllqData.part["LTR Parameters"][5].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">Matrix Column No.</span>
+											<span>{{dllqData.part["LTR Parameters"][6].val}}</span>
+										</div>
+									</div>
+									<p style="line-height: 40px;font-size: 18px;">Fan</p>
+									<span v-if="dllqData.part.Fan.length ===0">无</span>
+									<div class="threeList" v-if="dllqData.part.Fan.length >0">
+										<div>
+											<span style="background: rgb(240,249,235);">Fan Type</span>
+											<span style="width: 60px;">{{dllqData.part["Fan"][0].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">DriverSide Outer Radiaus</span>
+											<span style="width: 60px;">{{dllqData.part["Fan"][1].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">DriverSide Ineer Radiaus</span>
+											<span style="width: 60px;">{{dllqData.part["Fan"][2].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">PassengerSide Outer Radiaus</span>
+											<span style="width: 60px;">{{dllqData.part["Fan"][3].val}}</span>
+										</div>
+										<div>
+											<span style="background: rgb(240,249,235);">PassengerSide Inner Radiaus</span>
+											<span style="width: 60px;">{{dllqData.part["Fan"][4].val}}</span>
+										</div>
+									</div>
+								</div>
+								<div v-if="conHrShow" style="margin-top: 10px;">
+									<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
+										<span style="flex: 0 60px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Sample</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air Volumn Flow Rate(m3/s)</span>
+										<span style="flex: 0 100px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air Inlet Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air Inlet Relative Humidity(%)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air OutletTemp.(C</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air PressureDrop(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant Mass Air Flow Rate(m3/s)</span>
+										<span style="flex: 0 100px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant Inlet Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant Inlet Pressure(Pa-Gage)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant Outlet Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant OutletPressure(Pa-Gage)</span>
+										<span style="flex: 0 120px;text-align: center;background: rgb(240, 249, 235);">Percent OilRecirculation(%)</span>
+									</div>
+									<div style="display: flex;" v-for="item in dllqData.endHR['Condenser Parameters'] ">
+										<span style="flex: 0 60px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Sample"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Volumn \nFlow Rate(m3/s)"]}}</span>
+										<span style="flex: 0 100px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Inlet\n Temp.(C)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Inlet \nRelative Humidity(%)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant Outlet\nPressure(Pa-Gage)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Outlet\nTemp.(C)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Air Pressure\nDrop(Pa)"]}}</span>
+										<span style="flex: 0 100px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant Inlet Temp.(C)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant Inlet\n Pressure(Pa-Gage)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant \nOutlet Temp.(C)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;border-right: 1px solid #E4E4E4;">{{item["Refrigerant Mass \nAir Flow Rate(m3/s)"]}}</span>
+										<span style="flex: 0 120px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;overflow: hidden;">{{item["Percent Oil\nRecirculation(%)"]}}</span>
+									</div>
+								</div>
+								<div v-if="cacHrShow" style="margin-top: 10px;">
+									<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
+										<span style="flex: 0 60px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Sample</span>
+										<span style="flex: 0 120px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Cooling AirInlet Temp.(C)</span>
+										<span style="flex: 0 120px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Charged AirInlet Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);background: rgb(240, 249, 235);background: rgb(240, 249, 235);">Cooling Air Mass Flow Rate(kg/s)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);background: rgb(240, 249, 235);">Charged Air Mass Air Flow Rate(kg/s)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Heat Transfer Rate(W)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Cooling Air Inlet Pressure(Pa-Gage)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Charged Air Inlet Pressure(Pa-Gage)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Charged AirPressure Drop(Pa)</span>
+										<span style="flex: 1;text-align: center;background: rgb(240, 249, 235);">(Optional)Charged Air Re Number</span>
+									</div>
+									<div style="display: flex;" v-for="item in dllqData.endHR['CAC Parameters'] ">
+										<span style="flex: 0 60px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Sample"]}}</span>
+										<span style="flex: 0 120px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Cooling Air\nInlet Temp.(C)"]}}</span>
+										<span style="flex: 0 120px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Charged Air\nInlet Temp.(C)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Cooling Air Mass \nFlow Rate(kg/s)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Charged Air Mass \nAir Flow Rate(kg/s)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Heat Transfer Rate(W)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Cooling Air Inlet Pressure(Pa-Gage)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Charged Air Inlet Pressure(Pa-Gage)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Charged Air\nPressure Drop(Pa)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["(Optional)\nCharged Air Re Number"]}}</span>
+									</div>
+								</div>
+								<div v-if="ltrHrShow" style="margin-top: 10px;">
+									<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Sample</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);background: rgb(240, 249, 235);">Liquid Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air Inlet Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Liquid MassFlow Rate(kg/s)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);"> Air Mass Flow Rate(kg/s)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Heat Transfer Rate(W)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Luquid PressureDrop(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air PressureDrop(Pa)</span>
+										<span style="flex: 1;text-align: center;background: rgb(240, 249, 235);">(Optional)Luquid Re Number</span>
+									</div>
+									<div style="display: flex;" v-for="item in dllqData.endHR['LTR Parameters'] ">
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Sample"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Liquid Temp.(C)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Inlet Temp.(C)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Liquid Mass\nFlow Rate(kg/s)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item[" Air Mass \nFlow Rate(kg/s)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Heat Transfer Rate(W)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Luquid Pressure\nDrop(Pa)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Pressure\nDrop(Pa)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["(Optional)\nLuquid Re Number"]}}</span>
+									</div>
+								</div>
+								<div v-if="rdHrShow" style="margin-top: 10px;">
+									<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
+										<span style="flex: 0 60px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Sample</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Liquid Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air Inlet Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Liquid MassFlow Rate(kg/s)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air Mass Flow Rate(kg/s)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Heat Transfer Rate(W)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Luquid PressureDrop(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air PressureDrop(Pa)</span>
+										<span style="flex: 1;text-align: center;background: rgb(240, 249, 235);">(Optional)Luquid Re Number</span>
+									</div>
+									<div style="display: flex;" v-for="item in dllqData.endHR['Radiator Parameters'] ">
+										<span style="flex: 0 60px;;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["(Optional)\nLuquid Re Number"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Heat Transfer Rate(W)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Sample"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Liquid Mass\nFlow Rate(kg/s)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Inlet Temp.(C)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Pressure\nDrop(Pa)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Mass \nFlow Rate(kg/s)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Liquid Temp.(C)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Luquid Pressure\nDrop(Pa)"]}}</span>
+									</div>
+								</div>
+								<div v-if="pqShow" style="margin-top: 10px;">
+									<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">FEAF(CMM)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">CondenserDelt P(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">CACDelt P(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">LTRDelt P(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">RadiatorDelt P(Pa)</span>
+										<span style="flex: 1;text-align: center;background: rgb(240, 249, 235);">FanDelt P(Pa)</span>
+									</div>
+									<div style="display: flex;" v-for="item in dllqData.endPQ">
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.feaf}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.condenser}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.cac}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.ltr}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item.radiator}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item.fan}}</span>
+									</div>
+								</div>
+
 							</div>
-							</div>
+						</div>
 						<div class="material_formList" v-if="airShow">
 							<el-table ref="multipleTable" :data="airFormList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 								<el-table-column type="selection" width="40">
@@ -742,42 +743,9 @@
 		<el-dialog title="修改" :visible.sync="dialogModify" class="modifyDialog">
 			<div v-if="materialShow ">
 				<Form ref="formValiMateril" :model="currentModify" :rules="ruleMaterial" :label-width="160">
-					<FormItem :label="index" :prop="index" v-for="(item,index) in addListItemSlot">
+					<FormItem :label="index" :prop="index" v-for="(item,index) in addListItemSlot" :key="index">
 						<Input v-model="currentModify[index]" number></Input>
 					</FormItem>
-					<!-- <FormItem label="250" prop="250">
-						<Input v-model="currentModify[250]" number></Input>
-					</FormItem>
-					<FormItem label="300" prop="300">
-						<Input v-model="currentModify[300]" number></Input>
-					</FormItem>
-					<FormItem label="350" prop="350">
-						<Input v-model="currentModify[350]" number></Input>
-					</FormItem>
-					<FormItem label="400" prop="400">
-						<Input v-model="currentModify[400]" number></Input>
-					</FormItem>
-					<FormItem label="450" prop="450">
-						<Input v-model="currentModify[450]" number></Input>
-					</FormItem>
-					<FormItem label="500" prop="500">
-						<Input v-model="currentModify[500]" number></Input>
-					</FormItem>
-					<FormItem label="550" prop="550">
-						<Input v-model="currentModify[550]" number></Input>
-					</FormItem>
-					<FormItem label="600" prop="600">
-						<Input v-model="currentModify[600]" number></Input>
-					</FormItem>
-					<FormItem label="650" prop="650">
-						<Input v-model="currentModify[650]" number></Input>
-					</FormItem>
-					<FormItem label="700" prop="700">
-						<Input v-model="currentModify[700]" number></Input>
-					</FormItem>
-					<FormItem label="750" prop="750">
-						<Input v-model="currentModify[750]" number></Input>
-					</FormItem> -->
 				</Form>
 			</div>
 			<div v-if="bpShow">
@@ -1017,6 +985,7 @@
 				dialogAirImportFile: false,
 				materialListNoneShow: false,
 				dllqListNoneShow: false,
+				dllqDataNoneShow: false,
 				spinShow: false,
 				fileList: [],
 				bpFormList: [],
@@ -1745,6 +1714,7 @@
 				})
 			},
 			dllqSearch() {
+				this.dllqDataNoneShow = true
 				this.spinShow = true
 				this.dllqShow = true
 				this.pscArrText = []
@@ -1833,7 +1803,7 @@
 					}
 				}).then((res) => {
 					if (res.data.code === 0) {
-						if(res.data.data.length === 0 || !res.data.data){
+						if (res.data.data.length === 0 || !res.data.data) {
 							this.options[4] = {
 								value: '动力冷却性能数据',
 								label: '动力冷却性能数据',
@@ -1845,7 +1815,7 @@
 									label: '空气属性数据',
 								}]
 							}
-						}else{
+						} else {
 							this.options[4].children[0].children = []
 							this.spinShow = false
 							this.vehicleArr = res.data.data
@@ -2657,7 +2627,7 @@
 						this.pageSize = 10
 						this.pageCount = 0
 						this.dllqShow = true
-						this.dllqListNoneShow = true
+						this.dllqListNoneShow = false
 						this.spinShow = false
 						return;
 					}
@@ -2666,6 +2636,7 @@
 						this.pageCount = 0
 						this.dllqShow = true
 						this.spinShow = false
+						this.dllqDataNoneShow = false
 						this.vehicleValue = values[2]
 						return;
 					}
