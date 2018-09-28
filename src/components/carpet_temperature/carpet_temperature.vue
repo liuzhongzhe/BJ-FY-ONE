@@ -3,17 +3,19 @@
 		<div class="right">
 			<el-card class="box-card">
 				<div slot="header" class="clearfix">
-					<span style="font-size: 14px;">地毯温度计算系统</span>
+					<span style="font-size: 14px;">人体皮肤接触温度计算系统
+						<i class="el-icon-info" style="font-size: 18px; margin-left: 5px; cursor: pointer;"></i>
+					</span>
 				</div>
 				<div style="display: flex;">
 					<Form ref="formValidate" :model="pro" :rules="ruleValidate" :label-width="140">
 						<p style="color: #409EFF;font-weight: bold;font-size: 15px;">长时间接触输入参数</p>
-						<FormItem label="地毯材料" prop="material">
+						<FormItem label="接触材料" prop="material">
 							<Select v-model="pro.material">
 								<Option v-for="(item,index) in materialArr" :key="index" :label="item.material" :value="item.material"></Option>
 							</Select>
 						</FormItem>
-						<FormItem label="地毯初始温度" prop="initialTemp">
+						<FormItem label="人体皮肤初始温度" prop="initialTemp">
 							<Input v-model="pro.initialTemp" number>
 							<span slot="append">℃</span>
 							</Input>
@@ -36,7 +38,7 @@
 
 						</FormItem>
 						<div style="margin-top: 30px;margin-bottom: 10px;">
-							<span style="color: #409EFF;font-weight: bold;font-size: 15px;">TCEQ输入参数</span>
+							<span style="color: #409EFF;font-weight: bold;font-size: 15px;">Tceq输入参数</span>
 							<el-switch v-model="deliveryShow"></el-switch>
 						</div>
 						<transition name="el-fade-in-linear">
@@ -45,16 +47,23 @@
 									<Input v-model="pro.surfaceTemp" number>
 									<span slot="append">℃</span>
 									</Input>
+									<el-popover placement="top-start" width="200" trigger="hover" content="这是热源温度">
+										<i  slot="reference" class="el-icon-star-on" style="cursor: pointer;font-size: 18px; position: absolute;top: 6px; color:yellowgreen; right: 0;"></i>
+									</el-popover>
 								</FormItem>
 								<FormItem label="接触系数" prop="contactFactor">
 									<Input v-model="pro.contactFactor" number>
-									<span slot="append">℃</span>
 									</Input>
+										<el-popover placement="top-start" width="200" trigger="hover" content="这是接触系数">
+											<i  slot="reference" class="el-icon-star-on" style="cursor: pointer;font-size: 18px; position: absolute;top: 6px; color:yellowgreen; right: 0;"></i>
+										</el-popover>
 								</FormItem>
 								<FormItem label="涂层系数" prop="coatingFactor">
 									<Input v-model="pro.coatingFactor" number>
-									<span slot="append">℃</span>
 									</Input>
+										<el-popover placement="top-start" width="200" trigger="hover" content="这是涂层系数">
+											<i  slot="reference" class="el-icon-star-on" style="cursor: pointer;font-size: 18px; position: absolute;top: 6px; color:yellowgreen; right: 0;"></i>
+										</el-popover>
 								</FormItem>
 							</div>
 						</transition>
@@ -69,14 +78,17 @@
 							<div class="sec">
 								<span style="line-height: 32px;vertical-align: top;">Continuous温度结果</span>
 								<Tag color="default">{{result.continuous}}</Tag>
+								<a style="color: #000000;">℃</a>
 							</div>
 							<div class="sec">
 								<span style="line-height: 32px;vertical-align: top;">Excursion温度结果</span>
 								<Tag color="default">{{result.excursion}}</Tag>
+								<a style="color: #000000;">℃</a>
 							</div>
 							<div class="sec">
 								<span style="line-height: 32px;vertical-align: top;">Extreme温度结果</span>
 								<Tag color="default">{{result.extreme}}</Tag>
+								<a style="color: #000000;">℃</a>
 							</div>
 						</div>
 						<div id="myChart" style="margin-top: 30px;margin-left: 10px;" v-show="deliveryShow"></div>
@@ -95,7 +107,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (typeof (value) !== 'number') {
+				if (typeof(value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 					if (value < 0) {
@@ -112,7 +124,7 @@
 					if (!value) {
 						return callback(new Error('Age cannot be empty'));
 					}
-					if (typeof (value) !== 'number') {
+					if (typeof(value) !== 'number') {
 						callback(new Error('Please enter a numeric value'));
 					} else {
 						if (value < 0) {
@@ -198,7 +210,7 @@
 					}],
 
 				},
-				firstListType: ''
+				// firstListType: ''
 			}
 		},
 		mounted() {
@@ -211,7 +223,7 @@
 					this.textOne = ''
 					this.textTwo = ''
 					this.textThree = ''
-					this.firstListType = ''
+					// this.firstListType = ''
 					this.drawLine()
 				} else {}
 			}
@@ -241,7 +253,7 @@
 				this.textOne = ''
 				this.textTwo = ''
 				this.textThree = ''
-				this.firstListType = ''
+				// this.firstListType = ''
 				this.pro = {
 					material: '',
 					initialTemp: '',
@@ -269,7 +281,7 @@
 						this.textOne = ''
 						this.textTwo = ''
 						this.textThree = ''
-						this.firstListType = ''
+						// this.firstListType = ''
 						this.result = {
 							continuous: '',
 							excursion: '',
@@ -339,7 +351,57 @@
 								this.drawList.push([4.8, _data.lins["4.8"]])
 								this.drawList.push([4.9, _data.lins["4.9"]])
 								this.drawList.push([5.0, _data.lins["5.0"]])
-								this.firstListType = 'TCEQ温度'
+								this.drawList.push([5.1, _data.lins["5.1"]])
+								this.drawList.push([5.2, _data.lins["5.2"]])
+								this.drawList.push([5.3, _data.lins["5.3"]])
+								this.drawList.push([5.4, _data.lins["5.4"]])
+								this.drawList.push([5.5, _data.lins["5.5"]])
+								this.drawList.push([5.6, _data.lins["5.6"]])
+								this.drawList.push([5.7, _data.lins["5.7"]])
+								this.drawList.push([5.8, _data.lins["5.8"]])
+								this.drawList.push([5.9, _data.lins["5.9"]])
+								this.drawList.push([6.0, _data.lins["6.0"]])
+								this.drawList.push([6.1, _data.lins["6.1"]])
+								this.drawList.push([6.2, _data.lins["6.2"]])
+								this.drawList.push([6.3, _data.lins["6.3"]])
+								this.drawList.push([6.4, _data.lins["6.4"]])
+								this.drawList.push([6.5, _data.lins["6.5"]])
+								this.drawList.push([6.6, _data.lins["6.6"]])
+								this.drawList.push([6.7, _data.lins["6.7"]])
+								this.drawList.push([6.8, _data.lins["6.8"]])
+								this.drawList.push([6.9, _data.lins["6.9"]])
+								this.drawList.push([7.0, _data.lins["7.0"]])
+								this.drawList.push([7.1, _data.lins["7.1"]])
+								this.drawList.push([7.2, _data.lins["7.2"]])
+								this.drawList.push([7.3, _data.lins["7.3"]])
+								this.drawList.push([7.4, _data.lins["7.4"]])
+								this.drawList.push([7.5, _data.lins["7.5"]])
+								this.drawList.push([7.6, _data.lins["7.6"]])
+								this.drawList.push([7.7, _data.lins["7.7"]])
+								this.drawList.push([7.8, _data.lins["7.8"]])
+								this.drawList.push([7.9, _data.lins["7.9"]])
+								this.drawList.push([8.0, _data.lins["8.0"]])
+								this.drawList.push([8.1, _data.lins["8.1"]])
+								this.drawList.push([8.2, _data.lins["8.2"]])
+								this.drawList.push([8.3, _data.lins["8.3"]])
+								this.drawList.push([8.4, _data.lins["8.4"]])
+								this.drawList.push([8.5, _data.lins["8.5"]])
+								this.drawList.push([8.6, _data.lins["8.6"]])
+								this.drawList.push([8.7, _data.lins["8.7"]])
+								this.drawList.push([8.8, _data.lins["8.8"]])
+								this.drawList.push([8.9, _data.lins["8.9"]])
+								this.drawList.push([9.0, _data.lins["9.0"]])
+								this.drawList.push([9.1, _data.lins["9.1"]])
+								this.drawList.push([9.2, _data.lins["9.2"]])
+								this.drawList.push([9.3, _data.lins["9.3"]])
+								this.drawList.push([9.4, _data.lins["9.4"]])
+								this.drawList.push([9.5, _data.lins["9.5"]])
+								this.drawList.push([9.6, _data.lins["9.6"]])
+								this.drawList.push([9.7, _data.lins["9.7"]])
+								this.drawList.push([9.8, _data.lins["9.8"]])
+								this.drawList.push([9.9, _data.lins["9.9"]])
+								this.drawList.push([10.0, _data.lins["10.0"]])
+								// this.firstListType = 'TCEQ温度'
 								this.drawLine()
 							}).catch((error) => {
 								this.$notify.error({
@@ -387,17 +449,17 @@
 						trigger: 'axis'
 					},
 					title: {
-						text: 'TCEQ温度结果',
-						textStyle: {　　　　
+						text: 'Tceq温度结果',
+						textStyle: {
 							fontSize: "14",
 							color: "#409EFF"
 						}
 					},
-					legend: {
-						x: '580',
-						y: 'center',
-						data: [`${this.firstListType}`]
-					},
+					// 					legend: {
+					// 						x: '580',
+					// 						y: 'center',
+					// 						data: [`${this.firstListType}`]
+					// 					},
 					grid: {
 						right: '100px',
 						bottom: '1%',
@@ -427,15 +489,15 @@
 						type: 'value',
 						name: 'time / S',
 						min: 0,
-						max: 5,
-						interval: 0.5,
+						max: 10,
+						interval: 1,
 						splitLine: {
 							show: false
 						}
 					},
 					yAxis: {
 						type: 'value',
-						name: 'TCQ / °C',
+						name: 'Tceq / °C',
 						min: 0,
 						max: 120,
 						interval: 10,
@@ -451,6 +513,7 @@
 						name: 'TCEQ温度',
 						smooth: true,
 						data: this.drawList,
+						showSymbol: false,
 						itemStyle: {
 							normal: {
 								color: "rgb(64, 158, 255)",
@@ -470,12 +533,15 @@
 	.carpet_temperature {
 		min-width: 1000px;
 		font-size: 14px;
+
 		/deep/ .ivu-form-item {
 			margin-bottom: 20px;
 		}
+
 		/deep/ .ivu-form-item-error-tip {
 			display: none;
 		}
+
 		/deep/ .ivu-select-single .ivu-select-selection,
 		.ivu-input-wrapper {
 			width: 200px;
@@ -485,52 +551,70 @@
 			position: relative;
 			top: 2px;
 		}
+
+		/deep/ .ivu-form-item-content {
+			width: 230px;
+			position: relative;
+		}
+
 		/deep/ .el-card__body {
 			width: 100%;
 		}
+
 		/deep/ .el-card__header {
 			background: #eff0dc;
 			padding: 14px 20px;
 			display: block;
 		}
+
 		/deep/ .el-button {
 			padding: 10px 30px;
 		}
+
 		/deep/ .el-form-item {
 			margin-bottom: 10px;
 		}
+
 		/deep/ .el-input-group__append,
 		.el-input-group__prepend {
 			padding: 0 10px;
 		}
+
 		.right {
 			padding: 20px;
 			width: 100%;
+
 			.box-card {
 				.el-input {
 					width: 220px;
 				}
+
 				.el-select {
 					display: block;
 					width: 220px;
 				}
+
 				form {
 					flex: 0 340px;
 					vertical-align: top;
 					padding-right: 100px;
 					border-right: 1px solid #eeeeee;
 				}
+
 				#myChartWrapper {
 					flex: 1;
 					transition: .5;
+
 					#myChart {
 						width: 680px;
 						height: 400px;
 						margin: 0 auto;
 					}
+
 					.longTimeResult {
 						.sec {
 							height: 45px;
+
 							>span {
 								display: inline-block;
 								width: 160px;

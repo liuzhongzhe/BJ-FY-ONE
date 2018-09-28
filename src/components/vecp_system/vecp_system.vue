@@ -1207,13 +1207,13 @@
 						'Content-type': 'application/x-www-form-urlencoded'
 					},
 					params: {
-												platform: this.pro.valueOne,
-												name: this.pro.valueTwo,
-												year: this.pro.valueThree,
-												engine: this.pro.valueFour,
-												gearbox: this.pro.valueFive,
-												drivenMode: this.pro.valueSix,
-												leftRight: this.pro.valueSeven,
+						platform: this.pro.valueOne,
+						name: this.pro.valueTwo,
+						year: this.pro.valueThree,
+						engine: this.pro.valueFour,
+						gearbox: this.pro.valueFive,
+						drivenMode: this.pro.valueSix,
+						leftRight: this.pro.valueSeven,
 					},
 				}).then((res) => {
 					this.CId = res.data.data.id
@@ -1413,15 +1413,17 @@
 				this.pro.valueFive = this.vehicleValue.split("_")[4]
 				this.pro.valueSix = this.vehicleValue.split("_")[5]
 				this.pro.valueSeven = this.vehicleValue.split("_")[6]
-				if(this.cxptArr.indexOf(this.pro.valueOne) <0 || this.cxmcArr.indexOf(this.pro.valueTwo) <0  || this.cxnfArr.indexOf(this.pro.valueThree) <0    
-				|| this.fdjArr.indexOf(this.pro.valueFour) <0 || this.bsxArr.indexOf(this.pro.valueFive) <0  || this.qdxsArr.indexOf(this.pro.valueSix) <0  
-				|| this.zyjArr.indexOf(this.pro.valueSeven) <0 ){
+				if (this.cxptArr.indexOf(this.pro.valueOne) < 0 || this.cxmcArr.indexOf(this.pro.valueTwo) < 0 || this.cxnfArr.indexOf(
+						this.pro.valueThree) < 0 ||
+					this.fdjArr.indexOf(this.pro.valueFour) < 0 || this.bsxArr.indexOf(this.pro.valueFive) < 0 || this.qdxsArr.indexOf(
+						this.pro.valueSix) < 0 ||
+					this.zyjArr.indexOf(this.pro.valueSeven) < 0) {
 					this.$notify.error({
 						title: '错误',
 						message: '该车型属性不完整',
 						duration: 3000
 					});
-				
+
 				}
 			},
 			closeCompare(item, index) {
