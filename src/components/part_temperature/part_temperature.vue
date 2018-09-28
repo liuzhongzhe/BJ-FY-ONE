@@ -8,24 +8,28 @@
 				<div style="display: flex;">
 					<Form ref="formValidate" :model="form" :rules="ruleValidate" :label-width="90">
 						<FormItem label="VPPS_1" prop="VPPSL1">
-							<Select v-model="form.VPPSL1" filterable>
-								<Option v-for="(item,index) in vpp1Arr"   :key="index" :label="item.vpps1" :value="item.vpps1"></Option>
-							</Select>
+							<el-select v-model="form.VPPSL1" style="width: 200px; height: 32px;">
+								<el-option v-for="(item,index) in vpp1Arr" :key="item.vpps1" :label="item.vpps1" :value="item.vpps1">
+								</el-option>
+							</el-select>
 						</FormItem>
 						<FormItem label="VPPS_2" prop="VPPSL2">
-							<Select v-model="form.VPPSL2" filterable>
-								<Option v-for="(item,index) in vpp2Arr"   :key="index" :label="item.vpps2" :value="item.vpps2"></Option>
-							</Select>
+							<el-select v-model="form.VPPSL2" style="width: 200px; height: 32px;">
+								<el-option v-for="(item,index) in vpp2Arr" :key="item.vpps2" :label="item.vpps2" :value="item.vpps2">
+								</el-option>
+							</el-select>
 						</FormItem>
 						<FormItem label="Component" prop="partname">
-							<Select v-model="form.partname" filterable>
-								<Option v-for="(item,index) in partnameArr"  :key="index" :label="item.parts" :value="item.parts"></Option>
-							</Select>
+							<el-select v-model="form.partname" style="width: 200px; height: 32px;">
+								<el-option v-for="(item,index) in partnameArr" :key="item.parts" :label="item.parts" :value="item.parts">
+								</el-option>
+							</el-select>
 						</FormItem>
 						<FormItem label="零件材料" prop="material">
-							<Select v-model="form.material" @on-change="_materialChange" filterable>
-								<Option v-for="(item,index) in materialArr" :key="index" :label="item.name" :value="item.name"></Option>
-							</Select>
+							<el-select v-model="form.material"  @change="_materialChange" style="width: 200px; height: 32px;">
+								<el-option v-for="(item,index) in materialArr" :key="item.name" :label="item.name" :value="item.name">
+								</el-option>
+							</el-select>
 						</FormItem>
 						<FormItem label="对流系数" prop="hdata">
 							<Tooltip :content="range.hdata" placement="top">
@@ -68,7 +72,8 @@
 									<i ref="colorOne" style="width: 50px; height: 20px;background: #82848A;display: inline-block;"></i>
 								</span>
 								<span style="vertical-align: top;margin-left: 20px;">零件温度 ：
-									<i ref="colorTwo" style="vertical-align: top; width: 50px; height: 20px;background: #82848A;display: inline-block;color: #FFFFFF;">{{numOne}}</i> ℃</span>
+									<i ref="colorTwo" style="vertical-align: top; width: 50px;overflow: hidden; height: 20px;color: #000000; background: #82848A;display: inline-block;">{{numOne}}</i>
+									℃</span>
 							</div>
 						</div>
 						<div id="myChart"></div>
@@ -86,7 +91,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (typeof (value) !== 'number') {
+				if (typeof(value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 					if (value > this.materialRange.h_max || value < this.materialRange.h_min) {
@@ -100,7 +105,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (typeof (value) !== 'number') {
+				if (typeof(value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 					console.log(this.materialRange, value)
@@ -115,7 +120,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (typeof (value) !== 'number') {
+				if (typeof(value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 					if (value > this.materialRange.th_max || value < this.materialRange.th_min) {
@@ -129,7 +134,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (typeof (value) !== 'number') {
+				if (typeof(value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 					if (value > this.materialRange.dh_max || value < this.materialRange.dh_min) {
@@ -143,7 +148,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (typeof (value) !== 'number') {
+				if (typeof(value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 					callback();
@@ -227,8 +232,8 @@
 			this.drawLine()
 		},
 		watch: {
-			'form.VPPSL1' (val) {
-				
+			'form.VPPSL1'(val) {
+
 				this.axios({
 					method: 'get',
 					url: `/patac_ras/bpData/all`,
@@ -251,7 +256,7 @@
 					});
 				});
 			},
-			'form.VPPSL2' (val) {
+			'form.VPPSL2'(val) {
 				if (!val) {
 					return;
 				} else {
@@ -386,22 +391,22 @@
 									}
 									this.drawListTwo = new Array(this.xArr.length).fill(this.form.tlimt)
 									if (res.data.data.limtStatus === 'GREEN') {
-										this.$refs.colorOne.style.background = "rgb(148,205,88)"
+										this.$refs.colorTwo.style.background = "rgb(148,205,88)"
 									} else if (res.data.data.limtStatus === 'YELLOW1') {
-										this.$refs.colorOne.style.background = "rgb(255,253,56)"
+										this.$refs.colorTwo.style.background = "rgb(255,253,56)"
 									} else if (res.data.data.limtStatus === 'YELLOW2') {
-										this.$refs.colorOne.style.background = "rgb(253,191,46)"
+										this.$refs.colorTwo.style.background = "rgb(253,191,46)"
 									} else if (res.data.data.limtStatus === 'RED') {
-										this.$refs.colorOne.style.background = "rgb(251,13,28)"
+										this.$refs.colorTwo.style.background = "rgb(251,13,28)"
 									}
 									if (res.data.data.arrangeStatus === 'GREEN') {
-										this.$refs.colorTwo.style.background = "rgb(148,205,88)"
+										this.$refs.colorOne.style.background = "rgb(148,205,88)"
 									} else if (res.data.data.arrangeStatus === 'YELLOW1') {
-										this.$refs.colorTwo.style.background = "rgb(255,253,56)"
+										this.$refs.colorOne.style.background = "rgb(255,253,56)"
 									} else if (res.data.data.arrangeStatus === 'YELLOW2') {
-										this.$refs.colorTwo.style.background = "rgb(253,191,46)"
+										this.$refs.colorOne.style.background = "rgb(253,191,46)"
 									} else if (res.data.data.arrangeStatus === 'RED') {
-										this.$refs.colorTwo.style.background = "rgb(251,13,28)"
+										this.$refs.colorOne.style.background = "rgb(251,13,28)"
 									}
 									this.numOne = res.data.data.limtValue
 									this.firstListType = 'D-T曲线'
@@ -507,57 +512,75 @@
 	.part_temperature {
 		min-width: 1000px;
 		font-size: 14px;
+
 		/deep/ .ivu-btn {
 			width: 100px;
+		}
+		/deep/ .el-input__inner,.el-select .el-input__inner,.el-input__icon{
+			height: 32px;
+			line-height: 32px;
 		}
 		/deep/ .ivu-select-single .ivu-select-selection,
 		.ivu-input-wrapper,
 		.ivu-select {
 			width: 200px;
 		}
+
 		/deep/ .ivu-form-item {
 			margin-bottom: 20px;
 		}
+
 		/deep/ .ivu-form-item-error-tip {
 			display: none;
 		}
+
 		/deep/ .el-button {
 			padding: 10px 30px;
 		}
+
 		/deep/ .el-card__body {
 			width: 100%;
 		}
+
 		/deep/ .el-card__header {
 			background: #eff0dc;
 			padding: 14px 20px;
 			display: block;
 		}
+
 		/deep/ .el-form-item {
 			margin-bottom: 10px;
 		}
+
 		/deep/ .el-input-group__append,
 		.el-input-group__prepend {
 			padding: 0 10px;
 		}
+
 		.right {
 			padding: 20px;
 			width: 100%;
+
 			.box-card {
 				.el-input {
 					width: 250px;
 				}
+
 				.el-select {
 					display: block;
 					width: 250px;
 				}
+
 				form {
 					flex: 0 440px;
 					vertical-align: top;
 					border-right: 1px solid #eeeeee;
 				}
+
 				#myChartWrapper {
 					flex: 1;
 					transition: .5;
+
 					#myChart {
 						width: 700px;
 						height: 400px;

@@ -6,14 +6,14 @@
 					<div slot="header" class="clearfix" style="text-align: left;">
 						<el-cascader :options="options" v-model="selectedOptions" @change="typeChange">
 						</el-cascader>
-						<el-button style="float: right;position: relative;top: 5px;margin-left: 10px;  height: 32px;line-height: 1px;" type="danger"
-						    @click="_deleteItem">删除</el-button>
+						<el-button style="float: right;position: relative;top: 5px;margin-left: 10px;  height: 32px;line-height: 1px;"
+						 type="danger" @click="_deleteItem">删除</el-button>
 						<el-button style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px;" v-show="!materialShow && !dllqShow"
-						    type="primary" @click="_addItem">添加</el-button>
+						 type="primary" @click="_addItem">添加</el-button>
 						<el-button v-show="bpShow ||materialShow || carpettempShow||airShow ||dllqShow" style="float: right;position: relative;top: 5px; height: 32px;line-height: 1px; "
-						    type="success" @click="importFile">导入</el-button>
+						 type="success" @click="importFile">导入</el-button>
 						<el-button v-show="bpShow ||materialShow || carpettempShow ||airShow ||dllqShow" style="float: right;position: relative;top: 5px;height: 32px;line-height: 1px; "
-						    type="warning" @click="exportFile">导出</el-button>
+						 type="warning" @click="exportFile">导出</el-button>
 					</div>
 					<div style="position: relative;">
 						<div class="formList" v-if="qiShow">
@@ -22,7 +22,8 @@
 								</el-table-column>
 								<el-table-column type="index" width="50" label="no.">
 								</el-table-column>
-								<el-table-column v-for="(item,index) in formListTitle" :key="index" v-if="index!=='id'" :prop="index" :label="index" min-width="120">
+								<el-table-column v-for="(item,index) in formListTitle" :key="index" v-if="index!=='id'" :prop="index" :label="index"
+								 min-width="120">
 								</el-table-column>
 								<el-table-column prop="name" label="操作" min-width="120">
 									<template slot-scope="scope">
@@ -74,9 +75,9 @@
 								</span>
 							</div>
 							<div v-if="materialListNoneShow">
-								<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/material/upload" :on-success="handleFileSuccess"
-								    :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
-								    :on-remove="handleRemove">
+								<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/material/upload"
+								 :on-success="handleFileSuccess" :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError"
+								 :on-preview="handlePreview" :on-remove="handleRemove">
 									<i class="el-icon-upload"></i>
 									<div class="el-upload__text">将文件拖到此处，或
 										<em>点击上传</em>
@@ -89,7 +90,8 @@
 							</div>
 						</div>
 						<div class="carpettemp_formList" v-if="carpettempShow">
-							<el-table ref="multipleTableCarpettemp" :data="carpettempFormList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+							<el-table ref="multipleTableCarpettemp" :data="carpettempFormList" tooltip-effect="dark" style="width: 100%"
+							 @selection-change="handleSelectionChange">
 								<el-table-column type="selection" width="40" disabled>
 								</el-table-column>
 								<el-table-column type="index" label="no." min-width="50">
@@ -120,9 +122,9 @@
 										</el-select>
 									</span>
 									<div v-if="dllqListNoneShow">
-										<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/carModel/upload" :on-success="handleFileSuccess"
-										    :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
-										    :on-remove="handleRemove">
+										<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/carModel/upload"
+										 :on-success="handleFileSuccess" :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError"
+										 :on-preview="handlePreview" :on-remove="handleRemove">
 											<i class="el-icon-upload"></i>
 											<div class="el-upload__text">将文件拖到此处，或
 												<em>点击上传</em>
@@ -495,16 +497,26 @@
 								<div v-if="conHrShow" style="margin-top: 10px;">
 									<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
 										<span style="flex: 0 60px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Sample</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air Volumn Flow Rate(m3/s)</span>
-										<span style="flex: 0 100px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air Inlet Temp.(C)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air Inlet Relative Humidity(%)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air OutletTemp.(C</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air PressureDrop(Pa)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant Mass Air Flow Rate(m3/s)</span>
-										<span style="flex: 0 100px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant Inlet Temp.(C)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant Inlet Pressure(Pa-Gage)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant Outlet Temp.(C)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant OutletPressure(Pa-Gage)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air
+											Volumn Flow Rate(m3/s)</span>
+										<span style="flex: 0 100px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air
+											Inlet Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air
+											Inlet Relative Humidity(%)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air
+											OutletTemp.(C</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air
+											PressureDrop(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant
+											Mass Air Flow Rate(m3/s)</span>
+										<span style="flex: 0 100px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant
+											Inlet Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant
+											Inlet Pressure(Pa-Gage)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant
+											Outlet Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Refrigerant
+											OutletPressure(Pa-Gage)</span>
 										<span style="flex: 0 120px;text-align: center;background: rgb(240, 249, 235);">Percent OilRecirculation(%)</span>
 									</div>
 									<div style="display: flex;" v-for="item in dllqData.endHR['Condenser Parameters'] ">
@@ -525,14 +537,22 @@
 								<div v-if="cacHrShow" style="margin-top: 10px;">
 									<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
 										<span style="flex: 0 60px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Sample</span>
-										<span style="flex: 0 120px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Cooling AirInlet Temp.(C)</span>
-										<span style="flex: 0 120px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Charged AirInlet Temp.(C)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);background: rgb(240, 249, 235);background: rgb(240, 249, 235);">Cooling Air Mass Flow Rate(kg/s)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);background: rgb(240, 249, 235);">Charged Air Mass Air Flow Rate(kg/s)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Heat Transfer Rate(W)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Cooling Air Inlet Pressure(Pa-Gage)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Charged Air Inlet Pressure(Pa-Gage)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Charged AirPressure Drop(Pa)</span>
+										<span style="flex: 0 120px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Cooling
+											AirInlet Temp.(C)</span>
+										<span style="flex: 0 120px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Charged
+											AirInlet Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);background: rgb(240, 249, 235);background: rgb(240, 249, 235);">Cooling
+											Air Mass Flow Rate(kg/s)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);background: rgb(240, 249, 235);">Charged
+											Air Mass Air Flow Rate(kg/s)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Heat
+											Transfer Rate(W)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Cooling
+											Air Inlet Pressure(Pa-Gage)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Charged
+											Air Inlet Pressure(Pa-Gage)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Charged
+											AirPressure Drop(Pa)</span>
 										<span style="flex: 1;text-align: center;background: rgb(240, 249, 235);">(Optional)Charged Air Re Number</span>
 									</div>
 									<div style="display: flex;" v-for="item in dllqData.endHR['CAC Parameters'] ">
@@ -551,13 +571,20 @@
 								<div v-if="ltrHrShow" style="margin-top: 10px;">
 									<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
 										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Sample</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);background: rgb(240, 249, 235);">Liquid Temp.(C)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air Inlet Temp.(C)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Liquid MassFlow Rate(kg/s)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);"> Air Mass Flow Rate(kg/s)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Heat Transfer Rate(W)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Luquid PressureDrop(Pa)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air PressureDrop(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);background: rgb(240, 249, 235);">Liquid
+											Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air
+											Inlet Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Liquid
+											MassFlow Rate(kg/s)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);"> Air
+											Mass Flow Rate(kg/s)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Heat
+											Transfer Rate(W)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Luquid
+											PressureDrop(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air
+											PressureDrop(Pa)</span>
 										<span style="flex: 1;text-align: center;background: rgb(240, 249, 235);">(Optional)Luquid Re Number</span>
 									</div>
 									<div style="display: flex;" v-for="item in dllqData.endHR['LTR Parameters'] ">
@@ -575,34 +602,45 @@
 								<div v-if="rdHrShow" style="margin-top: 10px;">
 									<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
 										<span style="flex: 0 60px;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Sample</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Liquid Temp.(C)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air Inlet Temp.(C)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Liquid MassFlow Rate(kg/s)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air Mass Flow Rate(kg/s)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Heat Transfer Rate(W)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Luquid PressureDrop(Pa)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air PressureDrop(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Liquid
+											Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air
+											Inlet Temp.(C)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Liquid
+											MassFlow Rate(kg/s)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air
+											Mass Flow Rate(kg/s)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Heat
+											Transfer Rate(W)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Luquid
+											Pressure Drop(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">Air
+											Pressure Drop(Pa)</span>
 										<span style="flex: 1;text-align: center;background: rgb(240, 249, 235);">(Optional)Luquid Re Number</span>
 									</div>
 									<div style="display: flex;" v-for="item in dllqData.endHR['Radiator Parameters'] ">
-										<span style="flex: 0 60px;;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["(Optional)\nLuquid Re Number"]}}</span>
-										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Heat Transfer Rate(W)"]}}</span>
-										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Sample"]}}</span>
-										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Liquid Mass\nFlow Rate(kg/s)"]}}</span>
-										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Inlet Temp.(C)"]}}</span>
-										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Pressure\nDrop(Pa)"]}}</span>
-										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Mass \nFlow Rate(kg/s)"]}}</span>
+										<span style="flex: 0 60px;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Sample"]}}</span>
 										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Liquid Temp.(C)"]}}</span>
-										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;">{{item["Luquid Pressure\nDrop(Pa)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Inlet Temp.(C)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Liquid Mass\nFlow Rate(kg/s)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item[" Air Mass \nFlow Rate(kg/s)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Heat Transfer Rate(W)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Luquid Pressure\nDrop(Pa)"]}}</span>
+										<span style="flex: 1;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["Air Pressure\nDrop(Pa)"]}}</span>
+										<span style="flex: 1;;border-top: 1px solid #E4E4E4;line-height: 30px;text-align: center;border-right: 1px solid #E4E4E4;">{{item["(Optional)\nLuquid Re Number"]}}</span>
 									</div>
 								</div>
 								<div v-if="pqShow" style="margin-top: 10px;">
 									<div style="display: flex;border-top: 1px solid #E4E4E4;line-height: 30px;">
 										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">FEAF(CMM)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">CondenserDelt P(Pa)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">CACDelt P(Pa)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">LTRDelt P(Pa)</span>
-										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">RadiatorDelt P(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">CondenserDelt
+											P(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">CACDelt
+											P(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">LTRDelt
+											P(Pa)</span>
+										<span style="flex: 1;text-align: center;border-right: 1px solid #E4E4E4;background: rgb(240, 249, 235);">RadiatorDelt
+											P(Pa)</span>
 										<span style="flex: 1;text-align: center;background: rgb(240, 249, 235);">FanDelt P(Pa)</span>
 									</div>
 									<div style="display: flex;" v-for="item in dllqData.endPQ">
@@ -641,7 +679,7 @@
 				</el-card>
 				<div class="block" style="margin-top: 20px;">
 					<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="pageSize" layout="prev, pager, next, jumper"
-					    :total="pageCount">
+					 :total="pageCount">
 					</el-pagination>
 				</div>
 			</div>
@@ -830,8 +868,8 @@
 		</el-dialog>
 		<el-dialog title="导入文件" :visible.sync="dialogDllqImportFile" class="modifyDialog">
 			<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/carModel/upload" :on-success="handleFileSuccess"
-			    :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
-			    :on-remove="handleRemove" multiple>
+			 :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
+			 :on-remove="handleRemove" multiple>
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">将文件拖到此处，或
 					<em>点击上传</em>
@@ -844,8 +882,8 @@
 		</el-dialog>
 		<el-dialog title="导入文件" :visible.sync="dialogBpImportFile" class="modifyDialog">
 			<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/bpData/upload" :on-success="handleFileSuccess"
-			    :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
-			    :on-remove="handleRemove" multiple>
+			 :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
+			 :on-remove="handleRemove" multiple>
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">将文件拖到此处，或
 					<em>点击上传</em>
@@ -858,8 +896,8 @@
 		</el-dialog>
 		<el-dialog title="导入文件" :visible.sync="dialogAirImportFile" class="modifyDialog">
 			<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/air/upload" :on-success="handleFileSuccess"
-			    :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
-			    :on-remove="handleRemove" multiple>
+			 :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
+			 :on-remove="handleRemove" multiple>
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">将文件拖到此处，或
 					<em>点击上传</em>
@@ -872,8 +910,8 @@
 		</el-dialog>
 		<el-dialog title="导入文件" :visible.sync="dialogCarpettempImportFile" class="modifyDialog">
 			<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/carpettemp/upload" :on-success="handleFileSuccess"
-			    :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
-			    :on-remove="handleRemove" multiple>
+			 :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
+			 :on-remove="handleRemove" multiple>
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">将文件拖到此处，或
 					<em>点击上传</em>
@@ -886,8 +924,8 @@
 		</el-dialog>
 		<el-dialog title="导入文件" :visible.sync="dialogMaterialImportFile" class="modifyDialog">
 			<el-upload ref="upload" class="upload-demo" drag action="http://39.107.243.101:7070/material/upload" :on-success="handleFileSuccess"
-			    :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
-			    :on-remove="handleRemove">
+			 :auto-upload="false" accept=".xls,.xlsx" :file-list="fileList" :on-error="handleFileError" :on-preview="handlePreview"
+			 :on-remove="handleRemove">
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">将文件拖到此处，或
 					<em>点击上传</em>
@@ -908,7 +946,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (typeof (value) !== 'number') {
+				if (typeof(value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 
@@ -923,7 +961,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (typeof (value) !== 'number') {
+				if (typeof(value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 
@@ -938,7 +976,7 @@
 				if (!value) {
 					return callback(new Error('Age cannot be empty'));
 				}
-				if (typeof (value) !== 'number') {
+				if (typeof(value) !== 'number') {
 					callback(new Error('Please enter a numeric value'));
 				} else {
 
@@ -1297,7 +1335,7 @@
 			}
 		},
 		filters: {
-			modifyFilter: function (value) {
+			modifyFilter: function(value) {
 				switch (value) {
 					case 'p_1':
 						return 'D1'
@@ -1335,7 +1373,7 @@
 						}
 				}
 			},
-			materialToCH: function (value) {
+			materialToCH: function(value) {
 				switch (value) {
 					case 'id':
 						return 'ID'
@@ -2595,7 +2633,7 @@
 				this.multipleSelection = []
 				let value = ''
 				this.currentPage = 1
-				if (typeof (values) !== 'string') {
+				if (typeof(values) !== 'string') {
 					if (values[1] === "BP数据") {
 						this.pageSize = 10
 						this._getBpData()
@@ -2637,6 +2675,7 @@
 						this.dllqShow = true
 						this.spinShow = false
 						this.dllqDataNoneShow = false
+						this.dllqListNoneShow = false
 						this.vehicleValue = values[2]
 						return;
 					}
@@ -2942,17 +2981,20 @@
 
 	.resultTableThree {
 		margin-top: 10px;
+
 		.threeList {
 			div {
 				margin-left: 10px;
 				line-height: 30px;
 				border: 1px solid #E4E4E4;
 				display: inline-block;
+
 				span {
 					display: inline-block;
 					border-right: 1px solid #E4E4E4;
 					text-align: center;
 					width: 60px;
+
 					&:first-child {
 						width: 200px;
 					}
@@ -2964,29 +3006,36 @@
 	.resultTableTwo {
 		margin-top: 10px;
 		border: 1px solid rgb(220, 220, 220);
+
 		.twoTitle,
 		.twoList {
 			line-height: 30px;
 			display: flex;
+
 			div {
 				flex: 1;
 				text-align: center;
 				border-right: 1px solid #E4E4E4;
+
 				&:nth-child(2) {
 					flex: 2;
 				}
+
 				&:last-child {
 					border-right: none;
 				}
 			}
 		}
+
 		.twoList {
 			div {
 				display: flex;
+
 				span {
 					flex: 1;
 					border-right: 1px solid #E4E4E4;
 					border-top: 1px solid #E4E4E4;
+
 					&:last-child {
 						border-right: none;
 					}
@@ -2998,42 +3047,53 @@
 	.resultTable {
 		margin-top: 10px;
 		border: 1px solid rgb(220, 220, 220);
+
 		.topTitle {
 			display: flex;
+
 			div {
 				flex: 1;
+
 				&:first-child {
 					flex: 0 60px;
 				}
+
 				>div {
 					display: flex;
 					border-left: 1px solid #E4E4E4;
 					line-height: 30px;
+
 					span {
 						flex: 1;
 						text-align: center;
 						border-right: 1px solid #E4E4E4;
+
 						&:last-child {
 							border-right: none;
 						}
 					}
 				}
+
 				.top {
 					border-bottom: 1px solid #E4E4E4;
 					line-height: 30px;
 				}
 			}
 		}
+
 		.tableList {
 			display: flex;
 			border-top: 1px solid #E4E4E4;
+
 			>div {
 				flex: 1;
 				display: flex;
 				line-height: 30px;
+
 				&:first-child {
 					flex: 0 60px;
 				}
+
 				>span {
 					flex: 1;
 					text-align: center;
@@ -3046,19 +3106,24 @@
 	.default {
 		min-width: 1000px;
 		display: flex;
+
 		.tab {
 			flex: 0 230px;
 			background: rgb(44, 47, 62);
 		}
+
 		li {
 			display: block;
 		}
+
 		.right {
 			flex: 1;
 			padding: 20px;
+
 			.formList {
 				.listTitle {
 					display: flex;
+
 					span {
 						flex: 1;
 						text-align: left;
@@ -3067,18 +3132,22 @@
 						border-bottom: 1px solid rgb(235, 238, 245);
 						padding-bottom: 10px;
 						line-height: 20px;
+
 						&:first-child {
 							flex: 0 50px;
 							position: relative;
 						}
 					}
 				}
+
 				.list {
 					display: flex;
 					border-bottom: 1px solid rgb(235, 238, 245);
+
 					.el-button {
 						padding: 4px;
 					}
+
 					span {
 						font-size: 14px;
 						flex: 1;
@@ -3086,19 +3155,23 @@
 						text-align: left;
 						overflow: hidden;
 						text-overflow: ellipsis;
+
 						&:first-child {
 							flex: 0 50px;
 						}
 					}
 				}
 			}
+
 			.selectList {
 				display: inline-block;
+
 				.sec {
 					width: 350px;
 					display: inline-block;
 					margin-top: 10px;
 					margin-left: 10px;
+
 					span {
 						display: inline-block;
 						width: 70px;
@@ -3106,9 +3179,11 @@
 					}
 				}
 			}
+
 			.carpettemp_formList {
 				.listTitle {
 					display: flex;
+
 					span {
 						flex: 1;
 						text-align: left;
@@ -3119,12 +3194,15 @@
 						line-height: 20px;
 					}
 				}
+
 				.list {
 					display: flex;
 					border-bottom: 1px solid rgb(235, 238, 245);
+
 					.el-button {
 						padding: 4px;
 					}
+
 					span {
 						font-size: 14px;
 						flex: 1;
@@ -3135,9 +3213,11 @@
 					}
 				}
 			}
+
 			.material_formList {
 				.listTitle {
 					display: flex;
+
 					span {
 						flex: 1;
 						text-align: left;
@@ -3148,12 +3228,15 @@
 						line-height: 20px;
 					}
 				}
+
 				.list {
 					display: flex;
 					border-bottom: 1px solid rgb(235, 238, 245);
+
 					.el-button {
 						padding: 4px;
 					}
+
 					span {
 						font-size: 14px;
 						flex: 1;
@@ -3164,9 +3247,11 @@
 					}
 				}
 			}
+
 			.bp_formList {
 				.listTitle {
 					display: flex;
+
 					span {
 						flex: 1;
 						text-align: left;
@@ -3175,39 +3260,50 @@
 						border-bottom: 1px solid rgb(235, 238, 245);
 						padding-bottom: 10px;
 						line-height: 20px;
+
 						&:first-child {
 							flex: 0 50px;
 							position: relative;
 						}
+
 						&:nth-child(2) {
 							flex: 0 100px;
 						}
+
 						&:nth-child(3) {
 							flex: 0 100px;
 						}
+
 						&:nth-child(4) {
 							flex: 0 60px;
 						}
+
 						&:nth-child(5) {
 							flex: 0 60px;
 						}
+
 						&:nth-child(6) {
 							flex: 0 60px;
 						}
+
 						&:nth-child(7) {
 							flex: 0 60px;
 						}
+
 						&:nth-child(9) {
 							text-align: center;
 						}
 					}
 				}
+
 				.list {
 					display: flex;
 					border-bottom: 1px solid rgb(235, 238, 245);
+
 					.el-button {
 						padding: 4px;
 					}
+
 					span {
 						font-size: 14px;
 						flex: 1;
@@ -3215,27 +3311,35 @@
 						text-align: left;
 						overflow: hidden;
 						text-overflow: ellipsis;
+
 						&:first-child {
 							flex: 0 50px;
 						}
+
 						&:nth-child(2) {
 							flex: 0 100px;
 						}
+
 						&:nth-child(3) {
 							flex: 0 100px;
 						}
+
 						&:nth-child(4) {
 							flex: 0 60px;
 						}
+
 						&:nth-child(5) {
 							flex: 0 60px;
 						}
+
 						&:nth-child(6) {
 							flex: 0 60px;
 						}
+
 						&:nth-child(7) {
 							flex: 0 60px;
 						}
+
 						&:nth-child(9) {
 							text-align: center;
 						}
@@ -3243,25 +3347,30 @@
 				}
 			}
 		}
+
 		.modifyDialog {
 			/deep/ .el-dialog__title {
 				float: left;
 				font-weight: 700;
 				font-size: 16px;
 			}
+
 			div {
 				.sec {
 					margin-bottom: 15px;
 					text-align: left;
+
 					>span {
 						min-width: 140px;
 						display: inline-block;
 						text-align: right;
 						margin-right: 10px;
 					}
+
 					/deep/ .el-input {
 						height: 34px;
 					}
+
 					/deep/ .el-input__inner {
 						height: 34px;
 					}

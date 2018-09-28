@@ -7,8 +7,8 @@
 				</div>
 				<div class="button">
 					<span>车型平台</span>
-					<i-button type="primary" @click="search">查询</i-button>
-					<i-button type="success" @click="toCompare">加入对比</i-button>
+					<i-button type="primary" @click="search" style="width: 70px;">查询</i-button>
+					<i-button type="success" @click="toCompare" style="width: 70px;">加入对比</i-button>
 				</div>
 				<div class="selectList" style="margin-top: 10px;">
 					<div>
@@ -169,49 +169,49 @@
 							<div class="twoList">
 								<div>
 									<span style="background: rgb(240,249,235);">总体开口面积</span>
-									<span>{{intakeObj.one[0].val}}</span>
+									<span>{{intakeObjSea.one[0].val}}</span>
 								</div>
 								<div>
-									<span style="background: rgb(240,249,235);">{{intakeObj.two[0].key}}</span>
-									<span>{{intakeObj.two[0].val}}</span>
-									<span style="background: rgb(240,249,235);">{{intakeObj.two[1].key}}</span>
-									<span>{{intakeObj.two[1].val}}</span>
+									<span style="background: rgb(240,249,235);">{{intakeObjSea.two[0].key}}</span>
+									<span>{{intakeObjSea.two[0].val}}</span>
+									<span style="background: rgb(240,249,235);">{{intakeObjSea.two[1].key}}</span>
+									<span>{{intakeObjSea.two[1].val}}</span>
 								</div>
 								<div>
-									<span style="background: rgb(240,249,235);">{{intakeObj.three[0].key}}</span>
-									<span>{{intakeObj.three[0].val}}</span>
+									<span style="background: rgb(240,249,235);">{{intakeObjSea.three[0].key}}</span>
+									<span>{{intakeObjSea.three[0].val}}</span>
 								</div>
 							</div>
 							<div class="twoList">
 								<div>
 									<span style="background: rgb(240,249,235);">正投影面积</span>
-									<span>{{intakeObj.one[1].val}}</span>
+									<span>{{intakeObjSea.one[1].val}}</span>
 								</div>
 								<div>
-									<span style="background: rgb(240,249,235);">{{intakeObj.two[2].key}}</span>
-									<span>{{intakeObj.two[2].val}}</span>
-									<span style="background: rgb(240,249,235);">{{intakeObj.two[3].key}}</span>
-									<span>{{intakeObj.two[3].val}}</span>
+									<span style="background: rgb(240,249,235);">{{intakeObjSea.two[2].key}}</span>
+									<span>{{intakeObjSea.two[2].val}}</span>
+									<span style="background: rgb(240,249,235);">{{intakeObjSea.two[3].key}}</span>
+									<span>{{intakeObjSea.two[3].val}}</span>
 								</div>
 								<div>
-									<span style="background: rgb(240,249,235);">{{intakeObj.three[1].key}}</span>
-									<span>{{intakeObj.three[1].val}}</span>
+									<span style="background: rgb(240,249,235);">{{intakeObjSea.three[1].key}}</span>
+									<span>{{intakeObjSea.three[1].val}}</span>
 								</div>
 							</div>
 							<div class="twoList">
 								<div>
 									<span style="background: rgb(240,249,235);">风扇功率</span>
-									<span>{{intakeObj.one[2].val}}</span>
+									<span>{{intakeObjSea.one[2].val}}</span>
 								</div>
 								<div>
-									<span style="background: rgb(240,249,235);" v-if="intakeObj.two[4]">{{intakeObj.two[4].key}}</span>
-									<span v-if="intakeObj.two[4]">{{intakeObj.two[4].val}}</span>
-									<span style="background: rgb(240,249,235);" v-if="intakeObj.two[5]">{{intakeObj.two[5].key}}</span>
-									<span v-if="intakeObj.two[5]">{{intakeObj.two[5].val}}</span>
+									<span style="background: rgb(240,249,235);" v-if="intakeObjSea.two[4]">{{intakeObjSea.two[4].key}}</span>
+									<span v-if="intakeObjSea.two[4]">{{intakeObjSea.two[4].val}}</span>
+									<span style="background: rgb(240,249,235);" v-if="intakeObjSea.two[5]">{{intakeObjSea.two[5].key}}</span>
+									<span v-if="intakeObjSea.two[5]">{{intakeObjSea.two[5].val}}</span>
 								</div>
 								<div>
-									<span style="background: rgb(240,249,235);">{{intakeObj.three[2].key}}</span>
-									<span>{{intakeObj.three[2].val}}</span>
+									<span style="background: rgb(240,249,235);">{{intakeObjSea.three[2].key}}</span>
+									<span>{{intakeObjSea.three[2].val}}</span>
 								</div>
 							</div>
 						</div>
@@ -221,7 +221,7 @@
 								<el-option v-if="item.name!== 'Fan'" v-for="(item,index) in qdlqArr" :key="index" :label="item.name" :value="item.name">{{item.name}}</el-option>
 							</el-select>
 						</div>
-						<div class="resultTableThree" v-if="searchShow"> 
+						<div class="resultTableThree" v-if="searchShow">
 							<div class="threeList">
 								<div>
 									<span style="background: rgb(240,249,235);">Length</span>
@@ -334,8 +334,10 @@
 						</div>
 						<div class="compareTableOne" v-if="dllqxnShow">
 							<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;text-indent: 0px;">
-								<img v-show="dllqxnItemOneShow" @click="dllqxnItemOneShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-								<img v-show="!dllqxnItemOneShow" @click="dllqxnItemOneShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> 发动机水温
+								<img v-show="dllqxnItemOneShow" @click="dllqxnItemOneShow=false" src="../../../static/reduce2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;">
+								<img v-show="!dllqxnItemOneShow" @click="dllqxnItemOneShow=true" src="../../../static/plus2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;"> 发动机水温
 							</span>
 							<div v-if="dllqxnItemOneShow">
 								<div>
@@ -379,8 +381,10 @@
 								</div>
 							</div>
 							<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;">
-								<img v-show="dllqxnItemTwoShow" @click="dllqxnItemTwoShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-								<img v-show="!dllqxnItemTwoShow" @click="dllqxnItemTwoShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> 发动机油温
+								<img v-show="dllqxnItemTwoShow" @click="dllqxnItemTwoShow=false" src="../../../static/reduce2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;">
+								<img v-show="!dllqxnItemTwoShow" @click="dllqxnItemTwoShow=true" src="../../../static/plus2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;"> 发动机油温
 							</span>
 							<div v-if="dllqxnItemTwoShow">
 								<div>
@@ -424,8 +428,10 @@
 								</div>
 							</div>
 							<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;text-indent: 2px;">
-								<img v-show="dllqxnItemThreeShow" @click="dllqxnItemThreeShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-								<img v-show="!dllqxnItemThreeShow" @click="dllqxnItemThreeShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> 变速箱油温
+								<img v-show="dllqxnItemThreeShow" @click="dllqxnItemThreeShow=false" src="../../../static/reduce2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;">
+								<img v-show="!dllqxnItemThreeShow" @click="dllqxnItemThreeShow=true" src="../../../static/plus2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;"> 变速箱油温
 							</span>
 							<div v-if="dllqxnItemThreeShow">
 								<div>
@@ -469,8 +475,10 @@
 								</div>
 							</div>
 							<span style="line-height: 34px;display: block; width: 100%; background:#c1a075">
-								<img v-show="dllqxnItemFourShow" @click="dllqxnItemFourShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-								<img v-show="!dllqxnItemFourShow" @click="dllqxnItemFourShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> 风扇出风温度
+								<img v-show="dllqxnItemFourShow" @click="dllqxnItemFourShow=false" src="../../../static/reduce2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;">
+								<img v-show="!dllqxnItemFourShow" @click="dllqxnItemFourShow=true" src="../../../static/plus2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;"> 风扇出风温度
 							</span>
 							<div v-if="dllqxnItemFourShow">
 								<div>
@@ -514,8 +522,10 @@
 								</div>
 							</div>
 							<span style="line-height: 34px;display: block; width: 100%; background:#c1a075">
-								<img v-show="dllqxnItemFiveShow" @click="dllqxnItemFiveShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-								<img v-show="!dllqxnItemFiveShow" @click="dllqxnItemFiveShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> CAC出口温度
+								<img v-show="dllqxnItemFiveShow" @click="dllqxnItemFiveShow=false" src="../../../static/reduce2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;">
+								<img v-show="!dllqxnItemFiveShow" @click="dllqxnItemFiveShow=true" src="../../../static/plus2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;"> CAC出口温度
 							</span>
 							<div v-if="dllqxnItemFiveShow">
 								<div>
@@ -560,8 +570,10 @@
 							</div>
 
 							<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;text-indent: 2px;">
-								<img v-show="dllqxnItemSixShow" @click="dllqxnItemSixShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-								<img v-show="!dllqxnItemSixShow" @click="dllqxnItemSixShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> LTR水温
+								<img v-show="dllqxnItemSixShow" @click="dllqxnItemSixShow=false" src="../../../static/reduce2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;">
+								<img v-show="!dllqxnItemSixShow" @click="dllqxnItemSixShow=true" src="../../../static/plus2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;"> LTR水温
 							</span>
 							<div v-if="dllqxnItemSixShow">
 								<div>
@@ -612,8 +624,10 @@
 						</div>
 						<div class="compareTableTwo" v-if="qdkkjflShow">
 							<span>
-								<img v-show="qdkkjflItemOneShow" @click="qdkkjflItemOneShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-								<img v-show="!qdkkjflItemOneShow" @click="qdkkjflItemOneShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> Openging(cm2)
+								<img v-show="qdkkjflItemOneShow" @click="qdkkjflItemOneShow=false" src="../../../static/reduce2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;">
+								<img v-show="!qdkkjflItemOneShow" @click="qdkkjflItemOneShow=true" src="../../../static/plus2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;"> Openging(cm2)
 							</span>
 							<div class="compareTableTwoList" v-if="qdkkjflItemOneShow">
 								<div>
@@ -628,8 +642,10 @@
 								</div>
 							</div>
 							<span>
-								<img v-show="qdkkjflItemTwoShow" @click="qdkkjflItemTwoShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-								<img v-show="!qdkkjflItemTwoShow" @click="qdkkjflItemTwoShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> Shutter oPEN(CMM)
+								<img v-show="qdkkjflItemTwoShow" @click="qdkkjflItemTwoShow=false" src="../../../static/reduce2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;">
+								<img v-show="!qdkkjflItemTwoShow" @click="qdkkjflItemTwoShow=true" src="../../../static/plus2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;"> Shutter oPEN(CMM)
 							</span>
 							<div class="compareTableTwoList" v-if="qdkkjflItemTwoShow">
 								<div>
@@ -648,8 +664,10 @@
 								</div>
 							</div>
 							<span>
-								<img v-show="qdkkjflItemThreeShow" @click="qdkkjflItemThreeShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-								<img v-show="!qdkkjflItemThreeShow" @click="qdkkjflItemThreeShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> Shutter oPEN(CMM) Shutter Close(CMM)
+								<img v-show="qdkkjflItemThreeShow" @click="qdkkjflItemThreeShow=false" src="../../../static/reduce2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;">
+								<img v-show="!qdkkjflItemThreeShow" @click="qdkkjflItemThreeShow=true" src="../../../static/plus2.png" width="15px"
+								 style="cursor: pointer;position: relative;top: 2px;"> Shutter oPEN(CMM) Shutter Close(CMM)
 							</span>
 							<div class="compareTableTwoList" v-if="qdkkjflItemThreeShow">
 								<div>
@@ -672,8 +690,10 @@
 						<div class="compareTableThree" v-if="qdlqmkShow">
 							<div style="display: block;">
 								<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;">
-									<img v-show="qdlqmkItemOneShow" @click="qdlqmkItemOneShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-									<img v-show="!qdlqmkItemOneShow" @click="qdlqmkItemOneShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> Condenser
+									<img v-show="qdlqmkItemOneShow" @click="qdlqmkItemOneShow=false" src="../../../static/reduce2.png" width="15px"
+									 style="cursor: pointer;position: relative;top: 2px;">
+									<img v-show="!qdlqmkItemOneShow" @click="qdlqmkItemOneShow=true" src="../../../static/plus2.png" width="15px"
+									 style="cursor: pointer;position: relative;top: 2px;"> Condenser
 								</span>
 							</div>
 							<div v-if="qdlqmkItemOneShow">
@@ -719,8 +739,10 @@
 
 							<div style="display: block;">
 								<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;">
-									<img v-show="qdlqmkItemTwoShow" @click="qdlqmkItemTwoShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-									<img v-show="!qdlqmkItemTwoShow" @click="qdlqmkItemTwoShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;"> CAC
+									<img v-show="qdlqmkItemTwoShow" @click="qdlqmkItemTwoShow=false" src="../../../static/reduce2.png" width="15px"
+									 style="cursor: pointer;position: relative;top: 2px;">
+									<img v-show="!qdlqmkItemTwoShow" @click="qdlqmkItemTwoShow=true" src="../../../static/plus2.png" width="15px"
+									 style="cursor: pointer;position: relative;top: 2px;"> CAC
 								</span>
 							</div>
 							<div v-if="qdlqmkItemTwoShow">
@@ -747,28 +769,30 @@
 								</div>
 								<div>
 									<div v-for="(item,index) in compareList">
-										<span>{{item["CAC Parameters"].content[5].val}}</span>
-										<span>{{item["CAC Parameters"].content[6].val}}</span>
-										<span>{{item["CAC Parameters"].content[7].val}}</span>
-										<span>{{item["CAC Parameters"].content[2].val}}</span>
-										<span>{{item["CAC Parameters"].content[3].val}}</span>
-										<span>{{item["CAC Parameters"].content[4].val}}</span>
-										<span>{{item["CAC Parameters"].content[0].val}}</span>
-										<span>{{item["CAC Parameters"].content[1].val}}</span>
-										<span>{{item["CAC Parameters"].content[9].val}}</span>
-										<span>{{item["CAC Parameters"].content[8].val}}</span>
+										<span>{{item["CAC"].content[5].val}}</span>
+										<span>{{item["CAC"].content[6].val}}</span>
+										<span>{{item["CAC"].content[7].val}}</span>
+										<span>{{item["CAC"].content[2].val}}</span>
+										<span>{{item["CAC"].content[3].val}}</span>
+										<span>{{item["CAC"].content[4].val}}</span>
+										<span>{{item["CAC"].content[0].val}}</span>
+										<span>{{item["CAC"].content[1].val}}</span>
+										<span>{{item["CAC"].content[9].val}}</span>
+										<span>{{item["CAC"].content[8].val}}</span>
 										<span>{{airValue}}</span>
 										<span>{{currentAir.density}}</span>
 										<span>{{currentAir.viscosity}}</span>
-										<span>{{item["CAC Parameters"].cp}}</span>
-										<span>{{item["CAC Parameters"].du}}</span>
+										<span>{{item["CAC"].cp}}</span>
+										<span>{{item["CAC"].du}}</span>
 									</div>
 								</div>
 							</div>
 							<div style="display: block;">
 								<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;">
-									<img v-show="qdlqmkItemThreeShow" @click="qdlqmkItemThreeShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-									<img v-show="!qdlqmkItemThreeShow" @click="qdlqmkItemThreeShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">LTR</span>
+									<img v-show="qdlqmkItemThreeShow" @click="qdlqmkItemThreeShow=false" src="../../../static/reduce2.png" width="15px"
+									 style="cursor: pointer;position: relative;top: 2px;">
+									<img v-show="!qdlqmkItemThreeShow" @click="qdlqmkItemThreeShow=true" src="../../../static/plus2.png" width="15px"
+									 style="cursor: pointer;position: relative;top: 2px;">LTR</span>
 							</div>
 							<div v-if="qdlqmkItemThreeShow">
 								<div>
@@ -794,29 +818,31 @@
 								</div>
 								<div>
 									<div v-for="(item,index) in compareList">
-										<span>{{item["LTR Parameters"].content[5].val}}</span>
-										<span>{{item["LTR Parameters"].content[6].val}}</span>
-										<span>{{item["LTR Parameters"].content[7].val}}</span>
-										<span>{{item["LTR Parameters"].content[2].val}}</span>
-										<span>{{item["LTR Parameters"].content[3].val}}</span>
-										<span>{{item["LTR Parameters"].content[4].val}}</span>
-										<span>{{item["LTR Parameters"].content[0].val}}</span>
-										<span>{{item["LTR Parameters"].content[1].val}}</span>
-										<span>{{item["LTR Parameters"].content[9].val}}</span>
-										<span>{{item["LTR Parameters"].content[8].val}}</span>
+										<span>{{item["LTR"].content[5].val}}</span>
+										<span>{{item["LTR"].content[6].val}}</span>
+										<span>{{item["LTR"].content[7].val}}</span>
+										<span>{{item["LTR"].content[2].val}}</span>
+										<span>{{item["LTR"].content[3].val}}</span>
+										<span>{{item["LTR"].content[4].val}}</span>
+										<span>{{item["LTR"].content[0].val}}</span>
+										<span>{{item["LTR"].content[1].val}}</span>
+										<span>{{item["LTR"].content[9].val}}</span>
+										<span>{{item["LTR"].content[8].val}}</span>
 										<span>{{airValue}}</span>
 										<span>{{currentAir.density}}</span>
 										<span>{{currentAir.viscosity}}</span>
-										<span>{{item["LTR Parameters"].cp}}</span>
-										<span>{{item["LTR Parameters"].du}}</span>
+										<span>{{item["LTR"].cp}}</span>
+										<span>{{item["LTR"].du}}</span>
 									</div>
 								</div>
 							</div>
 
 							<div style="display: block;">
 								<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;">
-									<img v-show="qdlqmkItemFourShow" @click="qdlqmkItemFourShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
-									<img v-show="!qdlqmkItemFourShow" @click="qdlqmkItemFourShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">Radiator"</span>
+									<img v-show="qdlqmkItemFourShow" @click="qdlqmkItemFourShow=false" src="../../../static/reduce2.png" width="15px"
+									 style="cursor: pointer;position: relative;top: 2px;">
+									<img v-show="!qdlqmkItemFourShow" @click="qdlqmkItemFourShow=true" src="../../../static/plus2.png" width="15px"
+									 style="cursor: pointer;position: relative;top: 2px;">Radiator"</span>
 							</div>
 							<div v-if="qdlqmkItemFourShow">
 								<div>
@@ -839,18 +865,18 @@
 								</div>
 								<div>
 									<div v-for="(item,index) in compareList">
-										<span>{{item["Radiator Parameters"].content[0].val}}</span>
-										<span>{{item["Radiator Parameters"].content[1].val}}</span>
-										<span>{{item["Radiator Parameters"].content[2].val}}</span>
-										<span>{{item["Radiator Parameters"].content[5].val}}</span>
-										<span>{{item["Radiator Parameters"].content[6].val}}</span>
-										<span>{{item["Radiator Parameters"].content[4].val}}</span>
-										<span>{{item["Radiator Parameters"].content[3].val}}</span>
+										<span>{{item["Radiator"].content[0].val}}</span>
+										<span>{{item["Radiator"].content[1].val}}</span>
+										<span>{{item["Radiator"].content[2].val}}</span>
+										<span>{{item["Radiator"].content[5].val}}</span>
+										<span>{{item["Radiator"].content[6].val}}</span>
+										<span>{{item["Radiator"].content[4].val}}</span>
+										<span>{{item["Radiator"].content[3].val}}</span>
 										<span>{{airValue}}</span>
 										<span>{{currentAir.density}}</span>
 										<span>{{currentAir.viscosity}}</span>
-										<span>{{item["Radiator Parameters"].cp}}</span>
-										<span>{{item["Radiator Parameters"].du}}</span>
+										<span>{{item["Radiator"].cp}}</span>
+										<span>{{item["Radiator"].du}}</span>
 									</div>
 								</div>
 							</div>
@@ -877,22 +903,20 @@
 									<span>Fan Coffe.F</span>
 								</div>
 								<div v-for="(item,index) in compareList">
-									<span>{{item["Radiator Parameters"].fan[0].val}}</span>
-									<span>{{item["Radiator Parameters"].fan[1].val}}</span>
-									<span>{{item["Radiator Parameters"].fan[2].val}}</span>
-									<span>{{item["Radiator Parameters"].fan[3].val}}</span>
-									<span>{{item["Radiator Parameters"].fan[4].val}}</span>
-									<span>{{item["Radiator Parameters"].fan[5].val}}</span>
-									<span>{{item["Radiator Parameters"].fan[6].val}}</span>
-									<span>{{item["Radiator Parameters"].fan[7].val}}</span>
-									<span>{{item["Radiator Parameters"].fan[8].val}}</span>
+									<span>{{item["Radiator"].fan[0].val}}</span>
+									<span>{{item["Radiator"].fan[1].val}}</span>
+									<span>{{item["Radiator"].fan[2].val}}</span>
+									<span>{{item["Radiator"].fan[3].val}}</span>
+									<span>{{item["Radiator"].fan[4].val}}</span>
+									<span>{{item["Radiator"].fan[5].val}}</span>
+									<span>{{item["Radiator"].fan[6].val}}</span>
+									<span>{{item["Radiator"].fan[7].val}}</span>
+									<span>{{item["Radiator"].fan[8].val}}</span>
 								</div>
 							</div>
 							<i-button @click="drawLineTwo" style="margin-top: 10px;" type="primary">查看曲线图</i-button>
 							<div style="display: inline-block;width: 600px;height:400px;" id="myChartTwo">
 							</div>
-
-
 						</div>
 					</el-tab-pane>
 				</el-tabs>
@@ -905,13 +929,13 @@
 	export default {
 		data() {
 			return {
-				cxptArr:['E2-2','D2XX'],
-				cxmcArr:['E2LB','E2LC','D2UB','D2SB'],
-				cxnfArr:['MY16','MY17','MY18'],
-				fdjArr:['L2B','L3T','L3Z'],
-				bsxArr:['CVT','DCT'],
-				qdxsArr:['AWD','FWD'],
-				zyjArr:['LHD','RHD'],
+				cxptArr: ['E2-2', 'D2XX'],
+				cxmcArr: ['E2LB', 'E2LC', 'D2UB', 'D2SB'],
+				cxnfArr: ['MY16', 'MY17', 'MY18'],
+				fdjArr: ['L2B', 'L3T', 'L3Z'],
+				bsxArr: ['CVT', 'DCT'],
+				qdxsArr: ['AWD', 'FWD'],
+				zyjArr: ['LHD', 'RHD'],
 				pro: {
 					valueOne: '',
 					valueTwo: '',
@@ -934,6 +958,11 @@
 				pscArrSim: [],
 				pscArrVts: [],
 				intakeObj: {
+					one: {},
+					two: {},
+					three: {}
+				},
+				intakeObjSea: {
 					one: {},
 					two: {},
 					three: {}
@@ -1007,7 +1036,81 @@
 						this.compareArr.push(this.vehicleValue)
 						this.isCompare = true
 						this.compareArr.forEach((vehicle) => {
-							this.compare(vehicle)
+							let cObj = {}
+							this.compareList = []
+							this.axios({
+								method: 'get',
+								url: `/patac_ras/carModel`,
+								headers: {
+									'Content-type': 'application/json;charset=UTF-8'
+								},
+								params: {
+									excelName: vehicle
+								}
+							}).then((resp) => {
+								this.axios({
+									method: 'get',
+									url: `/patac_ras/carModel/all/${resp.data.data.id}/partModel`,
+									headers: {
+										'Content-type': 'application/json;charset=UTF-8'
+									}
+								}).then((res) => {
+									this.qdlqArr = res.data.data
+									this.qdlqValue = res.data.data[0].name
+									this.qdlqId = res.data.data[0].id
+									this._getAir()
+									this.$set(cObj, 'psc', resp.data.data.psc)
+									this.$set(cObj, 'intake', this.intakeObj)
+									for (let i in this.qdlqArr) {
+										this.axios({
+											method: 'get',
+											url: `/patac_ras/partModel/${this.qdlqArr[i].id}`,
+											headers: {
+												'Content-type': 'application/json;charset=UTF-8'
+											},
+											params: {
+												advId: this.airId,
+												cId: resp.data.data.id
+											}
+										}).then((res) => {
+											this.$set(cObj, 'fan', res.data.data.fan)
+											this.$set(cObj, this.qdlqArr[i].name, res.data.data)
+										})
+									}
+									this.compareList.push(cObj)
+								})
+								this.pscArr = resp.data.data.psc
+								// this.pscArrText = []
+								// this.pscArrSim = []
+								// this.pscArrVts = []
+								this.vehicleId = resp.data.data.id
+								for (let i in resp.data.data.intake) {
+									if (i === "Openning Area & Fan") {
+										this.$set(this.intakeObj, "one", resp.data.data.intake[i])
+									} else if (i === "FEAF Shutter Open") {
+										this.$set(this.intakeObj, "two", resp.data.data.intake[i])
+									} else if (i === "FEAF Shutter Closed") {
+										this.$set(this.intakeObj, "three", resp.data.data.intake[i])
+									}
+								}
+								// 								for (let i in this.pscArr) {
+								// 									for (let o in this.pscArr[i][0]) {
+								// 										if (o === 'con' || o === 'exc' || o === 'ext') {
+								// 											this.pscArrText.push(this.pscArr[i][0][o])
+								// 										}
+								// 									}
+								// 									for (let o in this.pscArr[i][1]) {
+								// 										if (o === 'con' || o === 'exc' || o === 'ext') {
+								// 											this.pscArrSim.push(this.pscArr[i][1][o])
+								// 										}
+								// 									}
+								// 									for (let o in this.pscArr[i][2]) {
+								// 										if (o === 'con' || o === 'exc' || o === 'ext') {
+								// 											this.pscArrVts.push(this.pscArr[i][2][o])
+								// 										}
+								// 									}
+								// 								}
+							})
 						})
 					}
 				} else {
@@ -1030,42 +1133,69 @@
 					params: {
 						excelName: vehicle
 					}
-				}).then((res) => {
-					this._getQDLQSelectData(res.data.data.id)
-					this.pscArr = res.data.data.psc
-					this.pscArrText = []
-					this.pscArrSim = []
-					this.pscArrVts = []
-					this.vehicleId = res.data.data.id
-					for (let i in res.data.data.intake) {
+				}).then((resp) => {
+					this.axios({
+						method: 'get',
+						url: `/patac_ras/carModel/all/${resp.data.data.id}/partModel`,
+						headers: {
+							'Content-type': 'application/json;charset=UTF-8'
+						}
+					}).then((res) => {
+						this.qdlqArr = res.data.data
+						this.qdlqValue = res.data.data[0].name
+						this.qdlqId = res.data.data[0].id
+						this._getAir()
+						this.$set(this.compareObj, 'psc', resp.data.data.psc)
+						this.$set(this.compareObj, 'intake', this.intakeObj)
+						for (let i in this.qdlqArr) {
+							this.axios({
+								method: 'get',
+								url: `/patac_ras/partModel/${this.qdlqArr[i].id}`,
+								headers: {
+									'Content-type': 'application/json;charset=UTF-8'
+								},
+								params: {
+									advId: this.airId,
+									cId: resp.data.data.id
+								}
+							}).then((res) => {
+								this.$set(this.compareObj, 'fan', res.data.data.fan)
+								this.$set(this.compareObj, this.qdlqArr[i].name, res.data.data)
+							})
+						}
+						this.compareList.push(this.compareObj)
+					})
+					this.pscArr = resp.data.data.psc
+					// 					this.pscArrText = []
+					// 					this.pscArrSim = []
+					// 					this.pscArrVts = []
+					this.vehicleId = resp.data.data.id
+					for (let i in resp.data.data.intake) {
 						if (i === "Openning Area & Fan") {
-							this.$set(this.intakeObj, "one", res.data.data.intake[i])
+							this.$set(this.intakeObj, "one", resp.data.data.intake[i])
 						} else if (i === "FEAF Shutter Open") {
-							this.$set(this.intakeObj, "two", res.data.data.intake[i])
+							this.$set(this.intakeObj, "two", resp.data.data.intake[i])
 						} else if (i === "FEAF Shutter Closed") {
-							this.$set(this.intakeObj, "three", res.data.data.intake[i])
+							this.$set(this.intakeObj, "three", resp.data.data.intake[i])
 						}
 					}
-					for (let i in this.pscArr) {
-						for (let o in this.pscArr[i][0]) {
-							if (o === 'con' || o === 'exc' || o === 'ext') {
-								this.pscArrText.push(this.pscArr[i][0][o])
-							}
-						}
-						for (let o in this.pscArr[i][1]) {
-							if (o === 'con' || o === 'exc' || o === 'ext') {
-								this.pscArrSim.push(this.pscArr[i][1][o])
-							}
-						}
-						for (let o in this.pscArr[i][2]) {
-							if (o === 'con' || o === 'exc' || o === 'ext') {
-								this.pscArrVts.push(this.pscArr[i][2][o])
-							}
-						}
-					}
-					
-					this.compareObj.psc = res.data.data.psc
-					this.compareObj.intake = this.intakeObj
+					// 					for (let i in this.pscArr) {
+					// 						for (let o in this.pscArr[i][0]) {
+					// 							if (o === 'con' || o === 'exc' || o === 'ext') {
+					// 								this.pscArrText.push(this.pscArr[i][0][o])
+					// 							}
+					// 						}
+					// 						for (let o in this.pscArr[i][1]) {
+					// 							if (o === 'con' || o === 'exc' || o === 'ext') {
+					// 								this.pscArrSim.push(this.pscArr[i][1][o])
+					// 							}
+					// 						}
+					// 						for (let o in this.pscArr[i][2]) {
+					// 							if (o === 'con' || o === 'exc' || o === 'ext') {
+					// 								this.pscArrVts.push(this.pscArr[i][2][o])
+					// 							}
+					// 						}
+					// 					}
 				})
 			},
 			search() {
@@ -1074,11 +1204,17 @@
 					method: 'get',
 					url: `/patac_ras/carModel`,
 					headers: {
-						'Content-type': 'application/json;charset=UTF-8'
+						'Content-type': 'application/x-www-form-urlencoded'
 					},
 					params: {
-						excelName: this.vehicleValue
-					}
+												platform: this.pro.valueOne,
+												name: this.pro.valueTwo,
+												year: this.pro.valueThree,
+												engine: this.pro.valueFour,
+												gearbox: this.pro.valueFive,
+												drivenMode: this.pro.valueSix,
+												leftRight: this.pro.valueSeven,
+					},
 				}).then((res) => {
 					this.CId = res.data.data.id
 					this.pscArr = res.data.data.psc
@@ -1089,11 +1225,11 @@
 					this._getQDLQSelectData(res.data.data.id)
 					for (let i in res.data.data.intake) {
 						if (i === "Openning Area & Fan") {
-							this.$set(this.intakeObj, "one", res.data.data.intake[i])
+							this.$set(this.intakeObjSea, "one", res.data.data.intake[i])
 						} else if (i === "FEAF Shutter Open") {
-							this.$set(this.intakeObj, "two", res.data.data.intake[i])
+							this.$set(this.intakeObjSea, "two", res.data.data.intake[i])
 						} else if (i === "FEAF Shutter Closed") {
-							this.$set(this.intakeObj, "three", res.data.data.intake[i])
+							this.$set(this.intakeObjSea, "three", res.data.data.intake[i])
 						}
 					}
 					for (let i in this.pscArr) {
@@ -1113,11 +1249,18 @@
 							}
 						}
 					}
-					this.compareObj.psc = res.data.data.psc
-					this.compareObj.intake = this.intakeObj
+					// 					this.compareObj.psc = res.data.data.psc
+					// 					this.compareObj.intake = this.intakeObj
 					setTimeout(() => {
 						this.searchShow = true
-					}, 1000)
+					}, 500)
+				}).catch((err) => {
+					this.$notify.error({
+						title: '错误',
+						message: err.response.data.msg,
+						duration: 2500
+					});
+					return;
 				})
 			},
 			_getQDLQSelectData(value) {
@@ -1159,6 +1302,25 @@
 					}
 				}
 			},
+			_getQDLQDataCompare(value) {
+				for (let i in this.qdlqArr) {
+					this.axios({
+						method: 'get',
+						url: `/patac_ras/partModel/${this.qdlqArr[i].id}`,
+						headers: {
+							'Content-type': 'application/json;charset=UTF-8'
+						},
+						params: {
+							advId: this.airId,
+							cId: value
+						}
+					}).then((res) => {
+						this.compareObj.fan = res.data.data.fan
+						this.$set(this.compareObj, this.qdlqArr[i].name, res.data.data)
+					})
+				}
+				this.compareList.push(this.compareObj)
+			},
 			_getAir() {
 				this.axios({
 					method: 'get',
@@ -1176,6 +1338,19 @@
 					if (this.airArr[i].temperature === value) {
 						this.currentAir = this.airArr[i]
 						this.airId = this.airArr[i].id
+						this.axios({
+							method: 'get',
+							url: `/patac_ras/partModel/${this.qdlqId}`,
+							headers: {
+								'Content-type': 'application/json;charset=UTF-8'
+							},
+							params: {
+								cId: this.CId,
+								advId: this.airId
+							}
+						}).then((res) => {
+							this.qdlqDataArr = res.data.data
+						})
 					}
 				}
 				if (this.isCompare) {
@@ -1198,8 +1373,8 @@
 				}).then((res) => {
 					this.qdlqDataArr = res.data.data
 					this.fanDataArr = res.data.data.fan
-					this.compareObj.qdlqDataArr = res.data.data
-					this.compareObj.fan = res.data.data.fan
+					// 					this.compareObj.qdlqDataArr = res.data.data
+					// 					this.compareObj.fan = res.data.data.fan
 					for (let i in this.compareObj.fan) {
 						if (this.compareObj.fan[i].key !== 'Fan Type') {
 							this.fanViewData.push(this.compareObj.fan[i].val)
@@ -1207,26 +1382,6 @@
 						this.drawLine()
 					}
 				})
-			},
-			_getQDLQDataCompare(value) {
-				for (let i in this.qdlqArr) {
-					this.axios({
-						method: 'get',
-						url: `/patac_ras/partModel/${this.qdlqArr[i].id}`,
-						headers: {
-							'Content-type': 'application/json;charset=UTF-8'
-						},
-						params: {
-							advId: this.airId,
-							cId: value
-						}
-					}).then((res) => {
-						this.compareObj.fan = res.data.data.fan
-						this.$set(this.compareObj, this.qdlqArr[i].name, res.data.data)
-					})
-				}
-				this.compareList.push(this.compareObj)
-				console.log(this.compareList)
 			},
 			_getData() {
 				this.axios({
@@ -1258,13 +1413,27 @@
 				this.pro.valueFive = this.vehicleValue.split("_")[4]
 				this.pro.valueSix = this.vehicleValue.split("_")[5]
 				this.pro.valueSeven = this.vehicleValue.split("_")[6]
+				if(this.cxptArr.indexOf(this.pro.valueOne) <0 || this.cxmcArr.indexOf(this.pro.valueTwo) <0  || this.cxnfArr.indexOf(this.pro.valueThree) <0    
+				|| this.fdjArr.indexOf(this.pro.valueFour) <0 || this.bsxArr.indexOf(this.pro.valueFive) <0  || this.qdxsArr.indexOf(this.pro.valueSix) <0  
+				|| this.zyjArr.indexOf(this.pro.valueSeven) <0 ){
+					this.$notify.error({
+						title: '错误',
+						message: '该车型属性不完整',
+						duration: 3000
+					});
+				
+				}
 			},
 			closeCompare(item, index) {
-				console.log(index)
 				this.compareArr.splice(index, 1)
-				this.compareArr.forEach((vehicle) => {
-					this.compare(vehicle)
-				})
+				if (this.compareArr.length >= 1) {
+					this.compareArr.forEach((vehicle) => {
+						this.compare(vehicle)
+					})
+				} else if (this.compareArr.length === 0) {
+					this.compareList = []
+				}
+
 			},
 			changeSelectResultTableThree(value) {
 				if (value === '20') {
@@ -1426,47 +1595,59 @@
 
 	.vecp_system {
 		display: flex;
+
 		/deep/ .el-button.is-circle {
 			padding: 2px !important;
 		}
+
 		.ivu-btn {
 			padding: 5px;
 		}
+
 		.ivu-tabs {
 			margin-top: 30px;
 		}
+
 		.right {
 			flex: 1;
 			padding: 20px;
+
 			/deep/ .el-button.is-circle {
 				padding: 5px;
 			}
+
 			/deep/ .el-input__inner {
 				height: 26px;
 				line-height: 20px;
 			}
+
 			/deep/ .el-card__header {
 				background: #eff0dc;
 				padding: 14px 20px !important;
 			}
+
 			/deep/ .el-input__icon {
 				line-height: 20px;
 			}
 
 			.compareTableThree {
 				font-size: 0;
+
 				>div {
 					display: inline-block;
 
 					font-size: 0;
+
 					>span {
 						font-size: 14px;
 					}
+
 					div {
 						display: inline-block;
 						vertical-align: top;
 						font-size: 12px;
 						vertical-align: top;
+
 						span {
 							width: 130px;
 							display: block;
@@ -1480,10 +1661,12 @@
 					}
 				}
 			}
+
 			.compareTableFour {
 				div {
 					div {
 						display: inline-block;
+
 						span {
 							width: 130px;
 							display: block;
@@ -1495,6 +1678,7 @@
 					}
 				}
 			}
+
 			.compareTableTwo {
 				>span {
 					display: block;
@@ -1502,9 +1686,11 @@
 					line-height: 34px;
 					background: #c1a075;
 				}
+
 				.compareTableTwoList {
 					>div {
 						display: inline-block;
+
 						span {
 							width: 130px;
 							display: block;
@@ -1516,21 +1702,26 @@
 					}
 				}
 			}
+
 			.button {
 				padding-bottom: 5px;
 				border-bottom: 1px solid #eff0dc;
+
 				span {
 					margin-right: 5px;
 					position: relative;
 					top: 5px;
 				}
 			}
+
 			.compareTableOne {
+
 				.compareOneCon,
 				.compareOneExc,
 				.compareOneExt {
 					vertical-align: top;
 					display: inline-block;
+
 					span {
 						display: block;
 						border-right: 1px solid #E4E4E4;
@@ -1542,11 +1733,14 @@
 					}
 				}
 			}
+
 			.selectList {
 				display: inline-block;
+
 				.sec {
 					display: inline-block;
 					margin-top: 10px;
+
 					span {
 						display: inline-block;
 						width: 70px;
@@ -1554,49 +1748,61 @@
 					}
 				}
 			}
+
 			.compare {
 				display: inline-block;
 				vertical-align: top;
 				margin-top: 10px;
 				margin-left: 50px;
+
 				.ivu-card {
 					width: 300px;
 					margin: 0 auto;
+
 					/deep/ .ivu-card-bordered {
 						border-color: #999a86;
 					}
 				}
 			}
+
 			.title {
 				margin: 5px 0;
+
 				span {
 					color: rgb(112, 48, 160);
 					font-size: 16px;
 				}
 			}
+
 			.resultTableFive {
 				margin-top: 30px;
 				border: 1px solid #000000;
+
 				>div {
 					line-height: 30px;
 					display: flex;
+
 					span {
 						text-align: center;
 						flex: 1;
 						border-right: 1px solid #E4E4E4;
 						border-bottom: 1px solid #E4E4E4;
+
 						&:last-child {
 							border-right: none;
 						}
 					}
 				}
 			}
+
 			.resultTableFour {
 				border: 1px solid #000000;
 				margin-top: 00px;
+
 				.sec {
 					width: 300px;
 					display: flex;
+
 					span {
 						flex: 1;
 						width: 100px;
@@ -1605,21 +1811,26 @@
 						border-bottom: 1px solid #E4E4E4;
 						border-right: 1px solid #E4E4E4;
 						text-align: center;
+
 						&:last-child {
 							border-right: none;
 						}
 					}
 				}
 			}
+
 			.resultTableThree {
 				border: 1px solid #000000;
+
 				.threeList {
 					display: flex;
+
 					div {
 						flex: 1;
 						display: flex;
 						line-height: 30px;
 						border-bottom: 1px solid #E4E4E4;
+
 						/*&:last-child {
 							border-bottom: none;
 						}*/
@@ -1631,31 +1842,39 @@
 					}
 				}
 			}
+
 			.resultTableTwo {
 				border: 1px solid #000000;
+
 				.twoTitle,
 				.twoList {
 					line-height: 30px;
 					display: flex;
+
 					div {
 						flex: 1;
 						text-align: center;
 						border-right: 1px solid #E4E4E4;
+
 						&:nth-child(2) {
 							flex: 2;
 						}
+
 						&:last-child {
 							border-right: none;
 						}
 					}
 				}
+
 				.twoList {
 					div {
 						display: flex;
+
 						span {
 							flex: 1;
 							border-right: 1px solid #E4E4E4;
 							border-top: 1px solid #E4E4E4;
+
 							&:last-child {
 								border-right: none;
 							}
@@ -1663,44 +1882,56 @@
 					}
 				}
 			}
+
 			.resultTable {
 				border: 1px solid #000000;
+
 				.topTitle {
 					display: flex;
+
 					div {
 						flex: 1;
+
 						&:first-child {
 							flex: 0 60px;
 						}
+
 						>div {
 							display: flex;
 							border-left: 1px solid #E4E4E4;
 							line-height: 30px;
+
 							span {
 								flex: 1;
 								text-align: center;
 								border-right: 1px solid #E4E4E4;
+
 								&:last-child {
 									border-right: none;
 								}
 							}
 						}
+
 						.top {
 							border-bottom: 1px solid #E4E4E4;
 							line-height: 30px;
 						}
 					}
 				}
+
 				.tableList {
 					display: flex;
 					border-top: 1px solid #E4E4E4;
+
 					>div {
 						flex: 1;
 						display: flex;
 						line-height: 30px;
+
 						&:first-child {
 							flex: 0 60px;
 						}
+
 						>span {
 							flex: 1;
 							text-align: center;
