@@ -162,7 +162,7 @@
 						</div>
 						<div class="resultTableTwo" v-if="searchShow">
 							<div class="twoTitle">
-								<div>Openging(cm2)</div>
+								<div>Openging(cm²)</div>
 								<div>Shutter Open(CMM)</div>
 								<div>Shutter Close(CMM)</div>
 							</div>
@@ -295,7 +295,7 @@
 						</div>
 						<div class="resultTableFive" v-if="qdlqValue !=='Condenser'" v-show="searchShow">
 							<div class="fiveTitle">
-								<span>前端冷却模块CDS数据</span>
+								<span style="background:rgb(240, 249, 235)">前端冷却模块CDS数据</span>
 								<span v-if="qdlqValue !=='Condenser'" v-for="(item,index) in qdlqDataArr.cds['0.5']">
 									{{item.key}}
 								</span>
@@ -318,12 +318,12 @@
 						</div>
 					</el-tab-pane>
 					<el-tab-pane label="对比显示结果" name="name2">
-						<div style="background: #68ab82;line-height: 38px;color: #000;display: block;">
+						<div style="background: #68ab82;line-height: 38px;color: #000;display: block;white-space:nowrap;">
 							<span style="width: 130px;display: inline-block;text-align: left;text-indent: 2px;border: none;text-align: center;">对比项</span>
-							<el-tooltip class="item" effect="dark" :content="item" placement="top" :key="index" v-for="(item,index) in compareArr">
-								<span style="vertical-align: top; width: 130px;display: inline-block;border: none; height: 38px;">
-									<el-button type="danger" @click="closeCompare(item,index)" icon="el-icon-close" circle style="margin-right: 5px;position: relative;bottom: 6px;"></el-button>
-									<span style="width: 90px; overflow: hidden; display: inline-block;height: 30px;">{{item}}</span>
+							<el-tooltip class="item" effect="dark" :content="item" placement="top" :key="index" v-for="(item,index) in compareArrNew">
+								<span style="vertical-align: top; width: 260px;display: inline-block;border: none; height: 38px;">
+									<el-button type="info" @click="closeCompare(item,index)" icon="el-icon-close" circle style="margin-right: 5px;position: relative;bottom: 6px;"></el-button>
+									<span style="width: 220px; overflow: hidden; display: inline-block;height: 30px;white-space:nowrap;">{{item}}</span>
 								</span>
 							</el-tooltip>
 						</div>
@@ -344,9 +344,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Con.</span>
 								</div>
 								<div class="compareOneCon">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["Radiator Inlet Coolant"][0].con}}</span>
@@ -357,9 +357,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Exc.</span>
 								</div>
 								<div class="compareOneExc">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["Radiator Inlet Coolant"][0].exc}}</span>
@@ -370,9 +370,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Ext.</span>
 								</div>
 								<div class="compareOneExt">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["Radiator Inlet Coolant"][0].ext}}</span>
@@ -391,9 +391,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Con.</span>
 								</div>
 								<div class="compareOneCon">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["Engine Sump Oil"][0].con}}</span>
@@ -404,9 +404,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Exc.</span>
 								</div>
 								<div class="compareOneExc">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["Engine Sump Oil"][0].exc}}</span>
@@ -417,9 +417,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Ext.</span>
 								</div>
 								<div class="compareOneExt">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["Engine Sump Oil"][0].ext}}</span>
@@ -438,9 +438,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Con.</span>
 								</div>
 								<div class="compareOneCon">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["Transmission Sump Oil"][0].con}}</span>
@@ -451,9 +451,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Exc.</span>
 								</div>
 								<div class="compareOneExc">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["Transmission Sump Oil"][0].exc}}</span>
@@ -464,9 +464,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Ext.</span>
 								</div>
 								<div class="compareOneExt">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["Transmission Sump Oil"][0].ext}}</span>
@@ -485,9 +485,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Con.</span>
 								</div>
 								<div class="compareOneCon">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["Fan Discharge"][0].con}}</span>
@@ -498,9 +498,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Exc.</span>
 								</div>
 								<div class="compareOneExc">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["Fan Discharge"][0].exc}}</span>
@@ -511,9 +511,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Ext.</span>
 								</div>
 								<div class="compareOneExt">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["Fan Discharge"][0].ext}}</span>
@@ -532,9 +532,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Con.</span>
 								</div>
 								<div class="compareOneCon">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["CAC out"][0].con}}</span>
@@ -545,9 +545,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Exc.</span>
 								</div>
 								<div class="compareOneExc">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["CAC out"][0].exc}}</span>
@@ -558,9 +558,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Ext.</span>
 								</div>
 								<div class="compareOneExt">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["CAC out"][0].ext}}</span>
@@ -580,9 +580,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Con.</span>
 								</div>
 								<div class="compareOneCon">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["LTR"][0].con}}</span>
@@ -593,9 +593,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Exc.</span>
 								</div>
 								<div class="compareOneExc">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["LTR"][0].exc}}</span>
@@ -606,9 +606,9 @@
 									<span style="line-height: 25px;display: block;text-indent: 1em; width: 100%; background:#d4d4aa;">Ext.</span>
 								</div>
 								<div class="compareOneExt">
-									<span>试验结果</span>
-									<span>虚拟结果</span>
-									<span>VTS要求</span>
+									<span style="width: 130px;">试验结果</span>
+									<span style="width: 130px;">虚拟结果</span>
+									<span style="width: 130px;">VTS要求</span>
 								</div>
 								<div class="compareOneCon" v-for="(item,index) in compareList">
 									<span>{{item.psc["LTR"][0].ext}}</span>
@@ -904,6 +904,7 @@
 								</div>
 								<div v-for="(item,index) in compareList">
 									<span>{{item["Radiator"].fan[0].val}}</span>
+									<span>{{item["Radiator"].fan[0].val}}</span>
 									<span>{{item["Radiator"].fan[1].val}}</span>
 									<span>{{item["Radiator"].fan[2].val}}</span>
 									<span>{{item["Radiator"].fan[3].val}}</span>
@@ -953,6 +954,7 @@
 				vehicleValue: '',
 				vehicleArr: [],
 				compareArr: [],
+				compareArrNew: [],
 				pscArr: [],
 				pscArrText: [],
 				pscArrSim: [],
@@ -1029,10 +1031,15 @@
 					if (a !== -1) {
 						this.$notify.error({
 							title: '错误',
-							message: '当前车型数据已加入对比！'
+							message: '该车型数据在对比序列中已存在！'
 						});
 						return
 					} else {
+						this.$notify.success({
+							title: '成功',
+							message: '加入对比序列成功！'
+						});
+						this.compareArrNew = []
 						this.compareArr.push(this.vehicleValue)
 						this.isCompare = true
 						this.compareArr.forEach((vehicle) => {
@@ -1048,6 +1055,7 @@
 									excelName: vehicle
 								}
 							}).then((resp) => {
+								this.compareArrNew.push(resp.data.data.excelName)
 								this.axios({
 									method: 'get',
 									url: `/patac_ras/carModel/all/${resp.data.data.id}/partModel`,
@@ -1114,8 +1122,14 @@
 						})
 					}
 				} else {
+					this.$notify.success({
+						title: '成功',
+						message: '加入对比序列成功！'
+					});
 					this.compareArr.push(this.vehicleValue)
+					this.compareArrNew.push(this.vehicleValue)
 					this.isCompare = true
+					this.compareList = []
 					this.compareArr.forEach((vehicle) => {
 						this.compare(vehicle)
 					})
@@ -1123,7 +1137,6 @@
 
 			},
 			compare(vehicle) {
-				this.compareList = []
 				this.axios({
 					method: 'get',
 					url: `/patac_ras/carModel`,
@@ -1373,6 +1386,7 @@
 				}).then((res) => {
 					this.qdlqDataArr = res.data.data
 					this.fanDataArr = res.data.data.fan
+					console.log(res.data.data)
 					// 					this.compareObj.qdlqDataArr = res.data.data
 					// 					this.compareObj.fan = res.data.data.fan
 					for (let i in this.compareObj.fan) {
@@ -1418,9 +1432,9 @@
 					this.fdjArr.indexOf(this.pro.valueFour) < 0 || this.bsxArr.indexOf(this.pro.valueFive) < 0 || this.qdxsArr.indexOf(
 						this.pro.valueSix) < 0 ||
 					this.zyjArr.indexOf(this.pro.valueSeven) < 0) {
-					this.$notify.error({
-						title: '错误',
-						message: '该车型属性不完整',
+					this.$notify.info({
+						title: '提示',
+						message: '该车型信息在车型库不存在，请手动添加！',
 						duration: 3000
 					});
 
@@ -1428,13 +1442,73 @@
 			},
 			closeCompare(item, index) {
 				this.compareArr.splice(index, 1)
-				if (this.compareArr.length >= 1) {
-					this.compareArr.forEach((vehicle) => {
-						this.compare(vehicle)
-					})
-				} else if (this.compareArr.length === 0) {
-					this.compareList = []
-				}
+				this.compareArrNew.splice(index, 1)
+				this.compareList.splice(index, 1)
+// 				if (this.compareArr.length >= 1) {
+// 					this.compareList = []
+// 					this.compareArrNew = []
+// 					this.isCompare = true
+// 					this.compareArr.forEach((vehicle) => {
+// 						this.compareArrNew.push(vehicle)
+// 						let cObj = {}
+// 						this.compareList = []
+// 						this.axios({
+// 							method: 'get',
+// 							url: `/patac_ras/carModel`,
+// 							headers: {
+// 								'Content-type': 'application/json;charset=UTF-8'
+// 							},
+// 							params: {
+// 								excelName: vehicle
+// 							}
+// 						}).then((resp) => {
+// 							this.axios({
+// 								method: 'get',
+// 								url: `/patac_ras/carModel/all/${resp.data.data.id}/partModel`,
+// 								headers: {
+// 									'Content-type': 'application/json;charset=UTF-8'
+// 								}
+// 							}).then((res) => {
+// 								this.qdlqArr = res.data.data
+// 								this.qdlqValue = res.data.data[0].name
+// 								this.qdlqId = res.data.data[0].id
+// 								this._getAir()
+// 								this.$set(cObj, 'psc', resp.data.data.psc)
+// 								this.$set(cObj, 'intake', this.intakeObj)
+// 								for (let i in this.qdlqArr) {
+// 									this.axios({
+// 										method: 'get',
+// 										url: `/patac_ras/partModel/${this.qdlqArr[i].id}`,
+// 										headers: {
+// 											'Content-type': 'application/json;charset=UTF-8'
+// 										},
+// 										params: {
+// 											advId: this.airId,
+// 											cId: resp.data.data.id
+// 										}
+// 									}).then((res) => {
+// 										this.$set(cObj, 'fan', res.data.data.fan)
+// 										this.$set(cObj, this.qdlqArr[i].name, res.data.data)
+// 									})
+// 								}
+// 								this.compareList.push(cObj)
+// 							})
+// 							this.pscArr = resp.data.data.psc
+// 							this.vehicleId = resp.data.data.id
+// 							for (let i in resp.data.data.intake) {
+// 								if (i === "Openning Area & Fan") {
+// 									this.$set(this.intakeObj, "one", resp.data.data.intake[i])
+// 								} else if (i === "FEAF Shutter Open") {
+// 									this.$set(this.intakeObj, "two", resp.data.data.intake[i])
+// 								} else if (i === "FEAF Shutter Closed") {
+// 									this.$set(this.intakeObj, "three", resp.data.data.intake[i])
+// 								}
+// 							}
+// 						})
+// 					})
+// 				} else if (this.compareArr.length === 0) {
+// 					this.compareList = []
+// 				}
 
 			},
 			changeSelectResultTableThree(value) {
@@ -1594,7 +1668,9 @@
 		height: 400px;
 		margin: 0 auto;
 	}
-
+	/deep/ .el-tabs__content{
+		min-width: 1180px;
+	}
 	.vecp_system {
 		display: flex;
 
@@ -1647,11 +1723,15 @@
 					div {
 						display: inline-block;
 						vertical-align: top;
-						font-size: 12px;
+						font-size: 14px;
 						vertical-align: top;
-
+						&:first-child{
+							span{
+								width: 130px;
+							}
+							}
 						span {
-							width: 130px;
+							width: 260px;
 							display: block;
 							text-align: left;
 							line-height: 30px;
@@ -1668,9 +1748,13 @@
 				div {
 					div {
 						display: inline-block;
-
+						&:first-child{
+							span{
+								width: 130px;
+							}
+							}
 						span {
-							width: 130px;
+							width: 260px;
 							display: block;
 							text-align: left;
 							line-height: 30px;
@@ -1692,14 +1776,20 @@
 				.compareTableTwoList {
 					>div {
 						display: inline-block;
-
+&:first-child{
+	span{
+		width: 130px;
+	}
+								
+							}
 						span {
-							width: 130px;
+							width: 260px;
 							display: block;
 							text-align: left;
 							line-height: 30px;
 							border-right: 1px solid #E4E4E4;
 							border-bottom: 1px solid #E4E4E4;
+							
 						}
 					}
 				}
@@ -1723,12 +1813,11 @@
 				.compareOneExt {
 					vertical-align: top;
 					display: inline-block;
-
 					span {
 						display: block;
 						border-right: 1px solid #E4E4E4;
 						border-bottom: 1px solid #E4E4E4;
-						width: 130px;
+						width: 260px;
 						line-height: 30px;
 						text-align: center;
 						height: 31px;

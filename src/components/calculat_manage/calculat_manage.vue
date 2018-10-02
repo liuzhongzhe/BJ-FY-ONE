@@ -61,7 +61,7 @@
 						</div>
 						<div class="material_formList" v-if="materialShow">
 							<div class="listTitle" v-show="!materialListNoneShow">
-								<span> </span>
+								<span></span>
 								<span v-for="(item,index) in formList[0]" v-if=" index!= 'dHot'" v-show="index!= 'id'">{{index}}</span>
 								<span>操作</span>
 							</div>
@@ -94,7 +94,7 @@
 							 @selection-change="handleSelectionChange">
 								<el-table-column type="selection" width="40" disabled>
 								</el-table-column>
-								<el-table-column type="index" label="no." min-width="50">
+								<el-table-column type="index" label="No." min-width="50">
 								</el-table-column>
 								<el-table-column prop="material" label="Material" min-width="120">
 								</el-table-column>
@@ -1266,11 +1266,11 @@
 						}, ]
 					},
 					{
-						value: '人体接触温度评估系统',
-						label: '人体接触温度评估系统',
+						value: '人体皮肤接触温度计算系统',
+						label: '人体皮肤接触温度计算系统',
 						children: [{
-							value: '地毯材料属性',
-							label: '地毯材料属性',
+							value: '接触材料属性',
+							label: '接触材料属性',
 						}]
 					},
 					{
@@ -1671,9 +1671,6 @@
 							this.$set(this.addListItemSlot, i, null)
 						}
 					}
-					setTimeout(() => {
-						console.log(this.addListItemSlot)
-					}, 200)
 					this.spinShow = false
 				}).catch((err) => {
 					this.$notify.error({
@@ -2655,7 +2652,7 @@
 						this.materialShow = true
 						return;
 					}
-					if (values[1] === "地毯材料属性") {
+					if (values[1] === "接触材料属性") {
 						this.pageSize = 10
 						this._getCarpettempData()
 						this.carpettempShow = true

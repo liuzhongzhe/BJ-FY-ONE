@@ -4,7 +4,7 @@
 			<el-card class="box-card">
 				<div slot="header" class="clearfix">
 					<span style="font-size: 14px;">人体皮肤接触温度计算系统
-						<i class="el-icon-info" style="font-size: 18px; margin-left: 5px; cursor: pointer;"></i>
+						<i class="el-icon-info" @click="dialogFormVisible = true" style="font-size: 18px; margin-left: 5px; cursor: pointer;"></i>
 					</span>
 				</div>
 				<div style="display: flex;">
@@ -48,22 +48,22 @@
 									<span slot="append">℃</span>
 									</Input>
 									<el-popover placement="top-start" width="200" trigger="hover" content="这是热源温度">
-										<i  slot="reference" class="el-icon-star-on" style="cursor: pointer;font-size: 18px; position: absolute;top: 6px; color:yellowgreen; right: 0;"></i>
+										<i slot="reference" class="el-icon-info" style="cursor: pointer;font-size: 18px; position: absolute;top: 6px; color:rgb(255,114,44); right: 0;"></i>
 									</el-popover>
 								</FormItem>
 								<FormItem label="接触系数" prop="contactFactor">
 									<Input v-model="pro.contactFactor" number>
 									</Input>
-										<el-popover placement="top-start" width="200" trigger="hover" content="这是接触系数">
-											<i  slot="reference" class="el-icon-star-on" style="cursor: pointer;font-size: 18px; position: absolute;top: 6px; color:yellowgreen; right: 0;"></i>
-										</el-popover>
+									<el-popover placement="top-start" width="200" trigger="hover" content="这是接触系数">
+										<i slot="reference" class="el-icon-info" style="cursor: pointer;font-size: 18px; position: absolute;top: 6px; color:rgb(255,114,44); right: 0;"></i>
+									</el-popover>
 								</FormItem>
 								<FormItem label="涂层系数" prop="coatingFactor">
 									<Input v-model="pro.coatingFactor" number>
 									</Input>
-										<el-popover placement="top-start" width="200" trigger="hover" content="这是涂层系数">
-											<i  slot="reference" class="el-icon-star-on" style="cursor: pointer;font-size: 18px; position: absolute;top: 6px; color:yellowgreen; right: 0;"></i>
-										</el-popover>
+									<el-popover placement="top-start" width="200" trigger="hover" content="这是涂层系数">
+										<i slot="reference" class="el-icon-info" style="cursor: pointer;font-size: 18px; position: absolute;top: 6px; color:rgb(255,114,44); right: 0;"></i>
+									</el-popover>
 								</FormItem>
 							</div>
 						</transition>
@@ -77,18 +77,21 @@
 							<p style="color: #409EFF;font-weight: bold;font-size: 15px;">长时间接触温度结果</p>
 							<div class="sec">
 								<span style="line-height: 32px;vertical-align: top;">Continuous温度结果</span>
-								<Tag color="default">{{result.continuous}}</Tag>
-								<a style="color: #000000;">℃</a>
+								<Input v-model="result.continuous" style="display: inline-block;">
+									<span slot="append">℃</span>
+								</Input>
 							</div>
 							<div class="sec">
 								<span style="line-height: 32px;vertical-align: top;">Excursion温度结果</span>
-								<Tag color="default">{{result.excursion}}</Tag>
-								<a style="color: #000000;">℃</a>
+								<Input v-model="result.excursion" style="display: inline-block;">
+									<span slot="append">℃</span>
+								</Input>
 							</div>
 							<div class="sec">
 								<span style="line-height: 32px;vertical-align: top;">Extreme温度结果</span>
-								<Tag color="default">{{result.extreme}}</Tag>
-								<a style="color: #000000;">℃</a>
+								<Input v-model="result.extreme" style="display: inline-block;">
+									<span slot="append">℃</span>
+								</Input>
 							</div>
 						</div>
 						<div id="myChart" style="margin-top: 30px;margin-left: 10px;" v-show="deliveryShow"></div>
@@ -96,6 +99,13 @@
 				</div>
 			</el-card>
 		</div>
+		<el-dialog title="功能说明"  :visible.sync="dialogFormVisible">
+			<div style="width: 780px;">
+				<span class="title">人体皮肤接触温度计算系统用于计算人体皮肤在接触不同材料、不同温度、不同时间的热源时的温度响应，示意图如下。
+				</span>
+				<img src="../../assets/gnsm.png" style="width: 750px;">
+			</div>
+		</el-dialog>
 	</div>
 </template>
 
@@ -142,6 +152,7 @@
 				materialArr: [],
 				xArr: [],
 				xValuesArr: [],
+				dialogFormVisible: false,
 				result: {
 					continuous: '',
 					excursion: '',
@@ -530,6 +541,9 @@
 </script>
 
 <style lang="scss" scoped="scoped">
+	/deep/ .el-dialog{
+		width: 780px;
+	}
 	.carpet_temperature {
 		min-width: 1000px;
 		font-size: 14px;
@@ -546,12 +560,17 @@
 		.ivu-input-wrapper {
 			width: 200px;
 		}
+		/deep/ .ivu-input-group .ivu-input{
+			width: 173px;
+		}
 		/deep/ .ivu-tag {
 			width: 80px;
 			position: relative;
 			top: 2px;
 		}
-
+		/deep/ .ivu-input-group-append, .ivu-input-group-prepend{
+			padding: 9px 7px;
+		}
 		/deep/ .ivu-form-item-content {
 			width: 230px;
 			position: relative;
