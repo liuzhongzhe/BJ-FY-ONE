@@ -21,43 +21,43 @@
 					<div class="sec">
 						<span>车型平台：</span>
 						<el-select v-model="pro.valueOne">
-							<el-option v-for="item in cxptArr" :value="item" :label="item"></el-option>
+							<el-option v-for="item in cxptArr" :value="item" :key="item" :label="item"></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>车型名称：</span>
 						<el-select v-model="pro.valueTwo">
-							<el-option v-for="item in cxmcArr" :value="item" :label="item"></el-option>
+							<el-option v-for="item in cxmcArr" :value="item" :key="item" :label="item"></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>车型年份：</span>
 						<el-select v-model="pro.valueThree">
-							<el-option v-for="item in cxnfArr" :value="item" :label="item"></el-option>
+							<el-option v-for="item in cxnfArr" :value="item" :key="item" :label="item"></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>发动机：</span>
 						<el-select v-model="pro.valueFour">
-							<el-option v-for="item in fdjArr" :value="item" :label="item"></el-option>
+							<el-option v-for="item in fdjArr" :value="item" :key="item" :label="item"></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>变速箱：</span>
 						<el-select v-model="pro.valueFive">
-							<el-option v-for="item in bsxArr" :value="item" :label="item"></el-option>
+							<el-option v-for="item in bsxArr" :value="item" :key="item" :label="item"></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>驱动形式：</span>
 						<el-select v-model="pro.valueSix">
-							<el-option v-for="item in qdxsArr" :value="item" :label="item"></el-option>
+							<el-option v-for="item in qdxsArr" :value="item" :key="item" :label="item"></el-option>
 						</el-select>
 					</div>
 					<div class="sec">
 						<span>左/右驾：</span>
 						<el-select v-model="pro.valueSeven">
-							<el-option v-for="item in zyjArr" :value="item" :label="item"></el-option>
+							<el-option v-for="item in zyjArr" :value="item" :key="item" :label="item"></el-option>
 						</el-select>
 					</div>
 				</div>
@@ -636,9 +636,9 @@
 									<span>风扇功率</span>
 								</div>
 								<div v-for="(item,index) in compareList">
-									<span>{{item.intake.one[0].val}}</span>
-									<span>{{item.intake.one[1].val}}</span>
-									<span>{{item.intake.one[2].val}}</span>
+									<span style=" text-align: center;">{{item.intake.one[0].val}}</span>
+									<span style=" text-align: center;">{{item.intake.one[1].val}}</span>
+									<span style=" text-align: center;">{{item.intake.one[2].val}}</span>
 								</div>
 							</div>
 							<span>
@@ -656,11 +656,11 @@
 									<span>Vmax</span>
 								</div>
 								<div v-for="(item,index) in compareList">
-									<span>{{item.intake.two[0].val}}</span>
-									<span>{{item.intake.two[1].val}}</span>
-									<span>{{item.intake.two[2].val}}</span>
-									<span>{{item.intake.two[3].val}}</span>
-									<span>{{item.intake.two[4].val}}</span>
+									<span style=" text-align: center;">{{item.intake.two[0].val}}</span>
+									<span style=" text-align: center;">{{item.intake.two[1].val}}</span>
+									<span style=" text-align: center;">{{item.intake.two[2].val}}</span>
+									<span style=" text-align: center;">{{item.intake.two[3].val}}</span>
+									<span style=" text-align: center;">{{item.intake.two[4].val}}</span>
 								</div>
 							</div>
 							<span>
@@ -676,9 +676,9 @@
 									<span>Vmax</span>
 								</div>
 								<div v-for="(item,index) in compareList">
-									<span>{{item.intake.three[0].val}}</span>
-									<span>{{item.intake.three[1].val}}</span>
-									<span>{{item.intake.three[2].val}}</span>
+									<span style=" text-align: center;">{{item.intake.three[0].val}}</span>
+									<span style=" text-align: center;">{{item.intake.three[1].val}}</span>
+									<span style=" text-align: center;">{{item.intake.three[2].val}}</span>
 								</div>
 							</div>
 						</div>
@@ -719,21 +719,21 @@
 									<span>Du</span>
 								</div>
 								<div v-for="(item,index) in compareList">
-									<span>{{item["Condenser"].content[5].val}}</span>
-									<span>{{item["Condenser"].content[6].val}}</span>
-									<span>{{item["Condenser"].content[7].val}}</span>
-									<span>{{item["Condenser"].content[2].val}}</span>
-									<span>{{item["Condenser"].content[3].val}}</span>
-									<span>{{item["Condenser"].content[4].val}}</span>
-									<span>{{item["Condenser"].content[0].val}}</span>
-									<span>{{item["Condenser"].content[1].val}}</span>
-									<span>{{item["Condenser"].content[9].val}}</span>
-									<span>{{item["Condenser"].content[8].val}}</span>
-									<span>{{airValue}}</span>
-									<span>{{currentAir.density}}</span>
-									<span>{{currentAir.viscosity}}</span>
-									<span>{{item["Condenser"].cp}}</span>
-									<span>{{item["Condenser"].du}}</span>
+									<span style=" text-align: center;">{{item["Condenser"].content[5].val}}</span>
+									<span style=" text-align: center;">{{item["Condenser"].content[6].val}}</span>
+									<span style=" text-align: center;">{{item["Condenser"].content[7].val}}</span>
+									<span style=" text-align: center;">{{item["Condenser"].content[2].val}}</span>
+									<span style=" text-align: center;">{{item["Condenser"].content[3].val}}</span>
+									<span style=" text-align: center;">{{item["Condenser"].content[4].val}}</span>
+									<span style=" text-align: center;">{{item["Condenser"].content[0].val}}</span>
+									<span style=" text-align: center;">{{item["Condenser"].content[1].val}}</span>
+									<span style=" text-align: center;">{{item["Condenser"].content[9].val}}</span>
+									<span style=" text-align: center;">{{item["Condenser"].content[8].val}}</span>
+									<span style=" text-align: center;">{{airValue}}</span>
+									<span style=" text-align: center;">{{currentAir.density}}</span>
+									<span style=" text-align: center;">{{currentAir.viscosity}}</span>
+									<span style=" text-align: center;">{{item["Condenser"].cp}}</span>
+									<span style=" text-align: center;">{{item["Condenser"].du}}</span>
 								</div>
 							</div>
 
@@ -769,21 +769,21 @@
 								</div>
 								<div>
 									<div v-for="(item,index) in compareList">
-										<span>{{item["CAC"].content[5].val}}</span>
-										<span>{{item["CAC"].content[6].val}}</span>
-										<span>{{item["CAC"].content[7].val}}</span>
-										<span>{{item["CAC"].content[2].val}}</span>
-										<span>{{item["CAC"].content[3].val}}</span>
-										<span>{{item["CAC"].content[4].val}}</span>
-										<span>{{item["CAC"].content[0].val}}</span>
-										<span>{{item["CAC"].content[1].val}}</span>
-										<span>{{item["CAC"].content[9].val}}</span>
-										<span>{{item["CAC"].content[8].val}}</span>
-										<span>{{airValue}}</span>
-										<span>{{currentAir.density}}</span>
-										<span>{{currentAir.viscosity}}</span>
-										<span>{{item["CAC"].cp}}</span>
-										<span>{{item["CAC"].du}}</span>
+										<span style="width: 260px; text-align: center;">{{item["CAC"].content[5].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["CAC"].content[6].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["CAC"].content[7].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["CAC"].content[2].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["CAC"].content[3].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["CAC"].content[4].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["CAC"].content[0].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["CAC"].content[1].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["CAC"].content[9].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["CAC"].content[8].val}}</span>
+										<span style="width: 260px; text-align: center;">{{airValue}}</span>
+										<span style="width: 260px; text-align: center;">{{currentAir.density}}</span>
+										<span style="width: 260px; text-align: center;">{{currentAir.viscosity}}</span>
+										<span style="width: 260px; text-align: center;">{{item["CAC"].cp}}</span>
+										<span style="width: 260px; text-align: center;">{{item["CAC"].du}}</span>
 									</div>
 								</div>
 							</div>
@@ -818,21 +818,21 @@
 								</div>
 								<div>
 									<div v-for="(item,index) in compareList">
-										<span>{{item["LTR"].content[5].val}}</span>
-										<span>{{item["LTR"].content[6].val}}</span>
-										<span>{{item["LTR"].content[7].val}}</span>
-										<span>{{item["LTR"].content[2].val}}</span>
-										<span>{{item["LTR"].content[3].val}}</span>
-										<span>{{item["LTR"].content[4].val}}</span>
-										<span>{{item["LTR"].content[0].val}}</span>
-										<span>{{item["LTR"].content[1].val}}</span>
-										<span>{{item["LTR"].content[9].val}}</span>
-										<span>{{item["LTR"].content[8].val}}</span>
-										<span>{{airValue}}</span>
-										<span>{{currentAir.density}}</span>
-										<span>{{currentAir.viscosity}}</span>
-										<span>{{item["LTR"].cp}}</span>
-										<span>{{item["LTR"].du}}</span>
+										<span style="width: 260px; text-align: center;">{{item["LTR"].content[5].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["LTR"].content[6].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["LTR"].content[7].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["LTR"].content[2].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["LTR"].content[3].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["LTR"].content[4].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["LTR"].content[0].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["LTR"].content[1].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["LTR"].content[9].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["LTR"].content[8].val}}</span>
+										<span style="width: 260px; text-align: center;">{{airValue}}</span>
+										<span style="width: 260px; text-align: center;">{{currentAir.density}}</span>
+										<span style="width: 260px; text-align: center;">{{currentAir.viscosity}}</span>
+										<span style="width: 260px; text-align: center;">{{item["LTR"].cp}}</span>
+										<span style="width: 260px; text-align: center;">{{item["LTR"].du}}</span>
 									</div>
 								</div>
 							</div>
@@ -842,7 +842,7 @@
 									<img v-show="qdlqmkItemFourShow" @click="qdlqmkItemFourShow=false" src="../../../static/reduce2.png" width="15px"
 									 style="cursor: pointer;position: relative;top: 2px;">
 									<img v-show="!qdlqmkItemFourShow" @click="qdlqmkItemFourShow=true" src="../../../static/plus2.png" width="15px"
-									 style="cursor: pointer;position: relative;top: 2px;">Radiator"</span>
+									 style="cursor: pointer;position: relative;top: 2px;">Radiator</span>
 							</div>
 							<div v-if="qdlqmkItemFourShow">
 								<div>
@@ -865,18 +865,18 @@
 								</div>
 								<div>
 									<div v-for="(item,index) in compareList">
-										<span>{{item["Radiator"].content[0].val}}</span>
-										<span>{{item["Radiator"].content[1].val}}</span>
-										<span>{{item["Radiator"].content[2].val}}</span>
-										<span>{{item["Radiator"].content[5].val}}</span>
-										<span>{{item["Radiator"].content[6].val}}</span>
-										<span>{{item["Radiator"].content[4].val}}</span>
-										<span>{{item["Radiator"].content[3].val}}</span>
-										<span>{{airValue}}</span>
-										<span>{{currentAir.density}}</span>
-										<span>{{currentAir.viscosity}}</span>
-										<span>{{item["Radiator"].cp}}</span>
-										<span>{{item["Radiator"].du}}</span>
+										<span style="width: 260px; text-align: center;">{{item["Radiator"].content[0].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["Radiator"].content[1].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["Radiator"].content[2].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["Radiator"].content[5].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["Radiator"].content[6].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["Radiator"].content[4].val}}</span>
+										<span style="width: 260px; text-align: center;">{{item["Radiator"].content[3].val}}</span>
+										<span style="width: 260px; text-align: center;">{{airValue}}</span>
+										<span style="width: 260px; text-align: center;">{{currentAir.density}}</span>
+										<span style="width: 260px; text-align: center;">{{currentAir.viscosity}}</span>
+										<span style="width: 260px; text-align: center;">{{item["Radiator"].cp}}</span>
+										<span style="width: 260px; text-align: center;">{{item["Radiator"].du}}</span>
 									</div>
 								</div>
 							</div>
@@ -885,11 +885,9 @@
 							<img v-show="fslqmkShow" @click="fslqmkShow=false" src="../../../static/reduce2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
 							<img v-show="!fslqmkShow" @click="fslqmkShow=true" src="../../../static/plus2.png" width="15px" style="cursor: pointer;position: relative;top: 2px;">
 							<span>风扇冷却模块结果</span>
+							<i-button @click="drawLineTwo" style="margin-left: 10px; line-height: 1;" type="primary">P-V图</i-button>
 						</div>
 						<div class="compareTableFour" v-if="fslqmkShow">
-							<div style="display: block;">
-								<span style="line-height: 34px;display: block; width: 100%; background:#c1a075;text-indent: 2px;">风扇冷却模块结果</span>
-							</div>
 							<div style="display: inline-block;vertical-align: top;">
 								<div>
 									<span>Fan Type</span>
@@ -903,26 +901,26 @@
 									<span>Fan Coffe.F</span>
 								</div>
 								<div v-for="(item,index) in compareList">
-									<span>{{item["Radiator"].fan[0].val}}</span>
-									<span>{{item["Radiator"].fan[0].val}}</span>
-									<span>{{item["Radiator"].fan[1].val}}</span>
-									<span>{{item["Radiator"].fan[2].val}}</span>
-									<span>{{item["Radiator"].fan[3].val}}</span>
-									<span>{{item["Radiator"].fan[4].val}}</span>
-									<span>{{item["Radiator"].fan[5].val}}</span>
-									<span>{{item["Radiator"].fan[6].val}}</span>
-									<span>{{item["Radiator"].fan[7].val}}</span>
-									<span>{{item["Radiator"].fan[8].val}}</span>
+									<span style="width: 260px; text-align: center;">{{item["Radiator"].fan[0].val}}</span>
+									<span style="width: 260px; text-align: center;">{{item["Radiator"].fan[1].val}}</span>
+									<span style="width: 260px; text-align: center;">{{item["Radiator"].fan[2].val}}</span>
+									<span style="width: 260px; text-align: center;">{{item["Radiator"].fan[3].val}}</span>
+									<span style="width: 260px; text-align: center;">{{item["Radiator"].fan[4].val}}</span>
+									<span style="width: 260px; text-align: center;">{{item["Radiator"].fan[5].val}}</span>
+									<span style="width: 260px; text-align: center;">{{item["Radiator"].fan[6].val}}</span>
+									<span style="width: 260px; text-align: center;">{{item["Radiator"].fan[7].val}}</span>
+									<span style="width: 260px; text-align: center;">{{item["Radiator"].fan[8].val}}</span>
 								</div>
-							</div>
-							<i-button @click="drawLineTwo" style="margin-top: 10px;" type="primary">查看曲线图</i-button>
-							<div style="display: inline-block;width: 600px;height:400px;" id="myChartTwo">
 							</div>
 						</div>
 					</el-tab-pane>
 				</el-tabs>
 			</el-card>
 		</div>
+		<el-dialog :visible.sync="dialogFormVisible">
+			<div style="width: 780px; height: 400px;" id="myChartTwo">
+			</div>
+		</el-dialog>
 	</div>
 </template>
 
@@ -980,10 +978,12 @@
 					}
 				},
 				airArr: [],
+				CIdArr: [],
 				airValue: '20',
 				airId: '3',
 				vehicleId: '',
 				dllqxnShow: true,
+				dialogFormVisible: false,
 				dllqxnItemOneShow: true,
 				dllqxnItemTwoShow: true,
 				dllqxnItemThreeShow: true,
@@ -1055,6 +1055,7 @@
 									excelName: vehicle
 								}
 							}).then((resp) => {
+								this.CIdArr.push(resp.data.data.id)
 								this.compareArrNew.push(resp.data.data.excelName)
 								this.axios({
 									method: 'get',
@@ -1147,6 +1148,7 @@
 						excelName: vehicle
 					}
 				}).then((resp) => {
+					this.CIdArr.push(resp.data.data.id)
 					this.axios({
 						method: 'get',
 						url: `/patac_ras/carModel/all/${resp.data.data.id}/partModel`,
@@ -1389,12 +1391,25 @@
 					console.log(res.data.data)
 					// 					this.compareObj.qdlqDataArr = res.data.data
 					// 					this.compareObj.fan = res.data.data.fan
-					for (let i in this.compareObj.fan) {
-						if (this.compareObj.fan[i].key !== 'Fan Type') {
-							this.fanViewData.push(this.compareObj.fan[i].val)
+					let idArr = []
+					idArr.push(this.CId)
+					this.axios({
+						method: 'post',
+						url: `/patac_ras/carModel/fan`,
+						headers: {
+							'Content-type': 'application/json;charset=UTF-8'
+						},
+						data: idArr
+					}).then((res) => {
+						for (let i in res.data.data[this.CId]) {
+							this.fanViewData.push([res.data.data[this.CId][i].key, res.data.data[this.CId][i].val])
 						}
+					})
+					setTimeout(() => {
 						this.drawLine()
-					}
+					}, 1000)
+
+
 				})
 			},
 			_getData() {
@@ -1442,73 +1457,74 @@
 			},
 			closeCompare(item, index) {
 				this.compareArr.splice(index, 1)
+				this.CIdArr.splice(index, 1)
 				this.compareArrNew.splice(index, 1)
 				this.compareList.splice(index, 1)
-// 				if (this.compareArr.length >= 1) {
-// 					this.compareList = []
-// 					this.compareArrNew = []
-// 					this.isCompare = true
-// 					this.compareArr.forEach((vehicle) => {
-// 						this.compareArrNew.push(vehicle)
-// 						let cObj = {}
-// 						this.compareList = []
-// 						this.axios({
-// 							method: 'get',
-// 							url: `/patac_ras/carModel`,
-// 							headers: {
-// 								'Content-type': 'application/json;charset=UTF-8'
-// 							},
-// 							params: {
-// 								excelName: vehicle
-// 							}
-// 						}).then((resp) => {
-// 							this.axios({
-// 								method: 'get',
-// 								url: `/patac_ras/carModel/all/${resp.data.data.id}/partModel`,
-// 								headers: {
-// 									'Content-type': 'application/json;charset=UTF-8'
-// 								}
-// 							}).then((res) => {
-// 								this.qdlqArr = res.data.data
-// 								this.qdlqValue = res.data.data[0].name
-// 								this.qdlqId = res.data.data[0].id
-// 								this._getAir()
-// 								this.$set(cObj, 'psc', resp.data.data.psc)
-// 								this.$set(cObj, 'intake', this.intakeObj)
-// 								for (let i in this.qdlqArr) {
-// 									this.axios({
-// 										method: 'get',
-// 										url: `/patac_ras/partModel/${this.qdlqArr[i].id}`,
-// 										headers: {
-// 											'Content-type': 'application/json;charset=UTF-8'
-// 										},
-// 										params: {
-// 											advId: this.airId,
-// 											cId: resp.data.data.id
-// 										}
-// 									}).then((res) => {
-// 										this.$set(cObj, 'fan', res.data.data.fan)
-// 										this.$set(cObj, this.qdlqArr[i].name, res.data.data)
-// 									})
-// 								}
-// 								this.compareList.push(cObj)
-// 							})
-// 							this.pscArr = resp.data.data.psc
-// 							this.vehicleId = resp.data.data.id
-// 							for (let i in resp.data.data.intake) {
-// 								if (i === "Openning Area & Fan") {
-// 									this.$set(this.intakeObj, "one", resp.data.data.intake[i])
-// 								} else if (i === "FEAF Shutter Open") {
-// 									this.$set(this.intakeObj, "two", resp.data.data.intake[i])
-// 								} else if (i === "FEAF Shutter Closed") {
-// 									this.$set(this.intakeObj, "three", resp.data.data.intake[i])
-// 								}
-// 							}
-// 						})
-// 					})
-// 				} else if (this.compareArr.length === 0) {
-// 					this.compareList = []
-// 				}
+				// 				if (this.compareArr.length >= 1) {
+				// 					this.compareList = []
+				// 					this.compareArrNew = []
+				// 					this.isCompare = true
+				// 					this.compareArr.forEach((vehicle) => {
+				// 						this.compareArrNew.push(vehicle)
+				// 						let cObj = {}
+				// 						this.compareList = []
+				// 						this.axios({
+				// 							method: 'get',
+				// 							url: `/patac_ras/carModel`,
+				// 							headers: {
+				// 								'Content-type': 'application/json;charset=UTF-8'
+				// 							},
+				// 							params: {
+				// 								excelName: vehicle
+				// 							}
+				// 						}).then((resp) => {
+				// 							this.axios({
+				// 								method: 'get',
+				// 								url: `/patac_ras/carModel/all/${resp.data.data.id}/partModel`,
+				// 								headers: {
+				// 									'Content-type': 'application/json;charset=UTF-8'
+				// 								}
+				// 							}).then((res) => {
+				// 								this.qdlqArr = res.data.data
+				// 								this.qdlqValue = res.data.data[0].name
+				// 								this.qdlqId = res.data.data[0].id
+				// 								this._getAir()
+				// 								this.$set(cObj, 'psc', resp.data.data.psc)
+				// 								this.$set(cObj, 'intake', this.intakeObj)
+				// 								for (let i in this.qdlqArr) {
+				// 									this.axios({
+				// 										method: 'get',
+				// 										url: `/patac_ras/partModel/${this.qdlqArr[i].id}`,
+				// 										headers: {
+				// 											'Content-type': 'application/json;charset=UTF-8'
+				// 										},
+				// 										params: {
+				// 											advId: this.airId,
+				// 											cId: resp.data.data.id
+				// 										}
+				// 									}).then((res) => {
+				// 										this.$set(cObj, 'fan', res.data.data.fan)
+				// 										this.$set(cObj, this.qdlqArr[i].name, res.data.data)
+				// 									})
+				// 								}
+				// 								this.compareList.push(cObj)
+				// 							})
+				// 							this.pscArr = resp.data.data.psc
+				// 							this.vehicleId = resp.data.data.id
+				// 							for (let i in resp.data.data.intake) {
+				// 								if (i === "Openning Area & Fan") {
+				// 									this.$set(this.intakeObj, "one", resp.data.data.intake[i])
+				// 								} else if (i === "FEAF Shutter Open") {
+				// 									this.$set(this.intakeObj, "two", resp.data.data.intake[i])
+				// 								} else if (i === "FEAF Shutter Closed") {
+				// 									this.$set(this.intakeObj, "three", resp.data.data.intake[i])
+				// 								}
+				// 							}
+				// 						})
+				// 					})
+				// 				} else if (this.compareArr.length === 0) {
+				// 					this.compareList = []
+				// 				}
 
 			},
 			changeSelectResultTableThree(value) {
@@ -1526,108 +1542,24 @@
 			drawLine() {
 				let myChart = this.$echarts.init(document.getElementById('myChart'))
 				myChart.setOption({
-					xAxis: {
-						type: 'category',
-						data: [],
-						name: ''
-					},
-					yAxis: {
-						type: 'value',
-						name: " "
-					},
-					series: [{
-						data: this.fanViewData,
-						type: 'line',
-						itemStyle: {
-							normal: {
-								color: "rgb(64, 158, 255)",
-							}
-						},
-					}],
-					toolbox: {
-						feature: {
-							dataView: {
-								show: true,
-								readOnly: false
-							},
-							magicType: {
-								show: true,
-								type: ['line', 'bar']
-							},
-							restore: {
-								show: true
-							},
-							saveAsImage: {
-								show: true
-							}
-						}
-					},
-				})
-			},
-			drawLineTwo() {
-				this.compareViewData = []
-				this.compareList.forEach((item) => {
-					let nArr = []
-					for (let i in item.fan) {
-						if (item.fan[i].key !== 'Fan Type') {
-							nArr.push(item.fan[i].val)
-						}
-					}
-					this.compareViewData.push(nArr)
-				})
-				let myChart = this.$echarts.init(document.getElementById('myChartTwo'))
-				let serArr = []
-				if (this.compareViewData.length === 1) {
-					serArr = [{
-						name: 'one',
-						type: 'line',
-						smooth: true,
-						data: this.compareViewData[0]
-					}, ]
-				} else if (this.compareViewData.length === 2) {
-					serArr = [{
-						name: 'one',
-						type: 'line',
-						smooth: true,
-						data: this.compareViewData[0]
-					}, {
-						name: 'one',
-						type: 'line',
-						smooth: true,
-						data: this.compareViewData[1]
-					}]
-				} else if (this.compareViewData.length === 3) {
-					serArr = [{
-						name: 'one',
-						type: 'line',
-						smooth: true,
-						data: this.compareViewData[0]
-					}, {
-						name: 'one',
-						type: 'line',
-						smooth: true,
-						data: this.compareViewData[1]
-					}, {
-						name: 'one',
-						type: 'line',
-						smooth: true,
-						data: this.compareViewData[2]
-					}]
-				}
-				myChart.setOption({
 					tooltip: {
 						trigger: 'axis'
 					},
-					legend: {
-						data: ['one', 'two']
+					title: {
+						text: 'Tceq温度结果',
+						textStyle: {
+							fontSize: "14",
+							color: "#409EFF"
+						}
 					},
 					grid: {
-						left: '3%',
-						right: '4%',
-						bottom: '3%',
+						right: '100px',
+						bottom: '1%',
+						left: "50px",
 						containLabel: true
 					},
 					toolbox: {
+						x: '470px',
 						feature: {
 							dataView: {
 								show: true,
@@ -1646,16 +1578,439 @@
 						}
 					},
 					xAxis: {
-						type: 'category',
-						boundaryGap: false,
-						data: [' ', ' ', ' ', ' ', ' ', ' ', ' ']
+						type: 'value',
+						name: '速度/(m/s)',
+						min: 0,
+						max: 25,
+						interval: 2,
+						splitLine: {
+							show: false
+						}
 					},
 					yAxis: {
-						type: 'value'
+						type: 'value',
+						name: '压力 /(Pa)',
+						min: -100,
+						max: 500,
+						interval: 50,
+						axisLabel: {
+							formatter: '{value} '
+						},
+						splitLine: {
+							show: false
+						}
 					},
-					series: serArr
+					series: [{
+						type: 'line',
+						name: 'TCEQ温度',
+						smooth: true,
+						data: this.fanViewData,
+						showSymbol: false,
+						itemStyle: {
+							normal: {
+								color: "rgb(64, 158, 255)",
+								lineStyle: {
+									color: "rgb(194,53,49)"
+								}
+							}
+						},
+					}]
 				})
-
+			},
+			drawLineTwo() {
+				this.axios({
+					method: 'post',
+					url: `/patac_ras/carModel/fan`,
+					headers: {
+						'Content-type': 'application/json;charset=UTF-8'
+					},
+					data: this.CIdArr
+				}).then((res) => {
+					this.compareViewData = []
+					for (let i in res.data.data) {
+						let nArr = []
+						for (let ind in res.data.data[i]) {
+							nArr.push([res.data.data[i][ind].key, res.data.data[i][ind].val])
+						}
+						this.compareViewData.push(nArr)
+					}
+					this.dialogFormVisible = true
+				})
+				setTimeout(() => {
+					let myChart = this.$echarts.init(document.getElementById('myChartTwo'))
+					let serArr = []
+					if (this.compareViewData.length === 1) {
+						serArr = [{
+							type: 'line',
+							name: this.compareArr[0],
+							smooth: true,
+							data: this.compareViewData[0],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,53,49)"
+									}
+								}
+							}
+						}]
+					} else if (this.compareViewData.length === 2) {
+						serArr = [{
+							type: 'line',
+							name: this.compareArr[0],
+							smooth: true,
+							data: this.compareViewData[0],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,53,49)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[1],
+							smooth: true,
+							data: this.compareViewData[1],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,53,49)"
+									}
+								}
+							}
+						}]
+					} else if (this.compareViewData.length === 3) {
+						serArr = [{
+							type: 'line',
+							name: this.compareArr[0],
+							smooth: true,
+							data: this.compareViewData[0],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(94,23,49)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[1],
+							smooth: true,
+							data: this.compareViewData[1],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,53,49)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[2],
+							smooth: true,
+							data: this.compareViewData[2],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,153,249)"
+									}
+								}
+							}
+						}]
+					} else if (this.compareViewData.length === 4) {
+						serArr = [{
+							type: 'line',
+							name: this.compareArr[0],
+							smooth: true,
+							data: this.compareViewData[0],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(94,23,49)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[1],
+							smooth: true,
+							data: this.compareViewData[1],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,53,49)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[2],
+							smooth: true,
+							data: this.compareViewData[2],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,153,249)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[3],
+							smooth: true,
+							data: this.compareViewData[3],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,153,249)"
+									}
+								}
+							}
+						}]
+					} else if (this.compareViewData.length === 5) {
+						serArr = [{
+							type: 'line',
+							name: this.compareArr[0],
+							smooth: true,
+							data: this.compareViewData[0],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(94,23,49)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[1],
+							smooth: true,
+							data: this.compareViewData[1],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,53,49)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[2],
+							smooth: true,
+							data: this.compareViewData[2],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,153,249)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[3],
+							smooth: true,
+							data: this.compareViewData[3],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,153,249)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[4],
+							smooth: true,
+							data: this.compareViewData[4],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,153,249)"
+									}
+								}
+							}
+						}]
+					} else if (this.compareViewData.length === 6) {
+						serArr = [{
+							type: 'line',
+							name: this.compareArr[0],
+							smooth: true,
+							data: this.compareViewData[0],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(94,23,49)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[1],
+							smooth: true,
+							data: this.compareViewData[1],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,53,49)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[2],
+							smooth: true,
+							data: this.compareViewData[2],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,153,249)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[3],
+							smooth: true,
+							data: this.compareViewData[3],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,153,249)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[4],
+							smooth: true,
+							data: this.compareViewData[4],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,153,249)"
+									}
+								}
+							}
+						}, {
+							type: 'line',
+							name: this.compareArr[5],
+							smooth: true,
+							data: this.compareViewData[5],
+							showSymbol: false,
+							itemStyle: {
+								normal: {
+									color: "rgb(64, 158, 255)",
+									lineStyle: {
+										color: "rgb(194,153,249)"
+									}
+								}
+							}
+						}]
+					}
+					myChart.setOption({
+						tooltip: {
+							trigger: 'axis'
+						},
+						title: {
+							text: 'Tceq温度结果',
+							textStyle: {
+								fontSize: "14",
+								color: "#409EFF"
+							}
+						},
+// 						legend: {
+// 							data: this.compareArr
+// 						},
+						grid: {
+							right: '100px',
+							bottom: '1%',
+							left: "50px",
+							containLabel: true
+						},
+						toolbox: {
+							x: '470px',
+							feature: {
+								dataView: {
+									show: true,
+									readOnly: false
+								},
+								magicType: {
+									show: true,
+									type: ['line', 'bar']
+								},
+								restore: {
+									show: true
+								},
+								saveAsImage: {
+									show: true
+								}
+							}
+						},
+						xAxis: {
+							type: 'value',
+							name: '速度/(m/s)',
+							min: 0,
+							max: 25,
+							interval: 2,
+							splitLine: {
+								show: false
+							}
+						},
+						yAxis: {
+							type: 'value',
+							name: '压力 /(Pa)',
+							min: -100,
+							max: 500,
+							interval: 50,
+							axisLabel: {
+								formatter: '{value} '
+							},
+							splitLine: {
+								show: false
+							}
+						},
+						series: serArr
+					})
+				}, 1000)
 			}
 		}
 
@@ -1668,9 +2023,15 @@
 		height: 400px;
 		margin: 0 auto;
 	}
-	/deep/ .el-tabs__content{
+
+	/deep/ .el-dialog {
+		width: 780px;
+	}
+
+	/deep/ .el-tabs__content {
 		min-width: 1180px;
 	}
+
 	.vecp_system {
 		display: flex;
 
@@ -1725,11 +2086,13 @@
 						vertical-align: top;
 						font-size: 14px;
 						vertical-align: top;
-						&:first-child{
-							span{
+
+						&:first-child {
+							span {
 								width: 130px;
 							}
-							}
+						}
+
 						span {
 							width: 260px;
 							display: block;
@@ -1748,11 +2111,13 @@
 				div {
 					div {
 						display: inline-block;
-						&:first-child{
-							span{
+
+						&:first-child {
+							span {
 								width: 130px;
 							}
-							}
+						}
+
 						span {
 							width: 260px;
 							display: block;
@@ -1776,12 +2141,14 @@
 				.compareTableTwoList {
 					>div {
 						display: inline-block;
-&:first-child{
-	span{
-		width: 130px;
-	}
-								
+
+						&:first-child {
+							span {
+								width: 130px;
 							}
+
+						}
+
 						span {
 							width: 260px;
 							display: block;
@@ -1789,7 +2156,7 @@
 							line-height: 30px;
 							border-right: 1px solid #E4E4E4;
 							border-bottom: 1px solid #E4E4E4;
-							
+
 						}
 					}
 				}
@@ -1813,6 +2180,7 @@
 				.compareOneExt {
 					vertical-align: top;
 					display: inline-block;
+
 					span {
 						display: block;
 						border-right: 1px solid #E4E4E4;

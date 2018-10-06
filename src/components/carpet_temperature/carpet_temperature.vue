@@ -11,7 +11,7 @@
 					<Form ref="formValidate" :model="pro" :rules="ruleValidate" :label-width="140">
 						<p style="color: #409EFF;font-weight: bold;font-size: 15px;">长时间接触输入参数</p>
 						<FormItem label="接触材料" prop="material">
-							<Select v-model="pro.material">
+							<Select style="width: 200px;" t v-model="pro.material">
 								<Option v-for="(item,index) in materialArr" :key="index" :label="item.material" :value="item.material"></Option>
 							</Select>
 						</FormItem>
@@ -454,6 +454,7 @@
 				})
 			},
 			drawLine() {
+				console.log(this.drawList)
 				let myChart = this.$echarts.init(document.getElementById('myChart'))
 				myChart.setOption({
 					tooltip: {
@@ -466,11 +467,6 @@
 							color: "#409EFF"
 						}
 					},
-					// 					legend: {
-					// 						x: '580',
-					// 						y: 'center',
-					// 						data: [`${this.firstListType}`]
-					// 					},
 					grid: {
 						right: '100px',
 						bottom: '1%',
@@ -561,7 +557,7 @@
 			width: 200px;
 		}
 		/deep/ .ivu-input-group .ivu-input{
-			width: 173px;
+			width: 172px;
 		}
 		/deep/ .ivu-tag {
 			width: 80px;
