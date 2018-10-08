@@ -6,8 +6,7 @@
 					<span>整车发动机冷却性能数据查询系统</span>
 				</div>
 				<div class="button">
-					<span>车型平台</span>
-					<i-button type="primary" @click="search" style="width: 70px;">查询</i-button>
+					<i-button type="primary" @click="search" style="width: 70px;">查询数据</i-button>
 					<i-button type="success" @click="toCompare" style="width: 70px;">加入对比</i-button>
 				</div>
 				<div class="selectList" style="margin-top: 10px;">
@@ -918,7 +917,7 @@
 			</el-card>
 		</div>
 		<el-dialog :visible.sync="dialogFormVisible">
-			<div style="width: 780px; height: 400px;" id="myChartTwo">
+			<div style="width: 800px; height: 400px;" id="myChartTwo">
 			</div>
 		</el-dialog>
 	</div>
@@ -1215,6 +1214,16 @@
 			},
 			search() {
 				this.isCompare = false
+				this.searchShow = true
+				this.pscArrText = []
+				this.pscArrSim = []
+				this.pscArrVts = []
+				this.fanViewData = []
+				this.intakeObjSea = {
+					one: {},
+					two: {},
+					three: {}
+				},
 				this.axios({
 					method: 'get',
 					url: `/patac_ras/carModel`,
@@ -1233,9 +1242,6 @@
 				}).then((res) => {
 					this.CId = res.data.data.id
 					this.pscArr = res.data.data.psc
-					this.pscArrText = []
-					this.pscArrSim = []
-					this.pscArrVts = []
 					this.vehicleId = res.data.data.id
 					this._getQDLQSelectData(res.data.data.id)
 					for (let i in res.data.data.intake) {
@@ -1546,7 +1552,6 @@
 						trigger: 'axis'
 					},
 					title: {
-						text: 'Tceq温度结果',
 						textStyle: {
 							fontSize: "14",
 							color: "#409EFF"
@@ -1557,25 +1562,6 @@
 						bottom: '1%',
 						left: "50px",
 						containLabel: true
-					},
-					toolbox: {
-						x: '470px',
-						feature: {
-							dataView: {
-								show: true,
-								readOnly: false
-							},
-							magicType: {
-								show: true,
-								type: ['line', 'bar']
-							},
-							restore: {
-								show: true
-							},
-							saveAsImage: {
-								show: true
-							}
-						}
 					},
 					xAxis: {
 						type: 'value',
@@ -1602,7 +1588,7 @@
 					},
 					series: [{
 						type: 'line',
-						name: 'TCEQ温度',
+						// name: '速度',
 						smooth: true,
 						data: this.fanViewData,
 						showSymbol: false,
@@ -1646,14 +1632,6 @@
 							smooth: true,
 							data: this.compareViewData[0],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,53,49)"
-									}
-								}
-							}
 						}]
 					} else if (this.compareViewData.length === 2) {
 						serArr = [{
@@ -1662,28 +1640,12 @@
 							smooth: true,
 							data: this.compareViewData[0],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,53,49)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[1],
 							smooth: true,
 							data: this.compareViewData[1],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,53,49)"
-									}
-								}
-							}
 						}]
 					} else if (this.compareViewData.length === 3) {
 						serArr = [{
@@ -1692,42 +1654,18 @@
 							smooth: true,
 							data: this.compareViewData[0],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(94,23,49)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[1],
 							smooth: true,
 							data: this.compareViewData[1],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,53,49)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[2],
 							smooth: true,
 							data: this.compareViewData[2],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,153,249)"
-									}
-								}
-							}
 						}]
 					} else if (this.compareViewData.length === 4) {
 						serArr = [{
@@ -1736,56 +1674,24 @@
 							smooth: true,
 							data: this.compareViewData[0],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(94,23,49)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[1],
 							smooth: true,
 							data: this.compareViewData[1],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,53,49)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[2],
 							smooth: true,
 							data: this.compareViewData[2],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,153,249)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[3],
 							smooth: true,
 							data: this.compareViewData[3],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,153,249)"
-									}
-								}
-							}
 						}]
 					} else if (this.compareViewData.length === 5) {
 						serArr = [{
@@ -1794,70 +1700,30 @@
 							smooth: true,
 							data: this.compareViewData[0],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(94,23,49)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[1],
 							smooth: true,
 							data: this.compareViewData[1],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,53,49)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[2],
 							smooth: true,
 							data: this.compareViewData[2],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,153,249)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[3],
 							smooth: true,
 							data: this.compareViewData[3],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,153,249)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[4],
 							smooth: true,
 							data: this.compareViewData[4],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,153,249)"
-									}
-								}
-							}
 						}]
 					} else if (this.compareViewData.length === 6) {
 						serArr = [{
@@ -1866,84 +1732,36 @@
 							smooth: true,
 							data: this.compareViewData[0],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(94,23,49)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[1],
 							smooth: true,
 							data: this.compareViewData[1],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,53,49)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[2],
 							smooth: true,
 							data: this.compareViewData[2],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,153,249)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[3],
 							smooth: true,
 							data: this.compareViewData[3],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,153,249)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[4],
 							smooth: true,
 							data: this.compareViewData[4],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,153,249)"
-									}
-								}
-							}
 						}, {
 							type: 'line',
 							name: this.compareArr[5],
 							smooth: true,
 							data: this.compareViewData[5],
 							showSymbol: false,
-							itemStyle: {
-								normal: {
-									color: "rgb(64, 158, 255)",
-									lineStyle: {
-										color: "rgb(194,153,249)"
-									}
-								}
-							}
 						}]
 					}
 					myChart.setOption({
@@ -1951,46 +1769,26 @@
 							trigger: 'axis'
 						},
 						title: {
-							text: 'Tceq温度结果',
+							text: 'P-V拟合曲线',
 							textStyle: {
 								fontSize: "14",
 								color: "#409EFF"
 							}
 						},
-// 						legend: {
-// 							data: this.compareArr
-// 						},
+						legend: {
+							data: this.compareArr,
+							orient:"vertical",
+							right:"0px"
+						},
 						grid: {
 							right: '100px',
 							bottom: '1%',
 							left: "50px",
 							containLabel: true
 						},
-						toolbox: {
-							x: '470px',
-							feature: {
-								dataView: {
-									show: true,
-									readOnly: false
-								},
-								magicType: {
-									show: true,
-									type: ['line', 'bar']
-								},
-								restore: {
-									show: true
-								},
-								saveAsImage: {
-									show: true
-								}
-							}
-						},
 						xAxis: {
 							type: 'value',
 							name: '速度/(m/s)',
-							min: 0,
-							max: 25,
-							interval: 2,
 							splitLine: {
 								show: false
 							}
@@ -2013,19 +1811,18 @@
 				}, 1000)
 			}
 		}
-
 	}
 </script>
 
 <style scoped="scoped" lang="scss">
 	#myChart {
-		width: 610px;
+		width: 50px;
 		height: 400px;
 		margin: 0 auto;
 	}
 
 	/deep/ .el-dialog {
-		width: 780px;
+		width: 900px;
 	}
 
 	/deep/ .el-tabs__content {
@@ -2261,7 +2058,6 @@
 				.sec {
 					width: 300px;
 					display: flex;
-
 					span {
 						flex: 1;
 						width: 100px;
@@ -2270,8 +2066,8 @@
 						border-bottom: 1px solid #E4E4E4;
 						border-right: 1px solid #E4E4E4;
 						text-align: center;
-
 						&:last-child {
+							flex: 0 100px;
 							border-right: none;
 						}
 					}

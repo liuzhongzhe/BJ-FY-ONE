@@ -308,9 +308,9 @@
 								params: this.pro
 							}).then((res) => {
 								let _data = res.data.data
-								this.result.continuous = _data.continuous + "℃"
-								this.result.excursion = _data.excursion + "℃"
-								this.result.extreme = _data.extreme + "℃"
+								this.result.continuous = _data.continuous 
+								this.result.excursion = _data.excursion 
+								this.result.extreme = _data.extreme
 								this.drawList.push([0.0, _data.lins["0.0"]])
 								this.drawList.push([0.1, _data.lins["0.1"]])
 								this.drawList.push([0.2, _data.lins["0.2"]])
